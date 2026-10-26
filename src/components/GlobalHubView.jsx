@@ -17,7 +17,8 @@ import {
   CheckCircle2,
   ExternalLink,
   Layers,
-  CreditCard
+  CreditCard,
+  Package
 } from 'lucide-react';
 
 const DEPT_ICONS = {
@@ -37,7 +38,8 @@ export default function GlobalHubView({ onEnterStore }) {
     addToCart, 
     openGameDetail, 
     setIsCartOpen,
-    bountyState
+    bountyState,
+    openLootCrate
   } = useStore();
 
   const handleEnter = (deptId) => {
@@ -264,6 +266,36 @@ export default function GlobalHubView({ onEnterStore }) {
         </div>
       </section>
 
+      {/* Cyber Crate Loot Vault Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-gradient-to-r from-[#17120a] via-[#100e0b] to-[#17120a] border border-amber-500/40 p-6 sm:p-8 shadow-[0_0_40px_rgba(255,183,0,0.15)] relative overflow-hidden">
+          <div className="absolute right-0 top-0 w-96 h-96 bg-amber-500/10 blur-[90px] rounded-full pointer-events-none" />
+
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="space-y-2 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-950/40 border border-amber-500/40 text-amber-400 text-xs font-mono font-bold">
+                <Package className="w-4 h-4 animate-bounce" />
+                <span>THE SYNDICATE CRATE TERMINAL</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">
+                Spend Operative XP. Unbox Real Drops.
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed max-w-2xl">
+                Experience CS2/Apex-style spinning roulette crate unboxings! Use your earned XP to decrypt Neon, Spec-Ops, and God-Tier Omnicrates containing 10%–50% discount vouchers, free physical shakers, and rare syndicate loot.
+              </p>
+            </div>
+
+            <button
+              onClick={() => openLootCrate()}
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 hover:from-amber-400 hover:to-orange-400 text-black font-heading font-black text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(255,183,0,0.4)] transition-all flex items-center justify-center gap-2.5 shrink-0 hover:scale-105"
+            >
+              <Zap className="w-4 h-4 fill-current text-black" />
+              <span>Enter Loot Crate Vault</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Universal Cart & Unified Checkout Explainer */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-gradient-to-r from-[#12131f] via-[#0f1019] to-[#12131f] border border-red-500/30 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
@@ -279,7 +311,7 @@ export default function GlobalHubView({ onEnterStore }) {
                 Browse Everywhere. Checkout in One Place.
               </h3>
               <p className="text-sm text-zinc-300 font-sans leading-relaxed max-w-2xl">
-                You never have to checkout separately for games, hardware, apparel, or server nodes. Any item you add from any of the five storefronts is synchronized into your Universal Tactical Cache. All payments, coupons, discounts, and operative XP are processed exclusively through the Global Shell.
+                You never have to checkout separately for games, hardware, apparel, or server nodes. Any item you add from any of the six storefronts is synchronized into your Universal Tactical Cache. All payments, coupons, discounts, and operative XP are processed exclusively through the Global Shell.
               </p>
             </div>
 

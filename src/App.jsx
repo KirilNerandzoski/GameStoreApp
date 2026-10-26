@@ -16,6 +16,7 @@ import ProfileModal from './components/ProfileModal';
 import SearchModal from './components/SearchModal';
 import ToastContainer from './components/ToastContainer';
 import BountiesSection from './components/BountiesSection';
+import LootCratesModal from './components/LootCratesModal';
 import Footer from './components/Footer';
 import { 
   Flame, 
@@ -303,6 +304,7 @@ function MarketplaceContent() {
       <OrderSuccessModal />
       <ProfileModal />
       <SearchModal />
+      <LootCratesModal />
       <ToastContainer />
 
       {/* Footer */}

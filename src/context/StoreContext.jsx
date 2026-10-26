@@ -163,6 +163,17 @@ export function StoreProvider({ children }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState(null);
+  const [isLootModalOpen, setIsLootModalOpen] = useState(false);
+  const [activeCrateId, setActiveCrateId] = useState('crate-neon');
+
+  // Loot Crate Unboxing History
+  const [lootHistory, setLootHistory] = useState(() => {
+    const saved = localStorage.getItem('ignis_loot_history');
+    if (saved) {
+      try { return JSON.parse(saved); } catch (e) { return []; }
+    }
+    return [];
+  });
 
   // Promo Code
   const [appliedPromo, setAppliedPromo] = useState(null);
@@ -217,6 +228,10 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('ignis_recently_viewed', JSON.stringify(recentlyViewed));
   }, [recentlyViewed]);
+
+  useEffect(() => {
+    localStorage.setItem('ignis_loot_history', JSON.stringify(lootHistory));
+  }, [lootHistory]);
 
   // Toast Dispatcher (replaces previous toast cleanly so double pop-ups never occur)
   const addToast = (title, message, type = 'info') => {
@@ -573,6 +588,100 @@ export function StoreProvider({ children }) {
     );
   };
 
+  // Cyber Crate Unboxing Helpers
+  const openLootCrate = (crateId = null) => {
+    if (crateId) setActiveCrateId(crateId);
+    setIsLootModalOpen(true);
+  };
+
+  const addUserXp = (amount) => {
+    setUserProfile(prev => {
+      const nextXP = (prev.xp || 0) + amount;
+      const prevLevel = prev.level || 42;
+      const nextLevel = Math.floor(nextXP / 1000) + 1;
+      
+      if (nextLevel > prevLevel) {
+        try {
+          confetti({
+            particleCount: 100,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#ff1a35', '#00f0ff', '#ffb700']
+          });
+        } catch (e) {}
+        addToast('OPERATIVE RANK UP!', `Rank elevated to Level ${nextLevel}!`, 'success');
+      }
+
+      return {
+        ...prev,
+        xp: nextXP,
+        level: nextLevel
+      };
+    });
+  };
+
+  const deductUserXp = (amount) => {
+    if ((userProfile.xp || 0) < amount) {
+      addToast('Insufficient XP', `You need ${amount} XP to unbox this crate. Complete bounties or refill daily!`, 'error');
+      return false;
+    }
+    setUserProfile(prev => ({
+      ...prev,
+      xp: Math.max(0, (prev.xp || 0) - amount)
+    }));
+    return true;
+  };
+
+  const claimLootItem = (item) => {
+    // Record into loot history
+    setLootHistory(prev => [
+      {
+        ...item,
+        timestamp: new Date().toISOString(),
+        id: `unboxed-${Date.now()}`
+      },
+      ...prev.slice(0, 49)
+    ]);
+
+    if (item.category === 'coupon') {
+      setBountyState(prev => {
+        const already = (prev.unlockedCoupons || []).some(c => c.code === item.code);
+        return {
+          ...prev,
+          unlockedCoupons: already
+            ? prev.unlockedCoupons
+            : [...(prev.unlockedCoupons || []), { code: item.code, discountPercent: item.discountPercent, title: item.title }]
+        };
+      });
+      applyPromoCode(item.code);
+      return { success: true, type: 'coupon' };
+    }
+
+    if (item.category === 'free_item') {
+      const freeProduct = ALL_OMNI_PRODUCTS.find(p => p.id === item.freeProductId);
+      if (freeProduct) {
+        addToCart({
+          ...freeProduct,
+          price: 0,
+          originalPrice: freeProduct.price,
+          isFreeLoot: true,
+          title: `🎁 [FREE LOOT] ${freeProduct.title}`
+        });
+      }
+      if (item.bonusCode) {
+        applyPromoCode(item.bonusCode);
+      }
+      return { success: true, type: 'free_item' };
+    }
+
+    if (item.category === 'xp') {
+      addUserXp(item.xpAmount);
+      return { success: true, type: 'xp' };
+    }
+
+    return { success: true, type: 'badge' };
+  };
+
   // Launch simulated game from library
   const simulatePlayGame = (gameId) => {
     setLibrary(prev => prev.map(item => {
@@ -631,6 +740,15 @@ export function StoreProvider({ children }) {
       setIsSearchOpen,
       completedOrder,
       setCompletedOrder,
+      isLootModalOpen,
+      setIsLootModalOpen,
+      activeCrateId,
+      setActiveCrateId,
+      openLootCrate,
+      lootHistory,
+      addUserXp,
+      deductUserXp,
+      claimLootItem,
       // Filters
       searchQuery,
       setSearchQuery,

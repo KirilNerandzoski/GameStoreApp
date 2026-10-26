@@ -18,7 +18,8 @@ import {
   Shirt,
   Trophy,
   Cloud,
-  ChevronDown
+  ChevronDown,
+  Package
 } from 'lucide-react';
 
 export default function Navbar({ onNavigateSection }) {
@@ -36,7 +37,8 @@ export default function Navbar({ onNavigateSection }) {
     setSelectedCategory,
     activeDepartment,
     setActiveDepartment,
-    departments
+    departments,
+    openLootCrate
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -295,6 +297,18 @@ export default function Navbar({ onNavigateSection }) {
               <Search className="w-5 h-5" />
             </button>
 
+            {/* Loot Crates Unboxing Button */}
+            <button
+              onClick={() => openLootCrate()}
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:text-amber-300 transition-all shadow-[0_0_12px_rgba(255,183,0,0.2)] group"
+              title="Open Cyber Crate Terminal"
+            >
+              <Package className="w-4 h-4 text-amber-400 animate-pulse group-hover:scale-110 transition-transform" />
+              <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
+                LOOT CRATES
+              </span>
+            </button>
+
             {/* Wishlist Button */}
             <button
               onClick={() => setIsWishlistOpen(true)}
@@ -377,6 +391,16 @@ export default function Navbar({ onNavigateSection }) {
           >
             <Globe2 className="w-4 h-4 text-red-500" />
             Global Universal Hub
+          </button>
+          <button
+            onClick={() => {
+              openLootCrate();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-3 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 font-medium flex items-center gap-2"
+          >
+            <Package className="w-4 h-4 text-amber-400" />
+            Cyber Loot Crates (Unbox Drops)
           </button>
           {departments.map(dept => (
             <button

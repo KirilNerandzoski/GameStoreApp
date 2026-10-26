@@ -1059,7 +1059,14 @@ export const DEMO_PROMO_CODES = {
   'INTEL20': { code: 'INTEL20', discountPercent: 20, desc: '20% Off Dossier Inspector Coupon' },
   'CRITIC25': { code: 'CRITIC25', discountPercent: 25, desc: '25% Off Operative Critic Voucher' },
   'HACKER30': { code: 'HACKER30', discountPercent: 30, desc: '30% Off Neural Decryption Coupon' },
-  'OMEGA40': { code: 'OMEGA40', discountPercent: 40, desc: '40% Off Elite Master Bounty Coupon' }
+  'OMEGA40': { code: 'OMEGA40', discountPercent: 40, desc: '40% Off Elite Master Bounty Coupon' },
+  'NEON10': { code: 'NEON10', discountPercent: 10, desc: '10% Off Neon Crate Voucher' },
+  'NEON15': { code: 'NEON15', discountPercent: 15, desc: '15% Off Neon Crate Rare Voucher' },
+  'TACTICAL20': { code: 'TACTICAL20', discountPercent: 20, desc: '20% Off Spec-Ops Tactical Crate Voucher' },
+  'CRATE25': { code: 'CRATE25', discountPercent: 25, desc: '25% Off Tactical Master Drop' },
+  'SYNDICATE30': { code: 'SYNDICATE30', discountPercent: 30, desc: '30% Off Syndicate Black-Market Drop' },
+  'CRIMSON35': { code: 'CRIMSON35', discountPercent: 35, desc: '35% Off Syndicate Elite Pass' },
+  'GODTIER50': { code: 'GODTIER50', discountPercent: 50, desc: '50% Off God-Tier Omnicrate Jackpot!' }
 };
 
 export const BOUNTY_TASKS = [

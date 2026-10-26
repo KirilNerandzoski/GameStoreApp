@@ -17,7 +17,8 @@ import {
   ShoppingBag,
   Lock,
   Unlock,
-  Flame
+  Flame,
+  Package
 } from 'lucide-react';
 
 export default function BountiesSection() {
@@ -34,7 +35,8 @@ export default function BountiesSection() {
     applyPromoCode,
     appliedPromo,
     setIsCartOpen,
-    addToast
+    addToast,
+    openLootCrate
   } = useStore();
 
   const [copiedCode, setCopiedCode] = useState(null);
@@ -119,20 +121,31 @@ export default function BountiesSection() {
             </p>
           </div>
 
-          {/* Progress Summary Pill */}
-          <div className="flex items-center gap-4 p-3.5 rounded-xl bg-[#11121c] border border-red-500/30 shadow-[0_0_20px_rgba(0,0,0,0.6)]">
-            <div className="w-11 h-11 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500">
-              <Gift className="w-6 h-6" />
-            </div>
-            <div>
-              <span className="text-[11px] font-mono text-zinc-400 uppercase block">Bounty Progression</span>
-              <div className="flex items-center gap-2">
-                <span className="text-lg font-black font-heading text-white">
-                  {claimedCount} / {BOUNTY_TASKS.length} Completed
-                </span>
-                <span className="text-xs font-mono text-red-400">
-                  ({unlockedCoupons.length} Coupons Unlocked)
-                </span>
+          {/* Action & Progress Summary */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <button
+              onClick={() => openLootCrate()}
+              className="p-3.5 rounded-xl bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/50 text-amber-300 font-cyber font-bold text-xs tracking-wider transition-all shadow-[0_0_15px_rgba(255,183,0,0.25)] flex items-center justify-center gap-2 group"
+            >
+              <Package className="w-5 h-5 text-amber-400 group-hover:rotate-12 transition-transform" />
+              <span>SPEND XP ON LOOT CRATES</span>
+            </button>
+
+            {/* Progress Summary Pill */}
+            <div className="flex items-center gap-4 p-3.5 rounded-xl bg-[#11121c] border border-red-500/30 shadow-[0_0_20px_rgba(0,0,0,0.6)]">
+              <div className="w-11 h-11 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500">
+                <Gift className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-[11px] font-mono text-zinc-400 uppercase block">Bounty Progression</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg font-black font-heading text-white">
+                    {claimedCount} / {BOUNTY_TASKS.length} Completed
+                  </span>
+                  <span className="text-xs font-mono text-red-400">
+                    ({unlockedCoupons.length} Coupons Unlocked)
+                  </span>
+                </div>
               </div>
             </div>
           </div>
