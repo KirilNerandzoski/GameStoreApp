@@ -240,7 +240,7 @@ export const LOOT_CRATES = [
         discountPercent: 50,
         rarity: 'godtier',
         weight: 3,
-        image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=400&q=80',
+        image: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80',
         description: 'THE HOLY GRAIL: Half off any order in the entire store!'
       }
     ]
@@ -264,7 +264,7 @@ export const LOOT_CRATES = [
         discountPercent: 50,
         rarity: 'godtier',
         weight: 25,
-        image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=400&q=80',
+        image: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80',
         description: 'Cut your entire cart bill in half with a 50% discount code.'
       },
       {

@@ -166,11 +166,20 @@ export function StoreProvider({ children }) {
   const [isLootModalOpen, setIsLootModalOpen] = useState(false);
   const [activeCrateId, setActiveCrateId] = useState('crate-neon');
 
-  // Loot Crate Unboxing History
+  // Loot Crate Unboxing History (with automatic healing for broken legacy URLs)
   const [lootHistory, setLootHistory] = useState(() => {
     const saved = localStorage.getItem('ignis_loot_history');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return []; }
+      try {
+        const parsed = JSON.parse(saved);
+        return parsed.map(item => {
+          if (item.itemImage?.includes('photo-1579783902614-a3fb3927b675') || item.image?.includes('photo-1579783902614-a3fb3927b675')) {
+            const fixedUrl = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
+            return { ...item, itemImage: fixedUrl, image: fixedUrl };
+          }
+          return item;
+        });
+      } catch (e) { return []; }
     }
     return [];
   });

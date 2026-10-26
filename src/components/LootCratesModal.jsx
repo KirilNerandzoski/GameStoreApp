@@ -432,6 +432,10 @@ export default function LootCratesModal() {
                           <img 
                             src={image} 
                             alt={title} 
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
+                            }}
                             className="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0" 
                           />
                           <div className="min-w-0 flex-1 space-y-1">
@@ -570,6 +574,10 @@ export default function LootCratesModal() {
                               <img 
                                 src={item.image} 
                                 alt={item.title} 
+                                onError={(e) => {
+                                  e.currentTarget.onerror = null;
+                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
+                                }}
                                 className="w-full h-full object-cover" 
                               />
                               <div className="absolute inset-0 bg-gradient-to-t from-[#0e101b] via-transparent to-transparent" />
@@ -610,6 +618,10 @@ export default function LootCratesModal() {
                             <img 
                               src={activeCrate.image} 
                               alt={activeCrate.name} 
+                              onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80';
+                              }}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
@@ -665,6 +677,10 @@ export default function LootCratesModal() {
                         <img 
                           src={wonItem.image} 
                           alt={wonItem.title} 
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
+                          }}
                           className="w-full h-full object-cover" 
                         />
                       </div>
@@ -781,6 +797,10 @@ export default function LootCratesModal() {
                           <img 
                             src={item.image} 
                             alt={item.title} 
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
+                            }}
                             className="w-full h-full object-cover" 
                           />
                         </div>
