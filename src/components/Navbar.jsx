@@ -311,12 +311,24 @@ export default function Navbar({ onNavigateSection }) {
             {/* Loot Crates Unboxing Button */}
             <button
               onClick={() => openLootCrate()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:text-amber-300 transition-all shadow-[0_0_12px_rgba(255,183,0,0.2)] group"
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:text-amber-300 transition-all shadow-[0_0_12px_rgba(255,183,0,0.2)] group cursor-pointer"
               title="Open Cyber Crate Terminal"
             >
               <Package className="w-4 h-4 text-amber-400 animate-pulse group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
                 LOOT CRATES
+              </span>
+            </button>
+
+            {/* CyberFuel Custom Formula Lab Button */}
+            <button
+              onClick={() => openFormulaLab()}
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/40 text-orange-400 hover:text-orange-300 transition-all shadow-[0_0_12px_rgba(255,85,0,0.25)] group cursor-pointer"
+              title="Open CyberFuel Custom Formula Lab (Mix Energy Tub)"
+            >
+              <FlaskConical className="w-4 h-4 text-orange-400 animate-pulse group-hover:scale-110 transition-transform" />
+              <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
+                FORMULA LAB
               </span>
             </button>
 
@@ -412,6 +424,16 @@ export default function Navbar({ onNavigateSection }) {
           >
             <Package className="w-4 h-4 text-amber-400" />
             Cyber Loot Crates (Unbox Drops)
+          </button>
+          <button
+            onClick={() => {
+              openFormulaLab();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-3 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-medium flex items-center gap-2"
+          >
+            <FlaskConical className="w-4 h-4 text-orange-400" />
+            CyberFuel Formula Lab (Mix Tub)
           </button>
           {departments.map(dept => (
             <button

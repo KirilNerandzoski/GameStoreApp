@@ -311,6 +311,36 @@ export default function GlobalHubView({ onEnterStore }) {
         </div>
       </section>
 
+      {/* CyberFuel Formula Lab Showcase Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-gradient-to-r from-[#170e08] via-[#1a0f07] to-[#170e08] border border-orange-500/40 p-6 sm:p-8 shadow-[0_0_40px_rgba(255,85,0,0.15)] relative overflow-hidden">
+          <div className="absolute right-0 top-0 w-96 h-96 bg-orange-500/10 blur-[90px] rounded-full pointer-events-none" />
+
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="space-y-2 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-orange-950/40 border border-orange-500/40 text-orange-400 text-xs font-mono font-bold">
+                <FlaskConical className="w-4 h-4 animate-bounce" />
+                <span>INTERACTIVE MOLECULAR STUDIO</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">
+                Mix Your Own Custom Energy Tub.
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed max-w-2xl">
+                Become the mad bio-chemist! Combine dual flavor fusions, calibrate your exact caffeine potency (0mg to 180mg), inject focus nootropics, and design a custom tub with your gamertag printed on the front label.
+              </p>
+            </div>
+
+            <button
+              onClick={() => openFormulaLab()}
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-400 hover:to-amber-400 text-black font-heading font-black text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(255,85,0,0.4)] transition-all flex items-center justify-center gap-2.5 shrink-0 hover:scale-105 cursor-pointer"
+            >
+              <FlaskConical className="w-4 h-4 text-black" />
+              <span>Launch Formula Lab</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Universal Cart & Unified Checkout Explainer */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-gradient-to-r from-[#12131f] via-[#0f1019] to-[#12131f] border border-red-500/30 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
