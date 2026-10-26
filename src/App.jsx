@@ -66,7 +66,7 @@ function MarketplaceContent() {
     }
   };
 
-  // Hash navigation listener for direct #crates or department links
+  // Hash navigation listener for direct #crates or department links (runs on mount and hashchange only)
   React.useEffect(() => {
     const handleHash = () => {
       const h = window.location.hash.toLowerCase();
@@ -79,7 +79,8 @@ function MarketplaceContent() {
     handleHash();
     window.addEventListener('hashchange', handleHash);
     return () => window.removeEventListener('hashchange', handleHash);
-  }, [openLootCrate, setActiveDepartment]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Filter Catalog logic
   const filteredCatalog = games.filter(g => {

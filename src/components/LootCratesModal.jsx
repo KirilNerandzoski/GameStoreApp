@@ -193,10 +193,34 @@ export default function LootCratesModal() {
     setClaimedState(true);
 
     if (wonItem.category === 'coupon' || wonItem.category === 'free_item') {
-      setIsLootModalOpen(false);
+      handleClose();
       setIsCartOpen(true);
     }
   };
+
+  const handleClose = () => {
+    if (isSpinning) return;
+    setIsLootModalOpen(false);
+    // Clean up hash from URL so it doesn't loop
+    try {
+      if (window.location.hash && (window.location.hash.includes('crate') || window.location.hash.includes('loot'))) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    } catch (e) {
+      window.location.hash = '';
+    }
+  };
+
+  // Keyboard Escape listener to close modal cleanly
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isLootModalOpen && !isSpinning) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLootModalOpen, isSpinning]);
 
   const handleCopyCode = (code, id) => {
     if (navigator.clipboard) {
@@ -213,8 +237,8 @@ export default function LootCratesModal() {
       
       {/* Click outside to close (disabled during active spin) */}
       <div 
-        className="fixed inset-0" 
-        onClick={() => { if (!isSpinning) setIsLootModalOpen(false); }} 
+        className="fixed inset-0 cursor-pointer" 
+        onClick={handleClose} 
       />
 
       <div className="relative w-full max-w-5xl bg-[#090b12] border border-zinc-800 rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col z-10 max-h-[95vh]">
@@ -262,9 +286,10 @@ export default function LootCratesModal() {
             </button>
 
             <button
-              onClick={() => { if (!isSpinning) setIsLootModalOpen(false); }}
+              onClick={handleClose}
               disabled={isSpinning}
-              className="w-9 h-9 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 flex items-center justify-center transition-colors disabled:opacity-40"
+              className="w-9 h-9 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-zinc-800 flex items-center justify-center transition-colors disabled:opacity-40 cursor-pointer"
+              title="Close Terminal (Esc)"
             >
               <X className="w-4 h-4" />
             </button>
@@ -823,6 +848,20 @@ export default function LootCratesModal() {
             </>
           )}
 
+        </div>
+
+        {/* Bottom Modal Exit Bar */}
+        <div className="px-6 py-3 border-t border-zinc-800/80 bg-[#07080e] flex items-center justify-between">
+          <span className="text-[11px] font-mono text-zinc-500">
+            Press <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 font-mono text-[10px]">Esc</kbd> or click outside to exit
+          </span>
+          <button
+            onClick={handleClose}
+            disabled={isSpinning}
+            className="px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white font-cyber font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-40 cursor-pointer"
+          >
+            Close Terminal
+          </button>
         </div>
       </div>
     </div>
