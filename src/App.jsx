@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { StoreProvider, useStore } from './context/StoreContext';
 import Navbar from './components/Navbar';
+import GlobalHubView from './components/GlobalHubView';
+import DepartmentStoreView from './components/DepartmentStoreView';
 import HeroShowcase from './components/HeroShowcase';
 import QuickStatsBar from './components/QuickStatsBar';
 import FilterBar from './components/FilterBar';
@@ -39,7 +41,9 @@ function MarketplaceContent() {
     onlyDiscounted,
     recentlyViewed,
     setSelectedCategory,
-    openGameDetail
+    openGameDetail,
+    activeDepartment,
+    setActiveDepartment
   } = useStore();
 
   const catalogRef = useRef(null);
@@ -126,10 +130,20 @@ function MarketplaceContent() {
       {/* Main Body */}
       <main className="flex-1">
         
-        {/* Hero Showcase Carousel */}
-        <section id="featured">
-          <HeroShowcase />
-        </section>
+        {/* Active Department Routing in Global Universal Shell */}
+        {activeDepartment === 'hub' ? (
+          <GlobalHubView onEnterStore={(deptId) => setActiveDepartment(deptId)} />
+        ) : activeDepartment !== 'gaming' ? (
+          <DepartmentStoreView 
+            departmentId={activeDepartment} 
+            onBackToHub={() => setActiveDepartment('hub')} 
+          />
+        ) : (
+          <>
+            {/* Gaming Showcase */}
+            <section id="featured">
+              <HeroShowcase />
+            </section>
 
         {/* Quick Value Props & Ticker */}
         <QuickStatsBar />
@@ -275,6 +289,8 @@ function MarketplaceContent() {
               </div>
             </div>
           </section>
+        )}
+          </>
         )}
 
       </main>

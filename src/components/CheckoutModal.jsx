@@ -42,6 +42,16 @@ export default function CheckoutModal() {
     country: 'United States'
   });
 
+  const [shippingData, setShippingData] = useState({
+    fullName: 'Alex Mercer',
+    address: '88 Cybernetic Ave, Suite 402',
+    city: 'Neo-Tokyo District 9',
+    postalCode: '100-0001',
+    courier: 'Quantum Expedited (Insured 24h)'
+  });
+
+  const hasPhysicalItems = cart.some(item => item.itemType === 'physical');
+
   if (!isCheckoutOpen) return null;
 
   const handleInputChange = (e) => {
@@ -72,7 +82,7 @@ export default function CheckoutModal() {
       if (paymentMethod === 'crypto') methodLabel = 'BTC Lightning Network';
       if (paymentMethod === 'steam') methodLabel = 'Steam Digital Wallet';
 
-      completeOrder(methodLabel);
+      completeOrder(methodLabel, shippingData);
       setIsProcessing(false);
     }, 1400);
   };
@@ -91,10 +101,10 @@ export default function CheckoutModal() {
             </div>
             <div>
               <h3 className="font-heading font-black text-lg text-white tracking-wide">
-                QUANTUM CHECKOUT ENCRYPTION
+                GLOBAL UNIVERSAL SHELL // CHECKOUT
               </h3>
               <span className="text-[11px] text-zinc-400 font-mono">
-                256-Bit SSL Mock Transaction Hub
+                Consolidated Payment Protocol for All 5 Storefronts
               </span>
             </div>
           </div>
@@ -129,12 +139,12 @@ export default function CheckoutModal() {
           {/* Order Summary Strip */}
           <div className="p-3.5 rounded-xl bg-[#131422] border border-zinc-800 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div>
-              <span className="text-zinc-400 block font-mono">Acquiring:</span>
-              <span className="text-white font-bold">{cart.length} Games ({cart.reduce((a,c) => a + c.quantity, 0)} Total Keys)</span>
+              <span className="text-zinc-400 block font-mono">Consolidated Cache:</span>
+              <span className="text-white font-bold">{cart.length} Items ({cart.reduce((a,c) => a + c.quantity, 0)} Units across {new Set(cart.map(c => c.departmentName || 'IGNIS Gaming')).size} Stores)</span>
             </div>
             {discountAmount > 0 && (
               <div>
-                <span className="text-zinc-400 block font-mono">Discount:</span>
+                <span className="text-zinc-400 block font-mono">Universal Discount:</span>
                 <span className="text-red-400 font-bold">-${discountAmount.toFixed(2)} ({appliedPromo?.code})</span>
               </div>
             )}
@@ -143,6 +153,49 @@ export default function CheckoutModal() {
               <span className="text-lg font-black text-white font-heading text-glow">${cartTotal.toFixed(2)}</span>
             </div>
           </div>
+
+          {/* Physical Delivery Form if Physical Items are in Cart */}
+          {hasPhysicalItems && (
+            <div className="p-4 rounded-xl bg-[#0f101a] border border-cyan-500/30 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-cyber font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>Physical Cargo Courier Delivery Address</span>
+                </span>
+                <span className="text-[10px] text-zinc-400 font-mono">Insured Transit</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <input
+                  type="text"
+                  placeholder="Full Recipient Name"
+                  value={shippingData.fullName}
+                  onChange={(e) => setShippingData(p => ({ ...p, fullName: e.target.value }))}
+                  className="px-3 py-2 rounded-lg bg-[#08080c] border border-zinc-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                />
+                <input
+                  type="text"
+                  placeholder="Street Address & Apt"
+                  value={shippingData.address}
+                  onChange={(e) => setShippingData(p => ({ ...p, address: e.target.value }))}
+                  className="px-3 py-2 rounded-lg bg-[#08080c] border border-zinc-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                />
+                <input
+                  type="text"
+                  placeholder="City / District"
+                  value={shippingData.city}
+                  onChange={(e) => setShippingData(p => ({ ...p, city: e.target.value }))}
+                  className="px-3 py-2 rounded-lg bg-[#08080c] border border-zinc-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                />
+                <input
+                  type="text"
+                  placeholder="Postal Code"
+                  value={shippingData.postalCode}
+                  onChange={(e) => setShippingData(p => ({ ...p, postalCode: e.target.value }))}
+                  className="px-3 py-2 rounded-lg bg-[#08080c] border border-zinc-800 text-xs text-white focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+            </div>
+          )}
 
           {/* Payment Method Selector */}
           <div className="space-y-2">
@@ -348,7 +401,7 @@ export default function CheckoutModal() {
             ) : (
               <>
                 <Lock className="w-4 h-4" />
-                <span>AUTHORIZE SIMULATED PURCHASE (${cartTotal.toFixed(2)})</span>
+                <span>PAY ${cartTotal.toFixed(2)} VIA GLOBAL UNIVERSAL SHELL</span>
                 <ArrowRight className="w-4 h-4" />
               </>
             )}

@@ -79,11 +79,11 @@ export default function OrderSuccessModal() {
         <div className="p-6 space-y-4 max-h-[50vh] overflow-y-auto">
           <div className="flex items-center justify-between">
             <span className="text-xs font-cyber font-bold text-zinc-300 uppercase tracking-wider">
-              Issued Activation CD-Keys ({completedOrder.items.length})
+              Universal Shell Fulfillment ({completedOrder.items.length} Items)
             </span>
             <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" />
-              100% Genuine Direct Key
+              Direct Origin & Insured
             </span>
           </div>
 
@@ -94,37 +94,74 @@ export default function OrderSuccessModal() {
                 className="p-3.5 rounded-xl bg-[#141524] border border-red-500/30 space-y-2 shadow-inner"
               >
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-white truncate max-w-[280px]">
-                    {item.title}
-                  </span>
+                  <div className="flex items-center gap-2 truncate">
+                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-white/10 text-white border border-white/20">
+                      {item.departmentName || 'IGNIS Gaming'}
+                    </span>
+                    <span className="font-bold text-white truncate max-w-[220px]">
+                      {item.title}
+                    </span>
+                  </div>
                   <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-black text-red-400 border border-red-500/30">
                     {item.platform}
                   </span>
                 </div>
 
-                {/* Key with Copy button */}
-                <div className="flex items-center justify-between p-2 rounded-lg bg-[#090a0f] border border-zinc-800">
-                  <span className="font-mono text-xs sm:text-sm tracking-widest text-red-400 font-bold select-all">
-                    {item.cdKey}
-                  </span>
+                {/* Digital CD Key */}
+                {item.cdKey && (
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-[#090a0f] border border-zinc-800">
+                    <span className="font-mono text-xs sm:text-sm tracking-widest text-red-400 font-bold select-all">
+                      {item.cdKey}
+                    </span>
 
-                  <button
-                    onClick={() => handleCopyKey(item.cdKey)}
-                    className="flex items-center gap-1 px-2.5 py-1 rounded bg-zinc-800 hover:bg-red-600 text-[11px] font-semibold text-white transition-colors"
-                  >
-                    {copiedKey === item.cdKey ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>COPIED</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>COPY</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+                    <button
+                      onClick={() => handleCopyKey(item.cdKey)}
+                      className="flex items-center gap-1 px-2.5 py-1 rounded bg-zinc-800 hover:bg-red-600 text-[11px] font-semibold text-white transition-colors"
+                    >
+                      {copiedKey === item.cdKey ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-400" />
+                          <span>COPIED</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>COPY KEY</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+
+                {/* Physical Cargo Tracking */}
+                {item.trackingNumber && (
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-[#090a0f] border border-cyan-500/40">
+                    <div>
+                      <span className="text-[10px] text-zinc-400 font-mono block">Insured Courier Tracking:</span>
+                      <span className="font-mono text-xs sm:text-sm tracking-wider text-cyan-400 font-bold select-all">
+                        {item.trackingNumber}
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-500/40">
+                      Dispatched
+                    </span>
+                  </div>
+                )}
+
+                {/* Cloud Node Instance */}
+                {item.serverInstanceId && (
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-[#090a0f] border border-emerald-500/40">
+                    <div>
+                      <span className="text-[10px] text-zinc-400 font-mono block">Active Cloud Instance:</span>
+                      <span className="font-mono text-xs sm:text-sm tracking-wider text-emerald-400 font-bold select-all">
+                        {item.serverInstanceId}
+                      </span>
+                    </div>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono text-emerald-300 bg-emerald-950/60 border border-emerald-500/40">
+                      Online 128T
+                    </span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

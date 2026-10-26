@@ -16,6 +16,7 @@ export default function SearchModal() {
     isSearchOpen, 
     setIsSearchOpen, 
     games, 
+    allProducts,
     openGameDetail, 
     addToCart 
   } = useStore();
@@ -33,18 +34,20 @@ export default function SearchModal() {
 
   if (!isSearchOpen) return null;
 
-  const filtered = games.filter(g => {
+  const catalogToSearch = allProducts && allProducts.length > 0 ? allProducts : games;
+  const filtered = catalogToSearch.filter(g => {
     const q = term.toLowerCase().trim();
     if (!q) return false;
     return (
       g.title.toLowerCase().includes(q) ||
-      g.category.toLowerCase().includes(q) ||
-      g.studio.toLowerCase().includes(q) ||
-      g.tags.some(t => t.toLowerCase().includes(q))
+      (g.category && g.category.toLowerCase().includes(q)) ||
+      (g.studio && g.studio.toLowerCase().includes(q)) ||
+      (g.departmentName && g.departmentName.toLowerCase().includes(q)) ||
+      (g.tags && g.tags.some(t => t.toLowerCase().includes(q)))
     );
   });
 
-  const popularSearches = ['Cyberpunk', 'Souls-like', 'FPS', 'Dark Fantasy', 'Space', 'Ray Tracing'];
+  const popularSearches = ['Cyberpunk', 'RTX 5090', 'Katana', 'Techwear', 'Rust Server', 'Souls-like'];
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-black/85 backdrop-blur-md flex items-start justify-center pt-16 sm:pt-24 px-4 animate-fade-in">

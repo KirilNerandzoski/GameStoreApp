@@ -67,10 +67,10 @@ export default function CartDrawer() {
             </div>
             <div>
               <h3 className="font-heading font-black text-lg text-white tracking-wide">
-                TACTICAL CACHE
+                UNIVERSAL CACHE
               </h3>
               <span className="text-[11px] text-zinc-400 font-mono">
-                {cart.length} unique items in acquisition queue
+                {cart.length} items from Global Universal Shell
               </span>
             </div>
           </div>
@@ -154,12 +154,15 @@ export default function CartDrawer() {
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-2 mt-1">
+                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-white/10 text-white border border-white/20">
+                        {item.departmentName || 'IGNIS Gaming'}
+                      </span>
                       <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-black text-red-400 border border-red-500/30">
                         {item.selectedPlatform}
                       </span>
                       <span className="text-[10px] text-zinc-500 font-mono">
-                        Instant Delivery
+                        {item.itemType === 'physical' ? 'Physical Cargo' : (item.itemType === 'subscription' ? 'Cloud Instance' : 'Instant Key')}
                       </span>
                     </div>
                   </div>

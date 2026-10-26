@@ -42,13 +42,17 @@ export default function GameDetailModal() {
 
   if (!selectedGame) return null;
 
-  const currentPlatform = chosenPlatform || selectedGame.platforms[0] || 'PC';
+  const screenshots = (selectedGame.screenshots && selectedGame.screenshots.length > 0)
+    ? selectedGame.screenshots
+    : [selectedGame.heroBanner || selectedGame.coverImage, selectedGame.coverImage].filter(Boolean);
+
+  const currentPlatform = chosenPlatform || (selectedGame.platforms && selectedGame.platforms[0]) || 'Standard';
   const inWish = isInWishlist(selectedGame.id);
   const inCart = isInCart(selectedGame.id);
 
   // Similar games recommendation
   const similarGames = games
-    .filter(g => g.id !== selectedGame.id && (g.category === selectedGame.category || g.tags.some(t => selectedGame.tags.includes(t))))
+    .filter(g => g.id !== selectedGame.id && (g.category === selectedGame.category || (g.tags && selectedGame.tags && g.tags.some(t => selectedGame.tags.includes(t)))))
     .slice(0, 3);
 
   const handleReviewSubmit = (e) => {
@@ -91,7 +95,7 @@ export default function GameDetailModal() {
           {/* Main Selected Image */}
           <div className="relative aspect-[16/9] max-h-[440px] w-full overflow-hidden">
             <img
-              src={selectedGame.screenshots[selectedImgIdx] || selectedGame.heroBanner}
+              src={screenshots[selectedImgIdx] || selectedGame.heroBanner || selectedGame.coverImage}
               alt={selectedGame.title}
               className="w-full h-full object-cover object-center animate-fade-in transition-all"
             />
@@ -136,7 +140,7 @@ export default function GameDetailModal() {
 
           {/* Screenshot Thumbnails Strip */}
           <div className="flex items-center gap-2 p-3 bg-[#08080c] overflow-x-auto border-y border-zinc-800/80">
-            {selectedGame.screenshots.map((shot, idx) => (
+            {screenshots.map((shot, idx) => (
               <button
                 key={idx}
                 onClick={() => setSelectedImgIdx(idx)}

@@ -1,10 +1,27 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { GAMES_DATA, INITIAL_USER_PROFILE, DEMO_PROMO_CODES } from '../data/games';
+import { 
+  DEPARTMENTS, 
+  HARDWARE_PRODUCTS, 
+  APPAREL_PRODUCTS, 
+  COLLECTIBLES_PRODUCTS, 
+  SERVICES_PRODUCTS, 
+  ALL_OMNI_PRODUCTS 
+} from '../data/departmentsData';
 import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
 
 export function StoreProvider({ children }) {
+  // Active Department / Sub-store: 'hub' (Global Universal Shell) | 'gaming' | 'hardware' | 'apparel' | 'collectibles' | 'services'
+  const [activeDepartment, setActiveDepartment] = useState(() => {
+    return localStorage.getItem('omni_active_department') || 'hub';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('omni_active_department', activeDepartment);
+  }, [activeDepartment]);
+
   // Games state (merges latest GAMES_DATA artwork/metadata with any saved demo reviews)
   const [games, setGames] = useState(() => {
     localStorage.removeItem('ignis_games');
@@ -213,22 +230,37 @@ export function StoreProvider({ children }) {
   };
 
   // Cart operations
-  const addToCart = (game, platform = null, showNotification = true) => {
-    const chosenPlatform = platform || game.platforms[0] || 'PC';
+  const addToCart = (product, platform = null, showNotification = true) => {
+    const chosenPlatform = platform || (product.platforms && product.platforms.length > 0 ? product.platforms[0] : (product.edition || 'Standard'));
+    const itemDept = product.department || 'gaming';
+    const deptInfo = DEPARTMENTS.find(d => d.id === itemDept);
+    const deptName = product.departmentName || (deptInfo ? deptInfo.name : 'IGNIS Gaming');
+    const itemType = product.itemType || (itemDept === 'gaming' ? 'digital' : 'physical');
+
     setCart(prev => {
-      const existing = prev.find(item => item.id === game.id && item.selectedPlatform === chosenPlatform);
+      const existing = prev.find(item => item.id === product.id && item.selectedPlatform === chosenPlatform);
       if (existing) {
         return prev.map(item => 
-          item.id === game.id && item.selectedPlatform === chosenPlatform
+          item.id === product.id && item.selectedPlatform === chosenPlatform
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { ...game, quantity: 1, selectedPlatform: chosenPlatform }];
+      return [
+        ...prev, 
+        { 
+          ...product, 
+          quantity: 1, 
+          selectedPlatform: chosenPlatform,
+          department: itemDept,
+          departmentName: deptName,
+          itemType: itemType
+        }
+      ];
     });
 
     if (showNotification) {
-      addToast('Added to Cart', `${game.title} (${chosenPlatform}) added to your tactical cart.`, 'success');
+      addToast('Added to Universal Cart', `${product.title} (${chosenPlatform}) queued for checkout in Global Shell.`, 'success');
     }
   };
 
@@ -332,21 +364,29 @@ export function StoreProvider({ children }) {
   };
 
   // Complete Order (Simulated Checkout)
-  const completeOrder = (paymentMethodName = 'IGNIS Cyber Card (•••• 8092)') => {
+  const completeOrder = (paymentMethodName = 'IGNIS Cyber Card (•••• 8092)', shippingDetails = null) => {
     if (cart.length === 0) return null;
 
-    const newKeys = cart.map(item => ({
-      gameId: item.id,
-      gameTitle: item.title,
-      coverImage: item.coverImage,
-      platform: item.selectedPlatform,
-      purchaseDate: new Date().toISOString().split('T')[0],
-      cdKey: generateCdKey(),
-      playtimeHours: 0,
-      lastPlayed: 'Not yet launched'
-    }));
+    const newKeys = cart.map(item => {
+      const isDigital = item.department === 'gaming' || item.itemType === 'digital';
+      const isSubscription = item.department === 'services' || item.itemType === 'subscription';
+      return {
+        gameId: item.id,
+        gameTitle: item.title,
+        coverImage: item.coverImage,
+        platform: item.selectedPlatform,
+        department: item.department || 'gaming',
+        departmentName: item.departmentName || 'IGNIS Gaming',
+        purchaseDate: new Date().toISOString().split('T')[0],
+        cdKey: isDigital ? generateCdKey() : null,
+        trackingNumber: !isDigital && !isSubscription ? 'TRK-OMNI-' + Math.floor(10000000 + Math.random() * 90000000) : null,
+        serverInstanceId: isSubscription ? 'NODE-' + Math.floor(1000 + Math.random() * 9000) + '.ignis-cloud.net' : null,
+        playtimeHours: 0,
+        lastPlayed: 'Not yet launched'
+      };
+    });
 
-    const orderId = 'IGNIS-' + Math.floor(100000 + Math.random() * 900000);
+    const orderId = 'OMNI-' + Math.floor(100000 + Math.random() * 900000);
     const newOrder = {
       orderId,
       date: new Date().toLocaleString(),
@@ -356,17 +396,23 @@ export function StoreProvider({ children }) {
         price: item.price,
         quantity: item.quantity,
         platform: item.selectedPlatform,
-        cdKey: newKeys[idx].cdKey
+        department: item.department || 'gaming',
+        departmentName: item.departmentName || 'IGNIS Gaming',
+        itemType: item.itemType || 'digital',
+        cdKey: newKeys[idx].cdKey,
+        trackingNumber: newKeys[idx].trackingNumber,
+        serverInstanceId: newKeys[idx].serverInstanceId
       })),
       subtotal: cartSubtotal,
       discount: discountAmount,
       total: cartTotal,
-      paymentMethod: paymentMethodName
+      paymentMethod: paymentMethodName,
+      shippingDetails: shippingDetails || { address: 'Neo-Tokyo Cyber Quarter, Block 09', courier: 'Quantum Expedited' }
     };
 
     // Update state
     setOrders(prev => [newOrder, ...prev]);
-    setLibrary(prev => [...newKeys, ...prev]);
+    setLibrary(prev => [...newKeys.filter(k => k.cdKey), ...prev]);
     
     // Award XP and stats to User Profile
     const gainedXP = cart.length * 450;
@@ -393,16 +439,16 @@ export function StoreProvider({ children }) {
     // Confetti celebration
     try {
       confetti({
-        particleCount: 120,
-        spread: 80,
+        particleCount: 140,
+        spread: 90,
         origin: { y: 0.6 },
-        colors: ['#ff1a35', '#ff4d66', '#ffffff', '#8b0015']
+        colors: ['#ff1a35', '#00f0ff', '#bf00ff', '#ffb700', '#00ff88']
       });
     } catch (e) {
-      // ignore in non-browser or sandbox
+      // ignore
     }
 
-    addToast('Order Confirmed!', `Order ${orderId} successfully completed. CD-Keys issued!`, 'success');
+    addToast('Universal Order Confirmed!', `Omni-Order ${orderId} executed through Global Shell!`, 'success');
     return newOrder;
   };
 
@@ -537,6 +583,16 @@ export function StoreProvider({ children }) {
 
   return (
     <StoreContext.Provider value={{
+      // Universal Multi-Department Ecosystem
+      activeDepartment,
+      setActiveDepartment,
+      departments: DEPARTMENTS,
+      allProducts: ALL_OMNI_PRODUCTS,
+      hardwareProducts: HARDWARE_PRODUCTS,
+      apparelProducts: APPAREL_PRODUCTS,
+      collectiblesProducts: COLLECTIBLES_PRODUCTS,
+      servicesProducts: SERVICES_PRODUCTS,
+      // Store state
       games,
       cart,
       wishlist,
