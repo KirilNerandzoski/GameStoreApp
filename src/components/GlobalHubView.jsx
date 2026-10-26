@@ -25,7 +25,8 @@ const DEPT_ICONS = {
   hardware: Cpu,
   apparel: Shirt,
   collectibles: Trophy,
-  services: Cloud
+  services: Cloud,
+  fuel: Zap
 };
 
 export default function GlobalHubView({ onEnterStore }) {
@@ -66,12 +67,12 @@ export default function GlobalHubView({ onEnterStore }) {
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight uppercase leading-none max-w-5xl mx-auto">
-            One Shell. <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-400">Five Universes.</span><br />
+            One Shell. <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-400">Six Universes.</span><br />
             Unified Checkout.
           </h1>
 
           <p className="text-sm sm:text-base lg:text-lg text-zinc-400 max-w-3xl mx-auto font-sans leading-relaxed">
-            Welcome to the overarching ecosystem. Browse specialized independent storefronts across game keys, extreme rigs, cyberpunk techwear, numbered statues, and cloud nodes.
+            Welcome to the overarching ecosystem. Browse specialized independent storefronts across game keys, extreme rigs, cyberpunk techwear, numbered statues, cloud nodes, and gamer energy fuel.
             <span className="text-white font-medium block mt-1">
               Add products from any store into your unified cache—pay in 1 frictionless transaction through the Global Shell.
             </span>
@@ -84,7 +85,7 @@ export default function GlobalHubView({ onEnterStore }) {
                 <Layers className="w-4 h-4" />
               </div>
               <div className="text-left">
-                <span className="block text-xs font-bold text-white font-cyber">5 Sub-Stores</span>
+                <span className="block text-xs font-bold text-white font-cyber">6 Sub-Stores</span>
                 <span className="block text-[10px] text-zinc-400">Independent catalogs</span>
               </div>
             </div>
@@ -135,7 +136,7 @@ export default function GlobalHubView({ onEnterStore }) {
             </h2>
           </div>
           <span className="text-xs font-mono text-zinc-400">
-            Current Protocol: <span className="text-emerald-400 font-bold">ALL 5 SYSTEMS OPERATIONAL</span>
+            Current Protocol: <span className="text-emerald-400 font-bold">ALL 6 SYSTEMS OPERATIONAL</span>
           </span>
         </div>
 

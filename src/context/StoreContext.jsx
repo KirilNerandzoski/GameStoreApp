@@ -6,8 +6,9 @@ import {
   APPAREL_PRODUCTS, 
   COLLECTIBLES_PRODUCTS, 
   SERVICES_PRODUCTS, 
+  FUEL_PRODUCTS,
   ALL_OMNI_PRODUCTS 
-} from '../data/departmentsData';
+} from '../data/departmentsData.js';
 import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
@@ -604,6 +605,7 @@ export function StoreProvider({ children }) {
       apparelProducts: APPAREL_PRODUCTS,
       collectiblesProducts: COLLECTIBLES_PRODUCTS,
       servicesProducts: SERVICES_PRODUCTS,
+      fuelProducts: FUEL_PRODUCTS,
       // Store state
       games,
       cart,
