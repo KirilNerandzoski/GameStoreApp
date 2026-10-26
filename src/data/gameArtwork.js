@@ -142,5 +142,85 @@ export const GAME_ARTWORK = {
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1386900/ss_752e1892fc57f3c521b30896fa649b965d98b5f6.1920x1080.jpg',
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1386900/ss_473de74af6125bd92a3470a031c83ebf313f9ca9.1920x1080.jpg'
     ]
+  },
+
+  // 13. ELDEN BLAZE: Ashes of Eternity (Dark Fantasy Action RPG)
+  'game-13': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/ss_943bf6fe62352757d9070c1d33e50b92fe8539f1.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/ss_943bf6fe62352757d9070c1d33e50b92fe8539f1.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg'
+    ]
+  },
+
+  // 14. HELIOS PRIME: Orbital Strike (Co-op Sci-Fi Extraction Shooter)
+  'game-14': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/553850/aed08979e15f54798f287dd8820fb5838476b5fa/ss_aed08979e15f54798f287dd8820fb5838476b5fa.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/553850/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/553850/aed08979e15f54798f287dd8820fb5838476b5fa/ss_aed08979e15f54798f287dd8820fb5838476b5fa.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/553850/header.jpg'
+    ]
+  },
+
+  // 15. BLACK SEA PIRATE: Corsairs of Gold (Naval Open-World RPG)
+  'game-15': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172620/ss_ec623c77d75dfa098c622b547b1ab21ad4cae0a8.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172620/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172620/ss_ec623c77d75dfa098c622b547b1ab21ad4cae0a8.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172620/header.jpg'
+    ]
+  },
+
+  // 16. APEX SURVIVAL: Primordial Earth (Dinosaur Multiplayer Survival)
+  'game-16': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2399830/ss_44f74e86ebd6620a4f0a1f3f8ea97f73dc215e69.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2399830/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2399830/ss_44f74e86ebd6620a4f0a1f3f8ea97f73dc215e69.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2399830/header.jpg'
+    ]
+  },
+
+  // 17. PHANTOM BLADE: Zero Dynasty (Mythic Martial Arts Souls-like)
+  'game-17': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/ss_86c4b7462bba219a0d0b89931a35812b9f188976.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/ss_86c4b7462bba219a0d0b89931a35812b9f188976.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg'
+    ]
+  },
+
+  // 18. HYPER-SPEED RUSH: Formula GP (Official Sim Racing Championship)
+  'game-18': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1066890/ss_074392b1dd02d26d0e1919bf0ab89b332411a43c.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1066890/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1066890/ss_074392b1dd02d26d0e1919bf0ab89b332411a43c.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1066890/header.jpg'
+    ]
+  },
+
+  // 19. FORGE & REALM: Medieval Kingdoms (Organic Medieval City Builder & RTS)
+  'game-19': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1363080/bffe9f34abaae09855becd6e8ca2ddb9065b2ebb/ss_bffe9f34abaae09855becd6e8ca2ddb9065b2ebb.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1363080/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1363080/bffe9f34abaae09855becd6e8ca2ddb9065b2ebb/ss_bffe9f34abaae09855becd6e8ca2ddb9065b2ebb.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1363080/header.jpg'
+    ]
+  },
+
+  // 20. GHOST PROTOCOL: Extraction Delta (Military Tactical Stealth FPS)
+  'game-20': {
+    cover: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/863550/ss_425ab1fa29823f7dd675cc62e5cb36260462a578.1920x1080.jpg',
+    hero: 'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/863550/header.jpg',
+    screenshots: [
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/863550/ss_425ab1fa29823f7dd675cc62e5cb36260462a578.1920x1080.jpg',
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/863550/header.jpg'
+    ]
   }
 };
