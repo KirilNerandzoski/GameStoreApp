@@ -97,7 +97,9 @@ export default function GameDetailModal() {
             <img
               src={screenshots[selectedImgIdx] || selectedGame.heroBanner || selectedGame.coverImage}
               alt={selectedGame.title}
-              className="w-full h-full object-cover object-center animate-fade-in transition-all"
+              className={`w-full h-full animate-fade-in transition-all ${
+                selectedGame.isCustomFormula ? 'object-contain bg-[#07080e] p-4' : 'object-cover object-center'
+              }`}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d13] via-[#0c0d13]/40 to-transparent" />
             

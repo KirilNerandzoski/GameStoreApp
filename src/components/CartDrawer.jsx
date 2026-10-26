@@ -132,7 +132,9 @@ export default function CartDrawer() {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop';
                   }}
-                  className="w-24 h-16 sm:w-28 sm:h-18 rounded-lg object-cover object-center shrink-0 cursor-pointer border border-zinc-800 hover:opacity-80 transition-opacity shadow-sm"
+                  className={`w-24 h-16 sm:w-28 sm:h-18 rounded-lg shrink-0 cursor-pointer border border-zinc-800 hover:opacity-80 transition-opacity shadow-sm ${
+                    item.isCustomFormula ? 'object-contain bg-[#07080e] p-1 border-cyan-500/40' : 'object-cover object-center'
+                  }`}
                 />
 
                 {/* Details */}
@@ -159,9 +161,16 @@ export default function CartDrawer() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-1.5 mt-1">
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-white/10 text-white border border-white/20">
-                        {item.departmentName || 'IGNIS Gaming'}
-                      </span>
+                      {item.isCustomFormula ? (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 flex items-center gap-1">
+                          <span>{item.customMeta?.emblem || '🧪'}</span>
+                          <span>CUSTOM FORMULA</span>
+                        </span>
+                      ) : (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-white/10 text-white border border-white/20">
+                          {item.departmentName || 'IGNIS Gaming'}
+                        </span>
+                      )}
                       <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-semibold bg-black text-red-400 border border-red-500/30">
                         {item.selectedPlatform}
                       </span>

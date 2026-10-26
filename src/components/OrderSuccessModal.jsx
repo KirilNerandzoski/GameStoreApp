@@ -99,7 +99,9 @@ export default function OrderSuccessModal() {
                       <img 
                         src={item.coverImage} 
                         alt={item.title} 
-                        className="w-14 h-10 rounded-md object-cover object-center shrink-0 border border-zinc-800" 
+                        className={`w-14 h-10 rounded-md shrink-0 border border-zinc-800 ${
+                          item.isCustomFormula ? 'object-contain bg-[#07080e] p-0.5 border-cyan-500/40' : 'object-cover object-center'
+                        }`} 
                       />
                     )}
                     <div className="min-w-0">

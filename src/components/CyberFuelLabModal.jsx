@@ -9,6 +9,7 @@ import {
   TUB_EMBLEMS 
 } from '../data/formulaLabData';
 import { playWinSound } from '../utils/cyberAudio';
+import { generateTubImage } from '../utils/generateTubImage';
 import confetti from 'canvas-confetti';
 import { 
   X, 
@@ -90,6 +91,19 @@ export default function CyberFuelLabModal() {
   const totalPrice = Number((basePrice + (includeShaker ? 10.00 : 0)).toFixed(2));
 
   const handleSynthesizeAndAddToCart = () => {
+    // Generate the exact custom visual as designed by user
+    const customTubDataUrl = generateTubImage({
+      formulaName: formulaName.trim() || 'Aim-Lock Protocol',
+      primaryColor: primaryFlavor.color,
+      secondaryColor: secondaryFlavor.color,
+      primaryFlavorName: primaryFlavor.name,
+      secondaryFlavorName: secondaryFlavor.name,
+      emblem: tubEmblem.symbol,
+      caffeine: stimProfile.caffeine,
+      creator: creatorTag.trim() || 'Operative',
+      finishName: tubFinish.name
+    });
+
     const customProduct = {
       id: `fuel-custom-${Date.now()}`,
       department: 'fuel',
@@ -109,8 +123,8 @@ export default function CyberFuelLabModal() {
         `${primaryFlavor.name} + ${secondaryFlavor.name}`,
         tubFinish.name
       ],
-      coverImage: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?auto=format&fit=crop&w=800&q=80',
-      heroBanner: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1600&q=80',
+      coverImage: customTubDataUrl,
+      heroBanner: customTubDataUrl,
       tags: [
         'Custom Formula', 
         '40 Servings', 
