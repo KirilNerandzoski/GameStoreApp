@@ -214,7 +214,7 @@ export default function GlobalHubView({ onEnterStore }) {
                         <img 
                           src={previewProduct.coverImage} 
                           alt={previewProduct.title}
-                          className="w-10 h-10 rounded-lg object-cover shrink-0 border border-zinc-700" 
+                          className="w-14 h-10 rounded-lg object-cover object-center shrink-0 border border-zinc-700" 
                         />
                         <div className="min-w-0">
                           <span className="text-[10px] text-zinc-400 block uppercase font-mono">Trending In Store</span>

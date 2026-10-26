@@ -486,7 +486,7 @@ export default function GameDetailModal() {
                     }}
                     className="cursor-pointer p-2.5 rounded-xl bg-[#11121a] hover:bg-[#181926] border border-zinc-800/80 hover:border-red-500/50 transition-all flex items-center gap-3 group"
                   >
-                    <img src={sim.coverImage} alt={sim.title} className="w-12 h-14 object-cover rounded-lg border border-zinc-800" />
+                    <img src={sim.coverImage} alt={sim.title} className="w-20 h-14 object-cover object-center shrink-0 rounded-lg border border-zinc-800" />
                     <div className="flex-1 min-w-0">
                       <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors truncate block">
                         {sim.title}

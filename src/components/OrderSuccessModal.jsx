@@ -93,16 +93,27 @@ export default function OrderSuccessModal() {
                 key={idx}
                 className="p-3.5 rounded-xl bg-[#141524] border border-red-500/30 space-y-2 shadow-inner"
               >
-                <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 truncate">
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-white/10 text-white border border-white/20">
-                      {item.departmentName || 'IGNIS Gaming'}
-                    </span>
-                    <span className="font-bold text-white truncate max-w-[220px]">
-                      {item.title}
-                    </span>
+                <div className="flex items-center justify-between text-xs gap-2">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    {item.coverImage && (
+                      <img 
+                        src={item.coverImage} 
+                        alt={item.title} 
+                        className="w-14 h-10 rounded-md object-cover object-center shrink-0 border border-zinc-800" 
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-white/10 text-white border border-white/20">
+                          {item.departmentName || 'IGNIS Gaming'}
+                        </span>
+                      </div>
+                      <span className="font-bold text-white truncate block max-w-[220px]">
+                        {item.title}
+                      </span>
+                    </div>
                   </div>
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-black text-red-400 border border-red-500/30">
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-black text-red-400 border border-red-500/30 shrink-0">
                     {item.platform}
                   </span>
                 </div>

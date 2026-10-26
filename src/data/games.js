@@ -1,4 +1,4 @@
-import { GAME_ARTWORK } from './gameArtwork';
+import { GAME_ARTWORK } from './gameArtwork.js';
 
 const RAW_GAMES_DATA = [
   {

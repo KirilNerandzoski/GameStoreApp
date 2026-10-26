@@ -237,7 +237,7 @@ export default function HeroShowcase() {
                       e.currentTarget.onerror = null;
                       e.currentTarget.src = 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop';
                     }}
-                    className="w-16 h-20 rounded-lg object-cover border border-zinc-800 group-hover:border-red-500/50 transition-colors"
+                    className="w-24 h-16 rounded-lg object-cover object-center shrink-0 border border-zinc-800 group-hover:border-red-500/50 transition-colors"
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">

@@ -224,7 +224,7 @@ export default function ProfileModal() {
                       <img
                         src={item.coverImage}
                         alt={item.gameTitle}
-                        className="w-20 h-28 rounded-lg object-cover border border-zinc-800"
+                        className="w-28 h-20 rounded-lg object-cover object-center shrink-0 border border-zinc-800"
                       />
 
                       <div className="flex-1 min-w-0 flex flex-col justify-between">

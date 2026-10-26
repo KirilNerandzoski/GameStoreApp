@@ -55,8 +55,17 @@ export function StoreProvider({ children }) {
       try {
         const parsed = JSON.parse(saved);
         return parsed.map(item => {
-          const fresh = GAMES_DATA.find(g => g.id === item.id);
-          return fresh ? { ...item, coverImage: fresh.coverImage, heroBanner: fresh.heroBanner } : item;
+          const fresh = ALL_OMNI_PRODUCTS.find(g => g.id === item.id) || GAMES_DATA.find(g => g.id === item.id);
+          return fresh 
+            ? { 
+                ...item, 
+                ...fresh, 
+                coverImage: fresh.coverImage, 
+                heroBanner: fresh.heroBanner, 
+                quantity: item.quantity, 
+                selectedPlatform: item.selectedPlatform 
+              } 
+            : item;
         });
       } catch (e) { return []; }
     }
@@ -88,7 +97,7 @@ export function StoreProvider({ children }) {
       try {
         const parsed = JSON.parse(saved);
         return parsed.map(item => {
-          const fresh = GAMES_DATA.find(g => g.id === item.gameId);
+          const fresh = ALL_OMNI_PRODUCTS.find(g => g.id === item.gameId) || GAMES_DATA.find(g => g.id === item.gameId);
           return fresh ? { ...item, coverImage: fresh.coverImage } : item;
         });
       } catch (e) { return []; }
@@ -231,17 +240,18 @@ export function StoreProvider({ children }) {
 
   // Cart operations
   const addToCart = (product, platform = null, showNotification = true) => {
-    const chosenPlatform = platform || (product.platforms && product.platforms.length > 0 ? product.platforms[0] : (product.edition || 'Standard'));
-    const itemDept = product.department || 'gaming';
+    const canonical = ALL_OMNI_PRODUCTS.find(p => p.id === product.id) || product;
+    const chosenPlatform = platform || (canonical.platforms && canonical.platforms.length > 0 ? canonical.platforms[0] : (canonical.edition || 'Standard'));
+    const itemDept = canonical.department || 'gaming';
     const deptInfo = DEPARTMENTS.find(d => d.id === itemDept);
-    const deptName = product.departmentName || (deptInfo ? deptInfo.name : 'IGNIS Gaming');
-    const itemType = product.itemType || (itemDept === 'gaming' ? 'digital' : 'physical');
+    const deptName = canonical.departmentName || (deptInfo ? deptInfo.name : 'IGNIS Gaming');
+    const itemType = canonical.itemType || (itemDept === 'gaming' ? 'digital' : 'physical');
 
     setCart(prev => {
-      const existing = prev.find(item => item.id === product.id && item.selectedPlatform === chosenPlatform);
+      const existing = prev.find(item => item.id === canonical.id && item.selectedPlatform === chosenPlatform);
       if (existing) {
         return prev.map(item => 
-          item.id === product.id && item.selectedPlatform === chosenPlatform
+          item.id === canonical.id && item.selectedPlatform === chosenPlatform
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -249,7 +259,9 @@ export function StoreProvider({ children }) {
       return [
         ...prev, 
         { 
-          ...product, 
+          ...canonical, 
+          coverImage: canonical.coverImage,
+          heroBanner: canonical.heroBanner,
           quantity: 1, 
           selectedPlatform: chosenPlatform,
           department: itemDept,
@@ -260,7 +272,7 @@ export function StoreProvider({ children }) {
     });
 
     if (showNotification) {
-      addToast('Added to Universal Cart', `${product.title} (${chosenPlatform}) queued for checkout in Global Shell.`, 'success');
+      addToast('Added to Universal Cart', `${canonical.title} (${chosenPlatform}) queued for checkout in Global Shell.`, 'success');
     }
   };
 

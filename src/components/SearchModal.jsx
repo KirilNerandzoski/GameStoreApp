@@ -125,7 +125,7 @@ export default function SearchModal() {
                   className="p-3 rounded-xl bg-[#11121d] hover:bg-[#171828] border border-zinc-800/80 hover:border-red-500/50 transition-all flex items-center justify-between gap-3 cursor-pointer group"
                 >
                   <div className="flex items-center gap-3">
-                    <img src={game.coverImage} alt={game.title} className="w-12 h-14 rounded-lg object-cover border border-zinc-800" />
+                    <img src={game.coverImage} alt={game.title} className="w-20 h-14 rounded-lg object-cover object-center shrink-0 border border-zinc-800" />
                     <div>
                       <h4 className="text-sm font-bold text-white group-hover:text-red-400 transition-colors">
                         {game.title}
@@ -169,7 +169,7 @@ export default function SearchModal() {
               className="p-3 rounded-xl bg-[#11121d] hover:bg-[#171828] border border-zinc-800/80 hover:border-red-500/50 transition-all flex items-center justify-between gap-3 cursor-pointer group"
             >
               <div className="flex items-center gap-3">
-                <img src={game.coverImage} alt={game.title} className="w-12 h-14 rounded-lg object-cover border border-zinc-800" />
+                <img src={game.coverImage} alt={game.title} className="w-20 h-14 rounded-lg object-cover object-center shrink-0 border border-zinc-800" />
                 <div>
                   <div className="flex items-center gap-2">
                     <h4 className="text-sm font-bold text-white group-hover:text-red-400 transition-colors">

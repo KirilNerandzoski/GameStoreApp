@@ -102,7 +102,11 @@ export default function WishlistDrawer() {
                     openGameDetail(game);
                     setIsWishlistOpen(false);
                   }}
-                  className="w-16 h-20 rounded-lg object-cover cursor-pointer border border-zinc-800 hover:opacity-80 transition-opacity"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop';
+                  }}
+                  className="w-24 h-16 sm:w-28 sm:h-18 rounded-lg object-cover object-center shrink-0 cursor-pointer border border-zinc-800 hover:opacity-80 transition-opacity shadow-sm"
                 />
 
                 {/* Info */}

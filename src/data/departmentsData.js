@@ -1,4 +1,4 @@
-import { GAMES_DATA } from './games';
+import { GAMES_DATA } from './games.js';
 
 export const DEPARTMENTS = [
   {
@@ -262,8 +262,8 @@ export const COLLECTIBLES_PRODUCTS = [
     reviewCount: 140,
     category: 'Replicas',
     platforms: ['Wall Mount Display Included'],
-    coverImage: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80',
-    heroBanner: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1600&q=80',
+    coverImage: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80',
+    heroBanner: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80',
     tags: ['Damascus Steel Blade', 'Pulsing LED Edge', 'Carbon Fiber Sheath', 'Rechargeable Battery'],
     features: ['1055 High Carbon Steel', 'Full Tang Construction', 'Acoustic Humming FX', 'Custom Presentation Case'],
     description: 'Full-scale authentic Damascus steel blade with embedded light-guide edge that replicates an energized plasma field.'
