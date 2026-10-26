@@ -28,7 +28,8 @@ import {
   Compass,
   Trophy,
   ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Package
 } from 'lucide-react';
 
 function MarketplaceContent() {
@@ -44,7 +45,9 @@ function MarketplaceContent() {
     setSelectedCategory,
     openGameDetail,
     activeDepartment,
-    setActiveDepartment
+    setActiveDepartment,
+    openLootCrate,
+    setIsLootModalOpen
   } = useStore();
 
   const catalogRef = useRef(null);
@@ -62,6 +65,21 @@ function MarketplaceContent() {
       bountiesRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  // Hash navigation listener for direct #crates or department links
+  React.useEffect(() => {
+    const handleHash = () => {
+      const h = window.location.hash.toLowerCase();
+      if (h === '#crates' || h === '#loot' || h === '#lootcrates') {
+        openLootCrate();
+      } else if (['#gaming', '#hardware', '#apparel', '#collectibles', '#services', '#fuel'].includes(h)) {
+        setActiveDepartment(h.replace('#', ''));
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, [openLootCrate, setActiveDepartment]);
 
   // Filter Catalog logic
   const filteredCatalog = games.filter(g => {
@@ -306,6 +324,21 @@ function MarketplaceContent() {
       <SearchModal />
       <LootCratesModal />
       <ToastContainer />
+
+      {/* Floating Loot Crate Pill Button */}
+      <aside aria-label="Loot Crate Terminal" className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={() => openLootCrate()}
+          className="px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-500 hover:from-amber-400 hover:to-orange-400 text-black font-cyber font-black text-xs tracking-wider uppercase shadow-[0_0_25px_rgba(255,183,0,0.6)] border border-amber-300 flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all group"
+          title="Open Cyber Crate Terminal"
+        >
+          <Package className="w-4 h-4 text-black animate-bounce" />
+          <span>LOOT CRATES</span>
+          <span className="px-1.5 py-0.5 rounded bg-black/25 text-[10px] font-mono font-bold text-black">
+            UNBOX
+          </span>
+        </button>
+      </aside>
 
       {/* Footer */}
       <Footer />
