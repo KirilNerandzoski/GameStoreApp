@@ -632,33 +632,74 @@ export function StoreProvider({ children }) {
     return true;
   };
 
-  const claimLootItem = (item) => {
-    // Record into loot history
-    setLootHistory(prev => [
-      {
-        ...item,
-        timestamp: new Date().toISOString(),
-        id: `unboxed-${Date.now()}`
-      },
-      ...prev.slice(0, 49)
-    ]);
+  const recordCrateOpen = (crate, item) => {
+    const entryId = `unbox-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+    const historyEntry = {
+      id: entryId,
+      crateId: crate.id,
+      crateName: crate.name,
+      crateCostXp: crate.costXp,
+      crateAccentColor: crate.accentColor,
+      itemTitle: item.title,
+      itemCategory: item.category,
+      itemRarity: item.rarity,
+      itemImage: item.image,
+      itemCode: item.code || null,
+      itemDiscountPercent: item.discountPercent || null,
+      itemXpAmount: item.xpAmount || null,
+      freeProductId: item.freeProductId || null,
+      bonusCode: item.bonusCode || null,
+      itemDescription: item.description,
+      openedAt: new Date().toISOString(),
+      claimed: false
+    };
 
-    if (item.category === 'coupon') {
+    // Prepend to persistent history (keeps up to 100 past unboxings)
+    setLootHistory(prev => [historyEntry, ...prev.slice(0, 99)]);
+
+    // If coupon, automatically safeguard into unlocked coupons so user never loses it
+    if (item.category === 'coupon' && item.code) {
       setBountyState(prev => {
         const already = (prev.unlockedCoupons || []).some(c => c.code === item.code);
         return {
           ...prev,
           unlockedCoupons: already
             ? prev.unlockedCoupons
-            : [...(prev.unlockedCoupons || []), { code: item.code, discountPercent: item.discountPercent, title: item.title }]
+            : [{ code: item.code, discountPercent: item.discountPercent, title: item.title }, ...(prev.unlockedCoupons || [])]
         };
       });
-      applyPromoCode(item.code);
+    }
+
+    // If XP surge, credit immediately
+    if (item.category === 'xp' && item.xpAmount) {
+      addUserXp(item.xpAmount);
+    }
+
+    return historyEntry;
+  };
+
+  const clearLootHistory = () => {
+    setLootHistory([]);
+    localStorage.removeItem('ignis_loot_history');
+    addToast('History Cleared', 'Operative unboxing log reset.', 'info');
+  };
+
+  const claimLootItem = (item, historyId = null) => {
+    // Mark as claimed in history if ID provided
+    if (historyId) {
+      setLootHistory(prev => prev.map(entry => 
+        entry.id === historyId ? { ...entry, claimed: true } : entry
+      ));
+    }
+
+    if (item.category === 'coupon') {
+      applyPromoCode(item.code || item.itemCode);
       return { success: true, type: 'coupon' };
     }
 
     if (item.category === 'free_item') {
-      const freeProduct = ALL_OMNI_PRODUCTS.find(p => p.id === item.freeProductId);
+      const pId = item.freeProductId;
+      const freeProduct = ALL_OMNI_PRODUCTS.find(p => p.id === pId);
       if (freeProduct) {
         addToCart({
           ...freeProduct,
@@ -675,7 +716,6 @@ export function StoreProvider({ children }) {
     }
 
     if (item.category === 'xp') {
-      addUserXp(item.xpAmount);
       return { success: true, type: 'xp' };
     }
 
@@ -746,6 +786,8 @@ export function StoreProvider({ children }) {
       setActiveCrateId,
       openLootCrate,
       lootHistory,
+      recordCrateOpen,
+      clearLootHistory,
       addUserXp,
       deductUserXp,
       claimLootItem,

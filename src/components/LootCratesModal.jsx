@@ -20,7 +20,9 @@ import {
   Clock,
   Award,
   Layers,
-  ArrowRight
+  ArrowRight,
+  Trash2,
+  Copy
 } from 'lucide-react';
 
 const CARD_WIDTH = 180; // width of each item card in pixels
@@ -38,6 +40,8 @@ export default function LootCratesModal() {
     addUserXp, 
     deductUserXp, 
     claimLootItem,
+    recordCrateOpen,
+    clearLootHistory,
     applyPromoCode,
     setIsCartOpen,
     lootHistory
@@ -49,6 +53,8 @@ export default function LootCratesModal() {
   const [reelOffset, setReelOffset] = useState(0);
   const [wonItem, setWonItem] = useState(null);
   const [claimedState, setClaimedState] = useState(false);
+  const [currentHistoryId, setCurrentHistoryId] = useState(null);
+  const [copiedCodeId, setCopiedCodeId] = useState(null);
   const [activeTab, setActiveTab] = useState('crates'); // 'crates' | 'history'
 
   const reelContainerRef = useRef(null);
@@ -156,6 +162,10 @@ export default function LootCratesModal() {
         setIsSpinning(false);
         setWonItem(winner);
 
+        // RECORD EVERY CRATE OPEN IMMEDIATELY INTO PERMANENT HISTORY!
+        const record = recordCrateOpen(activeCrate, winner);
+        if (record?.id) setCurrentHistoryId(record.id);
+
         // Sound fanfare & confetti
         playWinSound(winner.rarity);
         
@@ -179,12 +189,20 @@ export default function LootCratesModal() {
 
   const handleClaim = () => {
     if (!wonItem) return;
-    claimLootItem(wonItem);
+    claimLootItem(wonItem, currentHistoryId);
     setClaimedState(true);
 
     if (wonItem.category === 'coupon' || wonItem.category === 'free_item') {
       setIsLootModalOpen(false);
       setIsCartOpen(true);
+    }
+  };
+
+  const handleCopyCode = (code, id) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(code);
+      setCopiedCodeId(id);
+      setTimeout(() => setCopiedCodeId(null), 2000);
     }
   };
 
@@ -311,45 +329,180 @@ export default function LootCratesModal() {
           
           {activeTab === 'history' ? (
             /* Drop History Tab */
-            <div className="space-y-4">
+            <div className="space-y-5">
+              {/* Top Stats Strip */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="p-3 rounded-xl bg-[#0c0d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">Crates Decrypted</span>
+                  <span className="text-xl font-black font-heading text-white">{lootHistory.length}</span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#0c0d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">Total XP Invested</span>
+                  <span className="text-xl font-black font-heading text-amber-400">
+                    {lootHistory.reduce((sum, h) => sum + (h.crateCostXp || 0), 0).toLocaleString()} XP
+                  </span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#0c0d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">Coupons Won</span>
+                  <span className="text-xl font-black font-heading text-emerald-400">
+                    {lootHistory.filter(h => (h.itemCategory || h.category) === 'coupon').length}
+                  </span>
+                </div>
+                <div className="p-3 rounded-xl bg-[#0c0d16] border border-zinc-800 space-y-1">
+                  <span className="text-[10px] font-mono text-zinc-500 uppercase block">High-Tier Jackpots</span>
+                  <span className="text-xl font-black font-heading text-red-400">
+                    {lootHistory.filter(h => ['legendary', 'godtier'].includes(h.itemRarity || h.rarity)).length}
+                  </span>
+                </div>
+              </div>
+
               <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
                 <h3 className="text-sm font-heading font-black text-white uppercase tracking-wider flex items-center gap-2">
                   <Award className="w-4 h-4 text-red-500" />
-                  <span>Operative Unboxing Record</span>
+                  <span>Permanent Operative Unboxing Record</span>
                 </h3>
-                <span className="text-xs font-mono text-zinc-400">Total Unboxed: {lootHistory.length} Drops</span>
+                {lootHistory.length > 0 && (
+                  <button
+                    onClick={() => {
+                      if (window.confirm('Clear all operative unboxing records?')) {
+                        clearLootHistory();
+                      }
+                    }}
+                    className="text-xs font-mono text-zinc-500 hover:text-red-400 flex items-center gap-1 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Clear Log</span>
+                  </button>
+                )}
               </div>
 
               {lootHistory.length === 0 ? (
                 <div className="text-center py-16 text-zinc-500 space-y-2 font-mono text-sm">
                   <Package className="w-12 h-12 mx-auto stroke-1 opacity-30 text-zinc-400" />
                   <p>No drops recorded yet. Spin your first crate in the Crate Chamber!</p>
+                  <button
+                    onClick={() => setActiveTab('crates')}
+                    className="mt-3 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-cyber font-bold text-xs uppercase"
+                  >
+                    Go to Crate Chamber
+                  </button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                   {lootHistory.map((item, idx) => {
-                    const rarityInfo = RARITY_CONFIG[item.rarity] || RARITY_CONFIG.common;
+                    const r = item.itemRarity || item.rarity || 'common';
+                    const rarityInfo = RARITY_CONFIG[r] || RARITY_CONFIG.common;
+                    const title = item.itemTitle || item.title;
+                    const image = item.itemImage || item.image;
+                    const cat = item.itemCategory || item.category;
+                    const code = item.itemCode || item.code;
+                    const discount = item.itemDiscountPercent || item.discountPercent;
+                    const xp = item.itemXpAmount || item.xpAmount;
+
                     return (
                       <div
                         key={item.id || idx}
-                        className={`p-3.5 rounded-xl bg-[#0c0d16] border ${rarityInfo.borderColor} flex items-center gap-3.5`}
+                        className={`p-4 rounded-2xl bg-[#0c0d16] border ${rarityInfo.borderColor} flex flex-col justify-between shadow-lg relative overflow-hidden`}
                       >
-                        <img 
-                          src={item.image} 
-                          alt={item.title} 
-                          className="w-14 h-14 rounded-lg object-cover border border-white/10 shrink-0" 
-                        />
-                        <div className="min-w-0 flex-1 space-y-1">
-                          <span className={`inline-block px-1.5 py-0.2 rounded text-[9px] font-mono font-bold uppercase ${rarityInfo.badgeClass}`}>
-                            {rarityInfo.label}
+                        {/* Crate Origin & Timestamp */}
+                        <div className="flex items-center justify-between border-b border-zinc-800/80 pb-2 mb-2.5">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <Package 
+                              className="w-3.5 h-3.5 shrink-0" 
+                              style={{ color: item.crateAccentColor || '#ff1a35' }} 
+                            />
+                            <span className="text-[11px] font-cyber font-bold text-white truncate">
+                              {item.crateName || 'Cyber Crate'}
+                            </span>
+                            {item.crateCostXp && (
+                              <span className="text-[10px] font-mono text-zinc-400 shrink-0">
+                                (-{item.crateCostXp} XP)
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-[9px] font-mono text-zinc-500 shrink-0 ml-1">
+                            {item.openedAt 
+                              ? new Date(item.openedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' }) 
+                              : 'Logged'}
                           </span>
-                          <h4 className="text-xs font-bold text-white truncate font-sans">{item.title}</h4>
-                          <p className="text-[10px] font-mono text-zinc-400">
-                            {item.category === 'coupon' && `${item.discountPercent}% OFF • Code: ${item.code}`}
-                            {item.category === 'xp' && `+${item.xpAmount} XP Credited`}
-                            {item.category === 'free_item' && 'Free Product Claimed'}
-                          </p>
                         </div>
+
+                        {/* Item Card Body */}
+                        <div className="flex items-center gap-3">
+                          <img 
+                            src={image} 
+                            alt={title} 
+                            className="w-14 h-14 rounded-xl object-cover border border-white/10 shrink-0" 
+                          />
+                          <div className="min-w-0 flex-1 space-y-1">
+                            <span className={`inline-block px-1.5 py-0.2 rounded text-[8px] font-mono font-bold uppercase ${rarityInfo.badgeClass}`}>
+                              {rarityInfo.label}
+                            </span>
+                            <h4 className="text-xs font-bold text-white truncate font-sans">
+                              {title}
+                            </h4>
+                            <p className="text-[10px] font-mono text-zinc-400 truncate">
+                              {cat === 'coupon' && `${discount}% OFF • Code: ${code}`}
+                              {cat === 'xp' && `+${xp} XP Credited`}
+                              {cat === 'free_item' && 'Free Product Drop ($0.00)'}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Interactive Action Bar inside History Card */}
+                        {cat === 'coupon' && code && (
+                          <div className="mt-3 pt-2.5 border-t border-zinc-800/70 flex items-center justify-between gap-2">
+                            <span className="px-2 py-0.5 rounded bg-black/60 border border-zinc-700 text-[10px] font-mono font-bold text-emerald-400">
+                              {code}
+                            </span>
+                            <div className="flex items-center gap-1.5">
+                              <button
+                                onClick={() => handleCopyCode(code, item.id)}
+                                className="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-[10px] font-mono text-zinc-300 flex items-center gap-1 transition-colors"
+                              >
+                                {copiedCodeId === item.id ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                                <span>{copiedCodeId === item.id ? 'Copied' : 'Copy'}</span>
+                              </button>
+                              <button
+                                onClick={() => {
+                                  applyPromoCode(code);
+                                  setIsLootModalOpen(false);
+                                  setIsCartOpen(true);
+                                }}
+                                className="px-2.5 py-1 rounded bg-red-600 hover:bg-red-500 text-white text-[10px] font-cyber font-bold tracking-wider transition-colors"
+                              >
+                                Apply Code
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {cat === 'free_item' && (
+                          <div className="mt-3 pt-2.5 border-t border-zinc-800/70 flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-emerald-400 font-bold">$0.00 Claim</span>
+                            <button
+                              onClick={() => {
+                                claimLootItem(item, item.id);
+                                setIsLootModalOpen(false);
+                                setIsCartOpen(true);
+                              }}
+                              className="px-3 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-cyber font-bold tracking-wider transition-colors flex items-center gap-1"
+                            >
+                              <ShoppingBag className="w-3 h-3" />
+                              <span>Add to Cart</span>
+                            </button>
+                          </div>
+                        )}
+
+                        {cat === 'xp' && (
+                          <div className="mt-3 pt-2.5 border-t border-zinc-800/70 flex items-center justify-between text-[10px] font-mono text-emerald-400">
+                            <span className="flex items-center gap-1">
+                              <Check className="w-3 h-3" />
+                              <span>Banked to Profile</span>
+                            </span>
+                            <span className="font-bold">+{xp} XP</span>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
