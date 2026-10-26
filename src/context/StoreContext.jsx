@@ -165,6 +165,7 @@ export function StoreProvider({ children }) {
   const [completedOrder, setCompletedOrder] = useState(null);
   const [isLootModalOpen, setIsLootModalOpen] = useState(false);
   const [activeCrateId, setActiveCrateId] = useState('crate-neon');
+  const [isFormulaLabOpen, setIsFormulaLabOpen] = useState(false);
 
   // Loot Crate Unboxing History (with automatic healing for broken legacy URLs)
   const [lootHistory, setLootHistory] = useState(() => {
@@ -603,6 +604,10 @@ export function StoreProvider({ children }) {
     setIsLootModalOpen(true);
   };
 
+  const openFormulaLab = () => {
+    setIsFormulaLabOpen(true);
+  };
+
   const addUserXp = (amount) => {
     setUserProfile(prev => {
       const nextXP = (prev.xp || 0) + amount;
@@ -794,6 +799,9 @@ export function StoreProvider({ children }) {
       activeCrateId,
       setActiveCrateId,
       openLootCrate,
+      isFormulaLabOpen,
+      setIsFormulaLabOpen,
+      openFormulaLab,
       lootHistory,
       recordCrateOpen,
       clearLootHistory,

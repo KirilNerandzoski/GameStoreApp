@@ -13,7 +13,8 @@ import {
   Zap, 
   Lock,
   Layers,
-  Heart
+  Heart,
+  FlaskConical
 } from 'lucide-react';
 
 export default function DepartmentStoreView({ departmentId, onBackToHub }) {
@@ -24,6 +25,7 @@ export default function DepartmentStoreView({ departmentId, onBackToHub }) {
     toggleWishlist, 
     isInWishlist, 
     openGameDetail,
+    openFormulaLab,
     setIsCartOpen 
   } = useStore();
 
@@ -131,6 +133,35 @@ export default function DepartmentStoreView({ departmentId, onBackToHub }) {
           </div>
         </div>
       </section>
+
+      {/* If CyberFuel Department: Dedicated Formula Lab Banner */}
+      {departmentId === 'fuel' && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-gradient-to-r from-[#170e08] via-[#1f1107] to-[#170e08] border border-orange-500/50 p-6 sm:p-8 shadow-[0_0_35px_rgba(255,85,0,0.2)] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-80 h-80 bg-orange-500/10 blur-[80px] rounded-full pointer-events-none" />
+            <div className="space-y-2 text-center md:text-left z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-orange-950/60 border border-orange-500/40 text-orange-400 text-xs font-mono font-bold">
+                <FlaskConical className="w-3.5 h-3.5 animate-pulse" />
+                <span>INTERACTIVE MOLECULAR STUDIO</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">
+                MIX YOUR OWN CUSTOM ENERGY TUB
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans max-w-xl">
+                Combine your favorite flavor bases, calibrate caffeine levels, inject focus nootropics, and print your custom gamer tag directly on the front label.
+              </p>
+            </div>
+
+            <button
+              onClick={() => openFormulaLab()}
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-400 hover:to-amber-400 text-black font-heading font-black text-sm tracking-wider uppercase shadow-[0_0_20px_rgba(255,85,0,0.4)] transition-all flex items-center justify-center gap-2.5 shrink-0 hover:scale-105 cursor-pointer z-10"
+            >
+              <FlaskConical className="w-4 h-4 text-black" />
+              <span>Launch Formula Lab</span>
+            </button>
+          </div>
+        </section>
+      )}
 
       {/* Filter & Category Controls */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">

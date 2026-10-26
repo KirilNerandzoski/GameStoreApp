@@ -18,7 +18,8 @@ import {
   ExternalLink,
   Layers,
   CreditCard,
-  Package
+  Package,
+  FlaskConical
 } from 'lucide-react';
 
 const DEPT_ICONS = {
@@ -39,7 +40,8 @@ export default function GlobalHubView({ onEnterStore }) {
     openGameDetail, 
     setIsCartOpen,
     bountyState,
-    openLootCrate
+    openLootCrate,
+    openFormulaLab
   } = useStore();
 
   const handleEnter = (deptId) => {
@@ -246,18 +248,31 @@ export default function GlobalHubView({ onEnterStore }) {
                       <span className="text-emerald-400 font-semibold">{dept.stats.delivery}</span>
                     </div>
 
-                    <button
-                      onClick={() => handleEnter(dept.id)}
-                      className="w-full py-2.5 px-4 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md group-hover:shadow-[0_0_20px_rgba(255,26,53,0.25)]"
-                      style={{
-                        backgroundColor: `${dept.accentColor}18`,
-                        border: `1px solid ${dept.accentColor}60`,
-                        color: '#ffffff'
-                      }}
-                    >
-                      <span>Enter {dept.shortName} Storefront</span>
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" style={{ color: dept.accentColor }} />
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEnter(dept.id)}
+                        className="flex-1 py-2.5 px-4 rounded-xl font-heading font-black text-xs sm:text-sm tracking-wider uppercase flex items-center justify-center gap-2 transition-all duration-300 shadow-md group-hover:shadow-[0_0_20px_rgba(255,26,53,0.25)] cursor-pointer"
+                        style={{
+                          backgroundColor: `${dept.accentColor}18`,
+                          border: `1px solid ${dept.accentColor}60`,
+                          color: '#ffffff'
+                        }}
+                      >
+                        <span>Enter {dept.shortName} Storefront</span>
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" style={{ color: dept.accentColor }} />
+                      </button>
+
+                      {dept.id === 'fuel' && (
+                        <button
+                          onClick={() => openFormulaLab()}
+                          className="px-3.5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 border border-orange-500/50 flex items-center gap-1.5 transition-all shadow-md shrink-0 hover:scale-105 cursor-pointer"
+                          title="Open Custom Formula Lab Studio"
+                        >
+                          <FlaskConical className="w-3.5 h-3.5" />
+                          <span>Mix Tub</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

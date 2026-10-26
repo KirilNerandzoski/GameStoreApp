@@ -19,7 +19,8 @@ import {
   Trophy,
   Cloud,
   ChevronDown,
-  Package
+  Package,
+  FlaskConical
 } from 'lucide-react';
 
 export default function Navbar({ onNavigateSection }) {
@@ -38,7 +39,8 @@ export default function Navbar({ onNavigateSection }) {
     activeDepartment,
     setActiveDepartment,
     departments,
-    openLootCrate
+    openLootCrate,
+    openFormulaLab
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -235,10 +237,19 @@ export default function Navbar({ onNavigateSection }) {
               <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-zinc-800">
                 <button
                   onClick={() => setActiveDepartment('hub')}
-                  className="text-xs font-mono text-zinc-400 hover:text-white transition-colors"
+                  className="text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer"
                 >
                   ← Back to Ecosystem Hub
                 </button>
+                {activeDepartment === 'fuel' && (
+                  <button
+                    onClick={() => openFormulaLab()}
+                    className="px-2.5 py-1 rounded-md text-[11px] font-cyber font-bold tracking-wider uppercase bg-orange-500/20 text-orange-400 border border-orange-500/40 hover:bg-orange-500/30 flex items-center gap-1.5 transition-all shadow-[0_0_10px_rgba(255,85,0,0.3)] animate-pulse cursor-pointer"
+                  >
+                    <FlaskConical className="w-3 h-3" />
+                    <span>Formula Lab</span>
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -248,8 +259,8 @@ export default function Navbar({ onNavigateSection }) {
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
-              className="w-full h-10 px-3.5 rounded-xl bg-[#0f1018]/90 hover:bg-[#151624] border border-zinc-800/80 hover:border-red-500/50 text-zinc-400 text-sm transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_0_15px_rgba(255,26,53,0.18)] group flex items-center justify-between gap-2.5 overflow-hidden text-left focus:outline-none focus:ring-1 focus:ring-red-500/50"
-              title="Search across all 5 stores (Ctrl + K)"
+              className="w-full h-10 px-3.5 rounded-xl bg-[#0f1018]/90 hover:bg-[#151624] border border-zinc-800/80 hover:border-red-500/50 text-zinc-400 text-sm transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_0_15px_rgba(255,26,53,0.18)] group flex items-center justify-between gap-2.5 overflow-hidden text-left focus:outline-none focus:ring-1 focus:ring-red-500/50 cursor-pointer"
+              title="Search across all 6 stores (Ctrl + K)"
             >
               <div className="flex items-center gap-2.5 min-w-0 flex-1 overflow-hidden">
                 <Search className="w-4 h-4 text-zinc-400 group-hover:text-red-400 transition-colors shrink-0" />

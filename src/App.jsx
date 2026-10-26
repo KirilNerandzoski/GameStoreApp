@@ -17,6 +17,7 @@ import SearchModal from './components/SearchModal';
 import ToastContainer from './components/ToastContainer';
 import BountiesSection from './components/BountiesSection';
 import LootCratesModal from './components/LootCratesModal';
+import CyberFuelLabModal from './components/CyberFuelLabModal';
 import Footer from './components/Footer';
 import { 
   Flame, 
@@ -47,6 +48,7 @@ function MarketplaceContent() {
     activeDepartment,
     setActiveDepartment,
     openLootCrate,
+    openFormulaLab,
     setIsLootModalOpen
   } = useStore();
 
@@ -72,6 +74,8 @@ function MarketplaceContent() {
       const h = window.location.hash.toLowerCase();
       if (h === '#crates' || h === '#loot' || h === '#lootcrates') {
         openLootCrate();
+      } else if (h === '#lab' || h === '#formula' || h === '#customfuel' || h === '#mix') {
+        openFormulaLab();
       } else if (['#gaming', '#hardware', '#apparel', '#collectibles', '#services', '#fuel'].includes(h)) {
         setActiveDepartment(h.replace('#', ''));
       }
@@ -324,6 +328,7 @@ function MarketplaceContent() {
       <ProfileModal />
       <SearchModal />
       <LootCratesModal />
+      <CyberFuelLabModal />
       <ToastContainer />
 
       {/* Floating Loot Crate Pill Button */}
