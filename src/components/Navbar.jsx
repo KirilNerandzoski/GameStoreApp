@@ -442,7 +442,7 @@ export default function Navbar({ onNavigateSection }) {
                 <button
                   onClick={() => openAuthModal()}
                   className="flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-red-600/20 via-cyan-500/20 to-red-600/20 hover:from-red-600/30 hover:to-cyan-500/30 border border-cyan-500/40 text-white transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] group cursor-pointer"
-                  title="Sign In with Google, Outlook, iCloud, Facebook, or Email"
+                  title="Sign In with Google, iCloud, Facebook, or Email"
                 >
                   <User className="w-4 h-4 text-cyan-400 animate-pulse" />
                   <span className="text-xs font-cyber font-bold tracking-wider uppercase text-cyan-300">

@@ -179,7 +179,7 @@ export default function ProfileModal() {
                     openAuthModal();
                   }}
                   className="px-3 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/40 text-xs font-mono font-bold transition-all text-center cursor-pointer animate-pulse"
-                  title="Connect via Google, Outlook, iCloud, Facebook"
+                  title="Connect via Google, iCloud, Facebook"
                 >
                   Sign In / Connect
                 </button>
