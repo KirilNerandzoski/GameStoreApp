@@ -63,6 +63,18 @@ export function StoreProvider({ children }) {
 
   // Supabase Auth Session listener
   useEffect(() => {
+    // If URL contains an OAuth error or notice from redirect
+    if (window.location.hash && (window.location.hash.includes('error=') || window.location.hash.includes('error_description='))) {
+      try {
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        const errDesc = hashParams.get('error_description') || hashParams.get('error');
+        if (errDesc) {
+          console.warn('OAuth provider notice:', decodeURIComponent(errDesc));
+        }
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      } catch (e) {}
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       const user = session?.user || null;
@@ -70,7 +82,12 @@ export function StoreProvider({ children }) {
         if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
           window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
+        if (window.location.search && window.location.search.includes('code=')) {
+          const cleanSearch = window.location.search.replace(/[?&]code=[^&]+/, '').replace(/^[?&]/, '');
+          window.history.replaceState(null, '', window.location.pathname + (cleanSearch ? '?' + cleanSearch : ''));
+        }
         setCurrentUser(user);
+        setIsAuthModalOpen(false);
         localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
           ...prev,
@@ -95,7 +112,12 @@ export function StoreProvider({ children }) {
         if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
           window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
+        if (window.location.search && window.location.search.includes('code=')) {
+          const cleanSearch = window.location.search.replace(/[?&]code=[^&]+/, '').replace(/^[?&]/, '');
+          window.history.replaceState(null, '', window.location.pathname + (cleanSearch ? '?' + cleanSearch : ''));
+        }
         setCurrentUser(user);
+        setIsAuthModalOpen(false);
         localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
           ...prev,
@@ -732,9 +754,7 @@ export function StoreProvider({ children }) {
 
   const signInWithSocial = async (provider) => {
     try {
-      const origin = window.location.origin;
-      const pathname = window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/';
-      const redirectUrl = origin + pathname;
+      const redirectUrl = new URL(import.meta.env.BASE_URL, window.location.origin).href;
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
