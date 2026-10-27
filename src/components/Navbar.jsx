@@ -20,8 +20,7 @@ import {
   Cloud,
   ChevronDown,
   Package,
-  FlaskConical,
-  Bot
+  FlaskConical
 } from 'lucide-react';
 
 export default function Navbar({ onNavigateSection }) {
@@ -42,8 +41,7 @@ export default function Navbar({ onNavigateSection }) {
     departments,
     openLootCrate,
     openFormulaLab,
-    openBattlestationBuilder,
-    openAdvisor
+    openBattlestationBuilder
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -438,16 +436,6 @@ export default function Navbar({ onNavigateSection }) {
           >
             <Globe2 className="w-4 h-4 text-red-500" />
             Global Universal Hub
-          </button>
-          <button
-            onClick={() => {
-              openAdvisor();
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left py-2 px-3 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30 font-medium flex items-center gap-2"
-          >
-            <Bot className="w-4 h-4 text-purple-400" />
-            AI Gear Advisor (NEXUS TAC-AI)
           </button>
           <button
             onClick={() => {
