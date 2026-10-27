@@ -18,6 +18,7 @@ import EmailVerifiedModal from './components/EmailVerifiedModal';
 import SearchModal from './components/SearchModal';
 import ToastContainer from './components/ToastContainer';
 import BountiesSection from './components/BountiesSection';
+import BountiesModal from './components/BountiesModal';
 import LootCratesModal from './components/LootCratesModal';
 import CyberFuelLabModal from './components/CyberFuelLabModal';
 import BattlestationBuilderModal from './components/BattlestationBuilderModal';
@@ -55,6 +56,7 @@ function MarketplaceContent() {
     openLootCrate,
     openFormulaLab,
     openBattlestationBuilder,
+    openBountiesModal,
     setIsLootModalOpen
   } = useStore();
 
@@ -70,7 +72,7 @@ function MarketplaceContent() {
     } else if (sec === 'deals') {
       dealsRef.current?.scrollIntoView({ behavior: 'smooth' });
     } else if (sec === 'bounties') {
-      bountiesRef.current?.scrollIntoView({ behavior: 'smooth' });
+      openBountiesModal();
     }
   };
 
@@ -338,6 +340,7 @@ function MarketplaceContent() {
       <LootCratesModal />
       <CyberFuelLabModal />
       <BattlestationBuilderModal />
+      <BountiesModal />
       <ToastContainer />
 
       {/* Floating Action Buttons (Rig Builder, Formula Lab & Loot Crates) */}

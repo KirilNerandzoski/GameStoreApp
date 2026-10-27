@@ -21,7 +21,7 @@ import {
   Package
 } from 'lucide-react';
 
-export default function BountiesSection() {
+export default function BountiesSection({ isModal = false }) {
   const {
     games,
     wishlist,
@@ -100,7 +100,7 @@ export default function BountiesSection() {
   const unlockedCoupons = bountyState.unlockedCoupons || [];
 
   return (
-    <section id="bounties" className="py-16 bg-gradient-to-b from-[#070709] via-[#0d0a10] to-[#070709] border-t border-red-500/20 relative overflow-hidden">
+    <section id={isModal ? undefined : "bounties"} className={`${isModal ? 'py-4 sm:py-6 bg-transparent' : 'py-16 bg-gradient-to-b from-[#070709] via-[#0d0a10] to-[#070709] border-t border-red-500/20'} relative overflow-hidden`}>
       {/* Subtle Crimson Radial Glow */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-red-600/10 blur-[140px] pointer-events-none" />
 

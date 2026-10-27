@@ -43,6 +43,7 @@ export default function Navbar({ onNavigateSection }) {
     openLootCrate,
     openFormulaLab,
     openBattlestationBuilder,
+    openBountiesModal,
     currentUser,
     openAuthModal,
     signOut
@@ -217,6 +218,32 @@ export default function Navbar({ onNavigateSection }) {
                 >
                   <span>← Back to Ecosystem Hub</span>
                 </button>
+
+                {/* Earn Coupons Button - Present on all 6 storefront shells */}
+                <button
+                  onClick={() => openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties')}
+                  className="px-2.5 py-1 rounded-md text-[11px] font-cyber font-bold tracking-wider uppercase flex items-center gap-1.5 transition-all border cursor-pointer whitespace-nowrap hover:scale-105 active:scale-95 shadow-sm"
+                  style={{
+                    backgroundColor: currentDeptObj ? `${currentDeptObj.accentColor}20` : 'rgba(255,26,53,0.2)',
+                    borderColor: currentDeptObj ? `${currentDeptObj.accentColor}40` : 'rgba(255,26,53,0.3)',
+                    color: currentDeptObj ? currentDeptObj.accentColor : '#ff4d66'
+                  }}
+                  title="Complete Operative Bounties & Earn Discount Coupons (Up to 40% OFF)"
+                >
+                  <Ticket className="w-3.5 h-3.5 animate-pulse shrink-0" />
+                  <span>Earn Coupons</span>
+                  {bountyState?.unlockedCoupons?.length > 0 && (
+                    <span 
+                      className="px-1.5 py-0.2 rounded-full text-white text-[9px] font-bold"
+                      style={{
+                        backgroundColor: currentDeptObj ? currentDeptObj.accentColor : '#ff1a35'
+                      }}
+                    >
+                      {bountyState.unlockedCoupons.length}
+                    </span>
+                  )}
+                </button>
+
                 {activeDepartment === 'hardware' && (
                   <button
                     onClick={() => openBattlestationBuilder()}
