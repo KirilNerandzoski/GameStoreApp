@@ -41,7 +41,9 @@ export default function Navbar({ onNavigateSection }) {
     departments,
     openLootCrate,
     openFormulaLab,
-    openBattlestationBuilder
+    openBattlestationBuilder,
+    currentUser,
+    openAuthModal
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -385,30 +387,44 @@ export default function Navbar({ onNavigateSection }) {
               )}
             </button>
 
-            {/* User Profile Pill */}
-            <button
-              onClick={() => setIsProfileOpen(true)}
-              className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-[#14151f] hover:bg-[#1a1b28] border border-red-500/20 hover:border-red-500/50 transition-all text-left group shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-            >
-              <div className="relative">
-                <img
-                  src={userProfile.avatar}
-                  alt={userProfile.gamertag}
-                  className="w-8 h-8 rounded-md object-cover border border-red-500/40 group-hover:border-red-500 transition-colors"
-                />
-                <span className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#0d0e14]" />
-              </div>
-              <div className="hidden sm:flex flex-col">
-                <span className="text-xs font-semibold text-white tracking-wide group-hover:text-red-400 transition-colors">
-                  {userProfile.gamertag}
-                </span>
-                <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 font-mono">
-                  <span className="text-red-400 font-bold">LVL {userProfile.level}</span>
-                  <span>•</span>
-                  <span>{userProfile.xp.toLocaleString()} XP</span>
+            {/* User Profile / Auth Pill */}
+            {currentUser ? (
+              <button
+                onClick={() => setIsProfileOpen(true)}
+                className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-[#14151f] hover:bg-[#1a1b28] border border-red-500/20 hover:border-red-500/50 transition-all text-left group shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-pointer"
+                title="View Operative Dossier"
+              >
+                <div className="relative">
+                  <img
+                    src={userProfile.avatar}
+                    alt={userProfile.gamertag}
+                    className="w-8 h-8 rounded-md object-cover border border-red-500/40 group-hover:border-red-500 transition-colors"
+                  />
+                  <span className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#0d0e14]" />
                 </div>
-              </div>
-            </button>
+                <div className="hidden sm:flex flex-col">
+                  <span className="text-xs font-semibold text-white tracking-wide group-hover:text-red-400 transition-colors">
+                    {userProfile.gamertag}
+                  </span>
+                  <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 font-mono">
+                    <span className="text-emerald-400 font-bold">ONLINE</span>
+                    <span>•</span>
+                    <span className="text-red-400">LVL {userProfile.level}</span>
+                  </div>
+                </div>
+              </button>
+            ) : (
+              <button
+                onClick={() => openAuthModal()}
+                className="flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-red-600/20 via-cyan-500/20 to-red-600/20 hover:from-red-600/30 hover:to-cyan-500/30 border border-cyan-500/40 text-white transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] group cursor-pointer"
+                title="Sign In with Google, Outlook, iCloud, Facebook, or Email"
+              >
+                <User className="w-4 h-4 text-cyan-400 animate-pulse" />
+                <span className="text-xs font-cyber font-bold tracking-wider uppercase text-cyan-300">
+                  LOGIN / JOIN
+                </span>
+              </button>
+            )}
 
             {/* Mobile Hamburger toggle */}
             <button

@@ -61,6 +61,37 @@ export function StoreProvider({ children }) {
     syncProductsFromSupabase();
   }, []);
 
+  // Supabase Auth Session listener
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setCurrentUser(session?.user || null);
+      if (session?.user) {
+        setUserProfile(prev => ({
+          ...prev,
+          email: session.user.email,
+          gamertag: session.user.user_metadata?.gamertag || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || prev.gamertag,
+          avatar: session.user.user_metadata?.avatar_url || prev.avatar
+        }));
+      }
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setCurrentUser(session?.user || null);
+      if (session?.user) {
+        setUserProfile(prev => ({
+          ...prev,
+          email: session.user.email,
+          gamertag: session.user.user_metadata?.gamertag || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || prev.gamertag,
+          avatar: session.user.user_metadata?.avatar_url || prev.avatar
+        }));
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   // Games state (merges latest GAMES_DATA artwork/metadata with any saved demo reviews)
   const [games, setGames] = useState(() => {
     localStorage.removeItem('ignis_games');
@@ -199,6 +230,9 @@ export function StoreProvider({ children }) {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [session, setSession] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [completedOrder, setCompletedOrder] = useState(null);
   const [isLootModalOpen, setIsLootModalOpen] = useState(false);
@@ -665,6 +699,59 @@ export function StoreProvider({ children }) {
     setIsBattlestationOpen(true);
   };
 
+  const openAuthModal = () => {
+    setIsAuthModalOpen(true);
+  };
+
+  const signInWithSocial = async (provider) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: window.location.origin + window.location.pathname
+        }
+      });
+      return { data, error };
+    } catch (err) {
+      return { error: err };
+    }
+  };
+
+  const signInWithEmail = async (email, password) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      return { data, error };
+    } catch (err) {
+      return { error: err };
+    }
+  };
+
+  const signUpWithEmail = async (email, password, gamertag) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            gamertag: gamertag || email.split('@')[0]
+          }
+        }
+      });
+      return { data, error };
+    } catch (err) {
+      return { error: err };
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      setSession(null);
+      setCurrentUser(null);
+      addToast('Session Terminated', 'Logged out of Operative Network.', 'info');
+    } catch (e) {}
+  };
+
   const addUserXp = (amount) => {
     setUserProfile(prev => {
       const nextXP = (prev.xp || 0) + amount;
@@ -861,6 +948,15 @@ export function StoreProvider({ children }) {
       setIsCheckoutOpen,
       isProfileOpen,
       setIsProfileOpen,
+      isAuthModalOpen,
+      setIsAuthModalOpen,
+      openAuthModal,
+      session,
+      currentUser,
+      signInWithSocial,
+      signInWithEmail,
+      signUpWithEmail,
+      signOut,
       isSearchOpen,
       setIsSearchOpen,
       completedOrder,

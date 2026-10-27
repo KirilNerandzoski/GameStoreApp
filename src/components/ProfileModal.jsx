@@ -26,7 +26,10 @@ export default function ProfileModal() {
     library, 
     orders, 
     simulatePlayGame, 
-    addToast 
+    addToast,
+    currentUser,
+    openAuthModal,
+    signOut
   } = useStore();
 
   const [activeTab, setActiveTab] = useState('library'); // 'library' | 'achievements' | 'orders'
@@ -157,6 +160,30 @@ export default function ProfileModal() {
                   {userProfile.hoursPlayed} hrs
                 </span>
               </div>
+
+              {currentUser ? (
+                <button
+                  onClick={() => {
+                    signOut();
+                    setIsProfileOpen(false);
+                  }}
+                  className="px-3 py-2 rounded-xl bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/40 text-xs font-mono font-bold transition-all text-center cursor-pointer"
+                  title="Disconnect Session"
+                >
+                  Sign Out
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    openAuthModal();
+                  }}
+                  className="px-3 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/40 text-xs font-mono font-bold transition-all text-center cursor-pointer animate-pulse"
+                  title="Connect via Google, Outlook, iCloud, Facebook"
+                >
+                  Sign In / Connect
+                </button>
+              )}
             </div>
 
           </div>
