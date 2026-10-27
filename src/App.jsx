@@ -14,6 +14,7 @@ import CheckoutModal from './components/CheckoutModal';
 import OrderSuccessModal from './components/OrderSuccessModal';
 import ProfileModal from './components/ProfileModal';
 import AuthModal from './components/AuthModal';
+import EmailVerifiedModal from './components/EmailVerifiedModal';
 import SearchModal from './components/SearchModal';
 import ToastContainer from './components/ToastContainer';
 import BountiesSection from './components/BountiesSection';
@@ -332,6 +333,7 @@ function MarketplaceContent() {
       <OrderSuccessModal />
       <ProfileModal />
       <AuthModal />
+      <EmailVerifiedModal />
       <SearchModal />
       <LootCratesModal />
       <CyberFuelLabModal />

@@ -63,6 +63,15 @@ export function StoreProvider({ children }) {
 
   // Supabase Auth Session listener
   useEffect(() => {
+    // Check if user arrived via email confirmation link or verified redirect
+    const isConfirmationLink = 
+      (window.location.hash && (window.location.hash.includes('type=signup') || window.location.hash.includes('type=email_change') || window.location.hash.includes('verified='))) ||
+      (window.location.search && (window.location.search.includes('type=signup') || window.location.search.includes('type=email_change') || window.location.search.includes('verified=')));
+
+    if (isConfirmationLink) {
+      setIsVerifiedModalOpen(true);
+    }
+
     // If URL contains an OAuth error or notice from redirect
     if (window.location.hash && (window.location.hash.includes('error=') || window.location.hash.includes('error_description='))) {
       try {
@@ -105,10 +114,18 @@ export function StoreProvider({ children }) {
       }
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       const user = session?.user || null;
       if (user) {
+        const isConfirmation = 
+          (window.location.hash && (window.location.hash.includes('type=signup') || window.location.hash.includes('type=email_change'))) ||
+          (window.location.search && (window.location.search.includes('type=signup') || window.location.search.includes('type=email_change')));
+
+        if (isConfirmation) {
+          setIsVerifiedModalOpen(true);
+        }
+
         if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
           window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
@@ -280,6 +297,7 @@ export function StoreProvider({ children }) {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isVerifiedModalOpen, setIsVerifiedModalOpen] = useState(false);
   const [session, setSession] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -1026,6 +1044,9 @@ export function StoreProvider({ children }) {
       isAuthModalOpen,
       setIsAuthModalOpen,
       openAuthModal,
+      isVerifiedModalOpen,
+      setIsVerifiedModalOpen,
+      openVerifiedModal: () => setIsVerifiedModalOpen(true),
       session,
       currentUser,
       signInWithSocial,
