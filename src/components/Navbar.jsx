@@ -169,8 +169,6 @@ export default function Navbar({ onNavigateSection }) {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
               1 Shared Cart
             </span>
-            <span>•</span>
-            <span className="text-zinc-300">Pay via Global Shell</span>
           </div>
         </div>
       </div>
