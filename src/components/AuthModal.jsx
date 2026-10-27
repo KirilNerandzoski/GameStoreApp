@@ -196,18 +196,18 @@ export default function AuthModal() {
 
         <div className="p-6 space-y-5">
           
-          {/* Quick OAuth Social Providers Grid */}
-          <div className="space-y-2.5">
+          {/* Quick OAuth Social Provider */}
+          <div className="space-y-2">
             <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest block font-bold">
               Instant Single Sign-On (SSO):
             </span>
 
-            {/* Google - Primary SSO */}
+            {/* Google */}
             <button
               type="button"
               onClick={() => handleSocialLogin('google')}
               disabled={isLoading}
-              className="w-full p-2.5 rounded-xl bg-[#121320] hover:bg-[#18192b] border border-zinc-800 hover:border-red-500/50 transition-all flex items-center justify-center gap-2.5 text-xs font-bold text-white group cursor-pointer shadow-sm hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-wait"
+              className="w-full py-3 px-4 rounded-xl bg-[#121320] hover:bg-[#18192b] border border-zinc-800 hover:border-red-500/50 transition-all flex items-center justify-center gap-3 text-xs font-bold text-white group cursor-pointer shadow-sm hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-wait"
               title="Connect with Google Account"
             >
               {loadingProvider === 'google' ? (
@@ -220,46 +220,10 @@ export default function AuthModal() {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                 </svg>
               )}
-              <span>{loadingProvider === 'google' ? 'Connecting to Google...' : 'Continue with Google'}</span>
+              <span className="font-semibold tracking-wide">
+                {loadingProvider === 'google' ? 'Connecting to Google...' : 'Continue with Google'}
+              </span>
             </button>
-
-            <div className="grid grid-cols-2 gap-2.5">
-              {/* Apple / iCloud */}
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('apple')}
-                disabled={isLoading}
-                className="p-2.5 rounded-xl bg-[#121320] hover:bg-[#18192b] border border-zinc-800 hover:border-zinc-500/40 transition-all flex items-center justify-center gap-2.5 text-xs font-bold text-white group cursor-pointer shadow-sm hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-wait"
-                title="Connect with Apple / iCloud ID"
-              >
-                {loadingProvider === 'apple' ? (
-                  <span className="w-4 h-4 border-2 border-zinc-300 border-t-transparent rounded-full animate-spin shrink-0" />
-                ) : (
-                  <svg className="w-4 h-4 shrink-0 fill-current text-white" viewBox="0 0 170 170">
-                    <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-5.87-8.91-10.43-18.96-13.68-30.15-3.25-11.19-4.88-21.95-4.88-32.27 0-14.02 3.56-25.75 10.68-35.18 7.12-9.43 16.03-14.28 26.73-14.55 5.09 0 10.64 1.34 16.64 4.01 6.01 2.68 9.94 4.09 11.8 4.24 1.48-.22 5.61-1.68 12.39-4.38 6.78-2.7 12.28-3.9 16.51-3.6 12.44.89 22.39 5.37 29.83 13.43-10.87 6.56-16.19 15.68-15.96 27.37.22 9.13 3.73 16.92 10.53 23.36 6.8 6.44 14.86 10.14 24.18 11.11-2.01 6.13-4.53 12.35-7.55 18.66zM119.22 31.84c0-7.25 2.66-14.07 7.99-20.46 5.33-6.39 11.87-10.53 19.62-12.42.22 1.11.33 2.12.33 3.02 0 7.36-2.73 14.32-8.2 20.87-5.46 6.56-12.03 10.43-19.74 11.62-.12-.89-.22-1.78-.22-2.63z"/>
-                  </svg>
-                )}
-                <span>{loadingProvider === 'apple' ? 'Connecting...' : 'iCloud'}</span>
-              </button>
-
-              {/* Facebook */}
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('facebook')}
-                disabled={isLoading}
-                className="p-2.5 rounded-xl bg-[#121320] hover:bg-[#18192b] border border-zinc-800 hover:border-blue-600/40 transition-all flex items-center justify-center gap-2.5 text-xs font-bold text-white group cursor-pointer shadow-sm hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-wait"
-                title="Connect with Facebook Account"
-              >
-                {loadingProvider === 'facebook' ? (
-                  <span className="w-4 h-4 border-2 border-[#1877F2] border-t-transparent rounded-full animate-spin shrink-0" />
-                ) : (
-                  <svg className="w-4 h-4 shrink-0 fill-[#1877F2]" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                )}
-                <span>{loadingProvider === 'facebook' ? 'Connecting...' : 'Facebook'}</span>
-              </button>
-            </div>
           </div>
 
           {/* Divider */}
