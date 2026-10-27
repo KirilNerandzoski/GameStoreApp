@@ -40,7 +40,8 @@ export default function Navbar({ onNavigateSection }) {
     setActiveDepartment,
     departments,
     openLootCrate,
-    openFormulaLab
+    openFormulaLab,
+    openBattlestationBuilder
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -241,6 +242,15 @@ export default function Navbar({ onNavigateSection }) {
                 >
                   ← Back to Ecosystem Hub
                 </button>
+                {activeDepartment === 'hardware' && (
+                  <button
+                    onClick={() => openBattlestationBuilder()}
+                    className="px-2.5 py-1 rounded-md text-[11px] font-cyber font-bold tracking-wider uppercase bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 flex items-center gap-1.5 transition-all shadow-[0_0_10px_rgba(0,240,255,0.3)] animate-pulse cursor-pointer"
+                  >
+                    <Cpu className="w-3 h-3" />
+                    <span>Rig Builder</span>
+                  </button>
+                )}
                 {activeDepartment === 'fuel' && (
                   <button
                     onClick={() => openFormulaLab()}
@@ -317,6 +327,18 @@ export default function Navbar({ onNavigateSection }) {
               <Package className="w-4 h-4 text-amber-400 animate-pulse group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
                 LOOT CRATES
+              </span>
+            </button>
+
+            {/* Battlestation Rig Builder Button */}
+            <button
+              onClick={() => openBattlestationBuilder()}
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-400 hover:text-cyan-300 transition-all shadow-[0_0_12px_rgba(0,240,255,0.25)] group cursor-pointer"
+              title="Open Interactive PC Battlestation Studio"
+            >
+              <Cpu className="w-4 h-4 text-cyan-400 animate-pulse group-hover:scale-110 transition-transform" />
+              <span className="hidden xl:inline text-xs font-bold font-cyber tracking-wider">
+                RIG BUILDER
               </span>
             </button>
 
@@ -424,6 +446,16 @@ export default function Navbar({ onNavigateSection }) {
           >
             <Package className="w-4 h-4 text-amber-400" />
             Cyber Loot Crates (Unbox Drops)
+          </button>
+          <button
+            onClick={() => {
+              openBattlestationBuilder();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-3 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-medium flex items-center gap-2"
+          >
+            <Cpu className="w-4 h-4 text-cyan-400" />
+            PC Battlestation Studio (Build Rig)
           </button>
           <button
             onClick={() => {

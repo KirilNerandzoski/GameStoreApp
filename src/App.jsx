@@ -18,6 +18,7 @@ import ToastContainer from './components/ToastContainer';
 import BountiesSection from './components/BountiesSection';
 import LootCratesModal from './components/LootCratesModal';
 import CyberFuelLabModal from './components/CyberFuelLabModal';
+import BattlestationBuilderModal from './components/BattlestationBuilderModal';
 import Footer from './components/Footer';
 import { 
   Flame, 
@@ -31,7 +32,8 @@ import {
   ShieldCheck,
   ChevronRight,
   Package,
-  FlaskConical
+  FlaskConical,
+  Cpu
 } from 'lucide-react';
 
 function MarketplaceContent() {
@@ -50,6 +52,7 @@ function MarketplaceContent() {
     setActiveDepartment,
     openLootCrate,
     openFormulaLab,
+    openBattlestationBuilder,
     setIsLootModalOpen
   } = useStore();
 
@@ -330,10 +333,23 @@ function MarketplaceContent() {
       <SearchModal />
       <LootCratesModal />
       <CyberFuelLabModal />
+      <BattlestationBuilderModal />
       <ToastContainer />
 
-      {/* Floating Action Buttons (Loot Crates & Formula Lab) */}
+      {/* Floating Action Buttons (Rig Builder, Formula Lab & Loot Crates) */}
       <aside aria-label="Quick Interactive Studios" className="fixed bottom-6 right-6 z-40 flex flex-col sm:flex-row items-end sm:items-center gap-2.5">
+        <button
+          onClick={() => openBattlestationBuilder()}
+          className="px-4 py-2.5 rounded-full bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-cyber font-black text-xs tracking-wider uppercase shadow-[0_0_25px_rgba(0,240,255,0.6)] border border-cyan-300 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all group cursor-pointer"
+          title="Open Interactive PC Battlestation Studio"
+        >
+          <Cpu className="w-4 h-4 text-white animate-pulse" />
+          <span>RIG BUILDER</span>
+          <span className="px-1.5 py-0.5 rounded bg-black/40 text-[10px] font-mono font-bold text-cyan-300">
+            STUDIO
+          </span>
+        </button>
+
         <button
           onClick={() => openFormulaLab()}
           className="px-4 py-2.5 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-400 hover:to-amber-400 text-black font-cyber font-black text-xs tracking-wider uppercase shadow-[0_0_25px_rgba(255,85,0,0.6)] border border-orange-300 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all group cursor-pointer"

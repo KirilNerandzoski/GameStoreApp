@@ -41,7 +41,8 @@ export default function GlobalHubView({ onEnterStore }) {
     setIsCartOpen,
     bountyState,
     openLootCrate,
-    openFormulaLab
+    openFormulaLab,
+    openBattlestationBuilder
   } = useStore();
 
   const handleEnter = (deptId) => {
@@ -262,6 +263,17 @@ export default function GlobalHubView({ onEnterStore }) {
                         <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" style={{ color: dept.accentColor }} />
                       </button>
 
+                      {dept.id === 'hardware' && (
+                        <button
+                          onClick={() => openBattlestationBuilder()}
+                          className="px-3.5 py-2.5 rounded-xl font-heading font-black text-xs uppercase tracking-wider bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 border border-cyan-500/50 flex items-center gap-1.5 transition-all shadow-md shrink-0 hover:scale-105 cursor-pointer"
+                          title="Open Interactive PC Battlestation Studio"
+                        >
+                          <Cpu className="w-3.5 h-3.5" />
+                          <span>Build Rig</span>
+                        </button>
+                      )}
+
                       {dept.id === 'fuel' && (
                         <button
                           onClick={() => openFormulaLab()}
@@ -336,6 +348,36 @@ export default function GlobalHubView({ onEnterStore }) {
             >
               <FlaskConical className="w-4 h-4 text-black" />
               <span>Launch Formula Lab</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Battlestation Rig Studio Showcase Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-gradient-to-r from-[#07131b] via-[#091b26] to-[#07131b] border border-cyan-500/40 p-6 sm:p-8 shadow-[0_0_40px_rgba(0,240,255,0.15)] relative overflow-hidden">
+          <div className="absolute right-0 top-0 w-96 h-96 bg-cyan-500/10 blur-[90px] rounded-full pointer-events-none" />
+
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="space-y-2 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/40 text-cyan-400 text-xs font-mono font-bold">
+                <Cpu className="w-4 h-4 animate-bounce" />
+                <span>INTERACTIVE PC BATTLESTATION STUDIO</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">
+                Engineer Your Dream Rig & Desk Setup.
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed max-w-2xl">
+                Configure next-gen RTX 5090 GPUs, custom hardline cryo loops, ultrawide 240Hz OLEDs, and motorized standing desks with live wattage calculations, thermal clearance validation, and simulated gaming FPS.
+              </p>
+            </div>
+
+            <button
+              onClick={() => openBattlestationBuilder()}
+              className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-heading font-black text-sm tracking-wider uppercase shadow-[0_0_25px_rgba(0,240,255,0.4)] transition-all flex items-center justify-center gap-2.5 shrink-0 hover:scale-105 cursor-pointer"
+            >
+              <Cpu className="w-4 h-4 text-white" />
+              <span>Launch Battlestation Builder</span>
             </button>
           </div>
         </div>
