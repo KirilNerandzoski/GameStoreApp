@@ -225,7 +225,7 @@ export default function Navbar({ onNavigateSection }) {
               </div>
             </a>
 
-            {/* Department Back Link & Quick Launchers */}
+            {/* Department Back Link */}
             {activeDepartment !== 'hub' && (
               <div className="hidden lg:flex items-center gap-2 pl-3 xl:pl-4 border-l border-zinc-800">
                 <button
@@ -235,24 +235,6 @@ export default function Navbar({ onNavigateSection }) {
                 >
                   <span>← Back to Ecosystem Hub</span>
                 </button>
-                {activeDepartment === 'hardware' && (
-                  <button
-                    onClick={() => openBattlestationBuilder()}
-                    className="px-2.5 py-1 rounded-md text-[11px] font-cyber font-bold tracking-wider uppercase bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/30 flex items-center gap-1.5 transition-all shadow-[0_0_10px_rgba(0,240,255,0.3)] animate-pulse cursor-pointer"
-                  >
-                    <Cpu className="w-3 h-3" />
-                    <span>Rig Builder</span>
-                  </button>
-                )}
-                {activeDepartment === 'fuel' && (
-                  <button
-                    onClick={() => openFormulaLab()}
-                    className="px-2.5 py-1 rounded-md text-[11px] font-cyber font-bold tracking-wider uppercase bg-orange-500/20 text-orange-400 border border-orange-500/40 hover:bg-orange-500/30 flex items-center gap-1.5 transition-all shadow-[0_0_10px_rgba(255,85,0,0.3)] animate-pulse cursor-pointer"
-                  >
-                    <FlaskConical className="w-3 h-3" />
-                    <span>Formula Lab</span>
-                  </button>
-                )}
               </div>
             )}
           </div>
