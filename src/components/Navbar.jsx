@@ -207,56 +207,15 @@ export default function Navbar({ onNavigateSection }) {
               </div>
             </a>
 
-            {/* Sub-Store Fast Navigation (Gaming Specific) */}
-            {activeDepartment === 'gaming' && (
-              <nav className="hidden lg:flex items-center gap-1 xl:gap-1.5 pl-3 xl:pl-4 border-l border-zinc-800">
-                <button 
-                  onClick={() => {
-                    setSelectedCategory('all');
-                    onNavigateSection?.('featured');
-                  }}
-                  className="px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-sm font-medium text-zinc-300 hover:text-white hover:bg-white/5 rounded-md transition-all flex items-center gap-1.5 whitespace-nowrap"
-                >
-                  <Compass className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-red-500 shrink-0" />
-                  <span>Featured</span>
-                </button>
-                <button 
-                  onClick={() => onNavigateSection?.('catalog')}
-                  className="px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-sm font-medium text-zinc-300 hover:text-white hover:bg-white/5 rounded-md transition-all flex items-center gap-1.5 whitespace-nowrap"
-                >
-                  <Zap className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-red-500 shrink-0" />
-                  <span><span className="hidden xl:inline">Browse </span>Catalog</span>
-                </button>
-                <button 
-                  onClick={() => onNavigateSection?.('deals')}
-                  className="px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-sm font-medium text-zinc-300 hover:text-white hover:bg-white/5 rounded-md transition-all flex items-center gap-1.5 whitespace-nowrap"
-                >
-                  <Sparkles className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-red-500 shrink-0" />
-                  <span><span className="hidden xl:inline">Flash </span>Sales</span>
-                </button>
-                <button 
-                  onClick={() => onNavigateSection?.('bounties')}
-                  className="px-2.5 xl:px-3.5 py-1.5 text-xs xl:text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-950/30 rounded-md transition-all flex items-center gap-1.5 border border-red-500/40 shadow-[0_0_12px_rgba(255,26,53,0.2)] whitespace-nowrap"
-                >
-                  <Ticket className="w-3.5 h-3.5 xl:w-4 xl:h-4 text-red-500 animate-pulse shrink-0" />
-                  <span><span className="hidden xl:inline">Earn </span>Coupons</span>
-                  {bountyState?.unlockedCoupons?.length > 0 && (
-                    <span className="px-1.5 py-0.2 rounded-full bg-red-600 text-white text-[10px] font-bold">
-                      {bountyState.unlockedCoupons.length}
-                    </span>
-                  )}
-                </button>
-              </nav>
-            )}
-
-            {/* Non-gaming department link */}
-            {activeDepartment !== 'gaming' && activeDepartment !== 'hub' && (
-              <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-zinc-800">
+            {/* Department Back Link & Quick Launchers */}
+            {activeDepartment !== 'hub' && (
+              <div className="hidden lg:flex items-center gap-2 pl-3 xl:pl-4 border-l border-zinc-800">
                 <button
                   onClick={() => setActiveDepartment('hub')}
-                  className="text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                  className="text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
+                  title="Return to OMNI Ecosystem Hub"
                 >
-                  ← Back to Ecosystem Hub
+                  <span>← Back to Ecosystem Hub</span>
                 </button>
                 {activeDepartment === 'hardware' && (
                   <button
