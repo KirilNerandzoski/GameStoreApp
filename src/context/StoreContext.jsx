@@ -67,6 +67,9 @@ export function StoreProvider({ children }) {
       setSession(session);
       const user = session?.user || null;
       if (user) {
+        if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
         setCurrentUser(user);
         localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
@@ -89,6 +92,9 @@ export function StoreProvider({ children }) {
       setSession(session);
       const user = session?.user || null;
       if (user) {
+        if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
         setCurrentUser(user);
         localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
@@ -726,10 +732,13 @@ export function StoreProvider({ children }) {
 
   const signInWithSocial = async (provider) => {
     try {
+      const origin = window.location.origin;
+      const pathname = window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/';
+      const redirectUrl = origin + pathname;
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: window.location.origin + window.location.pathname
+          redirectTo: redirectUrl
         }
       });
       return { data, error };
