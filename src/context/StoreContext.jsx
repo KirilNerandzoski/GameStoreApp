@@ -9,6 +9,7 @@ import {
   FUEL_PRODUCTS,
   ALL_OMNI_PRODUCTS 
 } from '../data/departmentsData.js';
+import { supabase } from '../lib/supabaseClient';
 import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
@@ -22,6 +23,43 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('omni_active_department', activeDepartment);
   }, [activeDepartment]);
+
+  // Live Supabase Products state (with instant local seed fallback)
+  const [allProducts, setAllProducts] = useState(ALL_OMNI_PRODUCTS);
+
+  useEffect(() => {
+    async function syncProductsFromSupabase() {
+      try {
+        const { data, error } = await supabase.from('products').select('*');
+        if (!error && data && data.length > 0) {
+          const mapped = data.map(row => ({
+            id: row.id,
+            department: row.department,
+            departmentName: row.department_name,
+            itemType: row.item_type,
+            title: row.title,
+            studio: row.studio,
+            price: Number(row.price),
+            originalPrice: Number(row.original_price),
+            discountPercent: row.discount_percent,
+            rating: Number(row.rating),
+            reviewCount: row.review_count,
+            category: row.category,
+            platforms: row.platforms || [],
+            coverImage: row.cover_image,
+            heroBanner: row.hero_banner,
+            tags: row.tags || [],
+            features: row.features || [],
+            description: row.description
+          }));
+          setAllProducts(mapped);
+        }
+      } catch (err) {
+        console.warn('Supabase offline or network error, using local fallback:', err);
+      }
+    }
+    syncProductsFromSupabase();
+  }, []);
 
   // Games state (merges latest GAMES_DATA artwork/metadata with any saved demo reviews)
   const [games, setGames] = useState(() => {
@@ -452,6 +490,20 @@ export function StoreProvider({ children }) {
     // Update state
     setOrders(prev => [newOrder, ...prev]);
     setLibrary(prev => [...newKeys.filter(k => k.cdKey), ...prev]);
+
+    // Persist order to Supabase orders table
+    supabase.from('orders').insert([{
+      id: orderId,
+      customer_name: userProfile?.operativeId || 'Operative',
+      customer_email: userProfile?.email || 'operative@ignis.cyber',
+      total_amount: cartTotal,
+      items: newOrder.items,
+      shipping_address: shippingDetails,
+      payment_method: paymentMethodName,
+      status: 'completed'
+    }]).then(({ error }) => {
+      if (error) console.warn('Supabase order sync notice:', error.message);
+    });
     
     // Award XP and stats to User Profile
     const gainedXP = cart.length * 450;
@@ -676,6 +728,19 @@ export function StoreProvider({ children }) {
     // Prepend to persistent history (keeps up to 100 past unboxings)
     setLootHistory(prev => [historyEntry, ...prev.slice(0, 99)]);
 
+    // Persist to Supabase loot_history table
+    supabase.from('loot_history').insert([{
+      id: entryId,
+      crate_id: crate.id,
+      crate_name: crate.name,
+      item_title: item.title,
+      item_rarity: item.rarity,
+      item_value: item.value || 0,
+      item_image: item.image || item.itemImage
+    }]).then(({ error }) => {
+      if (error) console.warn('Supabase loot_history sync notice:', error.message);
+    });
+
     // If coupon, automatically safeguard into unlocked coupons so user never loses it
     if (item.category === 'coupon' && item.code) {
       setBountyState(prev => {
@@ -768,7 +833,8 @@ export function StoreProvider({ children }) {
       activeDepartment,
       setActiveDepartment,
       departments: DEPARTMENTS,
-      allProducts: ALL_OMNI_PRODUCTS,
+      allProducts,
+      supabase,
       hardwareProducts: HARDWARE_PRODUCTS,
       apparelProducts: APPAREL_PRODUCTS,
       collectiblesProducts: COLLECTIBLES_PRODUCTS,
