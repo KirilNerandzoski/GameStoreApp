@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStore } from '../context/StoreContext';
 import { 
   Flame, 
@@ -20,7 +20,8 @@ import {
   Cloud,
   ChevronDown,
   Package,
-  FlaskConical
+  FlaskConical,
+  LogOut
 } from 'lucide-react';
 
 export default function Navbar({ onNavigateSection }) {
@@ -43,11 +44,24 @@ export default function Navbar({ onNavigateSection }) {
     openFormulaLab,
     openBattlestationBuilder,
     currentUser,
-    openAuthModal
+    openAuthModal,
+    signOut
   } = useStore();
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -387,44 +401,103 @@ export default function Navbar({ onNavigateSection }) {
               )}
             </button>
 
-            {/* User Profile / Auth Pill */}
-            {currentUser ? (
-              <button
-                onClick={() => setIsProfileOpen(true)}
-                className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-[#14151f] hover:bg-[#1a1b28] border border-red-500/20 hover:border-red-500/50 transition-all text-left group shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-pointer"
-                title="View Operative Dossier"
-              >
-                <div className="relative">
-                  <img
-                    src={userProfile.avatar}
-                    alt={userProfile.gamertag}
-                    className="w-8 h-8 rounded-md object-cover border border-red-500/40 group-hover:border-red-500 transition-colors"
-                  />
-                  <span className="absolute -bottom-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#0d0e14]" />
+            {/* User Profile / Auth Pill with Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              {currentUser ? (
+                <div className="flex items-center gap-1 bg-[#14151f] hover:bg-[#1a1b28] border border-red-500/20 hover:border-red-500/50 rounded-lg p-1 sm:px-2.5 sm:py-1.5 transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                  <button
+                    onClick={() => setProfileDropdownOpen(prev => !prev)}
+                    className="flex items-center gap-2 cursor-pointer text-left"
+                    title="Operative Menu"
+                  >
+                    <div className="relative">
+                      <img
+                        src={userProfile.avatar}
+                        alt={userProfile.gamertag}
+                        className="w-8 h-8 rounded-md object-cover border border-red-500/40"
+                      />
+                      <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-black" />
+                    </div>
+                    <div className="hidden sm:flex flex-col">
+                      <span className="text-xs font-semibold text-white tracking-wide truncate max-w-[110px]">
+                        {userProfile.gamertag}
+                      </span>
+                      <span className="text-[10px] text-emerald-400 font-mono">
+                        ONLINE • LVL {userProfile.level}
+                      </span>
+                    </div>
+                    <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {/* Direct Logout Button */}
+                  <button
+                    onClick={() => signOut()}
+                    className="p-1.5 rounded-md text-zinc-500 hover:text-red-400 hover:bg-red-500/15 transition-colors cursor-pointer"
+                    title="Sign Out (Disconnect Session)"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                  </button>
                 </div>
-                <div className="hidden sm:flex flex-col">
-                  <span className="text-xs font-semibold text-white tracking-wide group-hover:text-red-400 transition-colors">
-                    {userProfile.gamertag}
+              ) : (
+                <button
+                  onClick={() => openAuthModal()}
+                  className="flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-red-600/20 via-cyan-500/20 to-red-600/20 hover:from-red-600/30 hover:to-cyan-500/30 border border-cyan-500/40 text-white transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] group cursor-pointer"
+                  title="Sign In with Google, Outlook, iCloud, Facebook, or Email"
+                >
+                  <User className="w-4 h-4 text-cyan-400 animate-pulse" />
+                  <span className="text-xs font-cyber font-bold tracking-wider uppercase text-cyan-300">
+                    LOGIN / JOIN
                   </span>
-                  <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 font-mono">
-                    <span className="text-emerald-400 font-bold">ONLINE</span>
-                    <span>•</span>
-                    <span className="text-red-400">LVL {userProfile.level}</span>
+                </button>
+              )}
+
+              {/* Profile Dropdown Menu */}
+              {currentUser && profileDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-64 rounded-xl bg-[#0e101a] border border-red-500/30 shadow-[0_10px_35px_rgba(0,0,0,0.9)] py-2 z-50 animate-fade-in backdrop-blur-xl">
+                  {/* User Header */}
+                  <div className="px-3.5 py-2.5 border-b border-zinc-800 flex items-center gap-2.5">
+                    <img
+                      src={userProfile.avatar}
+                      alt={userProfile.gamertag}
+                      className="w-9 h-9 rounded-md object-cover border border-red-500/40"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-white truncate font-cyber">
+                        {userProfile.gamertag}
+                      </div>
+                      <div className="text-[10px] text-zinc-400 truncate font-mono">
+                        {currentUser.email || 'Operative Session'}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Menu Options */}
+                  <div className="p-1.5 space-y-1">
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(true);
+                        setProfileDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/5 transition-colors text-left cursor-pointer"
+                    >
+                      <User className="w-4 h-4 text-cyan-400" />
+                      <span>View Dossier & Vault</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        signOut();
+                        setProfileDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left border-t border-zinc-800/80 mt-1 pt-2 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4 text-red-500" />
+                      <span>Sign Out (Disconnect)</span>
+                    </button>
                   </div>
                 </div>
-              </button>
-            ) : (
-              <button
-                onClick={() => openAuthModal()}
-                className="flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-red-600/20 via-cyan-500/20 to-red-600/20 hover:from-red-600/30 hover:to-cyan-500/30 border border-cyan-500/40 text-white transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] group cursor-pointer"
-                title="Sign In with Google, Outlook, iCloud, Facebook, or Email"
-              >
-                <User className="w-4 h-4 text-cyan-400 animate-pulse" />
-                <span className="text-xs font-cyber font-bold tracking-wider uppercase text-cyan-300">
-                  LOGIN / JOIN
-                </span>
-              </button>
-            )}
+              )}
+            </div>
 
             {/* Mobile Hamburger toggle */}
             <button

@@ -22,6 +22,7 @@ export default function AuthModal() {
     signInWithSocial, 
     signInWithEmail, 
     signUpWithEmail, 
+    signInWithDemo,
     addToast 
   } = useStore();
 
@@ -315,15 +316,18 @@ export default function AuthModal() {
             </button>
           </form>
 
-          {/* Quick Demo Autofill */}
-          <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-zinc-500">
+          {/* Quick Demo Autofill & Instant Login */}
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] font-mono text-zinc-500">
             <button
               type="button"
-              onClick={handleDemoFill}
-              className="text-cyan-400 hover:underline flex items-center gap-1 cursor-pointer"
+              onClick={() => {
+                signInWithDemo();
+                handleClose();
+              }}
+              className="text-cyan-400 hover:text-cyan-300 hover:underline flex items-center gap-1 cursor-pointer font-bold"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Auto-fill Demo Credentials</span>
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Instant Demo Login (Valkyrie_99)</span>
             </button>
             <span>AES-256 Encrypted</span>
           </div>

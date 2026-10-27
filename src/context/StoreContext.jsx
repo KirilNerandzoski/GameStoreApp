@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
-import { GAMES_DATA, INITIAL_USER_PROFILE, DEMO_PROMO_CODES } from '../data/games';
+import { GAMES_DATA, INITIAL_USER_PROFILE, GUEST_USER_PROFILE, DEMO_PROMO_CODES } from '../data/games';
 import { 
   DEPARTMENTS, 
   HARDWARE_PRODUCTS, 
@@ -65,27 +65,45 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
-      setCurrentUser(session?.user || null);
-      if (session?.user) {
+      const user = session?.user || null;
+      if (user) {
+        setCurrentUser(user);
+        localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
           ...prev,
-          email: session.user.email,
-          gamertag: session.user.user_metadata?.gamertag || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || prev.gamertag,
-          avatar: session.user.user_metadata?.avatar_url || prev.avatar
+          email: user.email,
+          gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Operative',
+          avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
+          isGuest: false
         }));
+      } else {
+        const localUser = localStorage.getItem('ignis_auth_user');
+        if (!localUser) {
+          setCurrentUser(null);
+          setUserProfile(GUEST_USER_PROFILE);
+        }
       }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      setCurrentUser(session?.user || null);
-      if (session?.user) {
+      const user = session?.user || null;
+      if (user) {
+        setCurrentUser(user);
+        localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
           ...prev,
-          email: session.user.email,
-          gamertag: session.user.user_metadata?.gamertag || session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || prev.gamertag,
-          avatar: session.user.user_metadata?.avatar_url || prev.avatar
+          email: user.email,
+          gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Operative',
+          avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
+          isGuest: false
         }));
+      } else {
+        const localUser = localStorage.getItem('ignis_auth_user');
+        if (!localUser) {
+          setCurrentUser(null);
+          setUserProfile(GUEST_USER_PROFILE);
+        }
       }
     });
 
@@ -151,13 +169,16 @@ export function StoreProvider({ children }) {
     return [GAMES_DATA[1].id, GAMES_DATA[2].id];
   });
 
-  // User Profile
+  // User Profile: Default to GUEST unless logged in or saved non-guest profile
   const [userProfile, setUserProfile] = useState(() => {
     const saved = localStorage.getItem('ignis_user_profile');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return INITIAL_USER_PROFILE; }
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && !parsed.isGuest && parsed.email) return parsed;
+      } catch (e) { return GUEST_USER_PROFILE; }
     }
-    return INITIAL_USER_PROFILE;
+    return GUEST_USER_PROFILE;
   });
 
   // Purchased Game Library
@@ -746,10 +767,33 @@ export function StoreProvider({ children }) {
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
-      setSession(null);
-      setCurrentUser(null);
-      addToast('Session Terminated', 'Logged out of Operative Network.', 'info');
     } catch (e) {}
+    setSession(null);
+    setCurrentUser(null);
+    localStorage.removeItem('ignis_auth_user');
+    localStorage.removeItem('ignis_user_profile');
+    setUserProfile(GUEST_USER_PROFILE);
+    addToast('Session Terminated', 'Logged out of Operative Network.', 'info');
+  };
+
+  const signInWithDemo = () => {
+    const demoUser = {
+      id: 'demo-operative-77',
+      email: 'valkyrie_99@ignis.cyber',
+      user_metadata: {
+        gamertag: 'Valkyrie_99',
+        full_name: 'Valkyrie Operative'
+      }
+    };
+    setCurrentUser(demoUser);
+    localStorage.setItem('ignis_auth_user', JSON.stringify(demoUser));
+    setUserProfile({
+      ...INITIAL_USER_PROFILE,
+      email: 'valkyrie_99@ignis.cyber',
+      gamertag: 'Valkyrie_99',
+      isGuest: false
+    });
+    addToast('Operative Link Established', 'Logged in as Valkyrie_99.', 'success');
   };
 
   const addUserXp = (amount) => {
@@ -956,6 +1000,7 @@ export function StoreProvider({ children }) {
       signInWithSocial,
       signInWithEmail,
       signUpWithEmail,
+      signInWithDemo,
       signOut,
       isSearchOpen,
       setIsSearchOpen,

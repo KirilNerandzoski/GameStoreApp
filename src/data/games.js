@@ -1031,6 +1031,20 @@ export const SORT_OPTIONS = [
   { id: 'release-desc', label: 'Release Date' }
 ];
 
+export const GUEST_USER_PROFILE = {
+  gamertag: 'Guest Operative',
+  avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=180&auto=format&fit=crop',
+  level: 1,
+  xp: 0,
+  xpToNext: 1000,
+  balance: 0,
+  ignisCredits: 0,
+  totalOrders: 0,
+  hoursPlayed: 0,
+  isGuest: true,
+  achievements: []
+};
+
 export const INITIAL_USER_PROFILE = {
   gamertag: 'Valkyrie_99',
   avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
