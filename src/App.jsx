@@ -19,6 +19,7 @@ import BountiesSection from './components/BountiesSection';
 import LootCratesModal from './components/LootCratesModal';
 import CyberFuelLabModal from './components/CyberFuelLabModal';
 import BattlestationBuilderModal from './components/BattlestationBuilderModal';
+import AIGearAdvisorChatbot from './components/AIGearAdvisorChatbot';
 import Footer from './components/Footer';
 import { 
   Flame, 
@@ -334,6 +335,7 @@ function MarketplaceContent() {
       <LootCratesModal />
       <CyberFuelLabModal />
       <BattlestationBuilderModal />
+      <AIGearAdvisorChatbot />
       <ToastContainer />
 
       {/* Floating Action Buttons (Rig Builder, Formula Lab & Loot Crates) */}
