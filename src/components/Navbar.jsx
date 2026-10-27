@@ -147,7 +147,24 @@ export default function Navbar({ onNavigateSection }) {
             })}
           </div>
 
-          <div className="hidden md:flex items-center gap-3 shrink-0 text-[10px] text-zinc-400 font-mono">
+          <div className="hidden md:flex items-center gap-2.5 sm:gap-3 shrink-0 text-[10px] text-zinc-400 font-mono">
+            {/* Universal Earn Coupons Button */}
+            <button
+              onClick={() => openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties')}
+              className="px-2.5 py-0.5 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-400 hover:text-emerald-300 transition-all flex items-center gap-1.5 font-bold tracking-wider uppercase shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:scale-105 active:scale-95 cursor-pointer text-[10px]"
+              title="Complete Operative Bounties & Earn Discount Coupons (Up to 40% OFF)"
+            >
+              <Ticket className="w-3 h-3 text-emerald-400 animate-pulse shrink-0" />
+              <span>Earn Coupons</span>
+              {bountyState?.unlockedCoupons?.length > 0 && (
+                <span className="px-1.5 py-0.2 rounded-full bg-emerald-500 text-black text-[9px] font-black">
+                  {bountyState.unlockedCoupons.length}
+                </span>
+              )}
+            </button>
+
+            <span>•</span>
+
             <span className="flex items-center gap-1 text-emerald-400 font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
               1 Shared Cart
@@ -218,32 +235,6 @@ export default function Navbar({ onNavigateSection }) {
                 >
                   <span>← Back to Ecosystem Hub</span>
                 </button>
-
-                {/* Earn Coupons Button - Present on all 6 storefront shells */}
-                <button
-                  onClick={() => openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties')}
-                  className="px-2.5 py-1 rounded-md text-[11px] font-cyber font-bold tracking-wider uppercase flex items-center gap-1.5 transition-all border cursor-pointer whitespace-nowrap hover:scale-105 active:scale-95 shadow-sm"
-                  style={{
-                    backgroundColor: currentDeptObj ? `${currentDeptObj.accentColor}20` : 'rgba(255,26,53,0.2)',
-                    borderColor: currentDeptObj ? `${currentDeptObj.accentColor}40` : 'rgba(255,26,53,0.3)',
-                    color: currentDeptObj ? currentDeptObj.accentColor : '#ff4d66'
-                  }}
-                  title="Complete Operative Bounties & Earn Discount Coupons (Up to 40% OFF)"
-                >
-                  <Ticket className="w-3.5 h-3.5 animate-pulse shrink-0" />
-                  <span>Earn Coupons</span>
-                  {bountyState?.unlockedCoupons?.length > 0 && (
-                    <span 
-                      className="px-1.5 py-0.2 rounded-full text-white text-[9px] font-bold"
-                      style={{
-                        backgroundColor: currentDeptObj ? currentDeptObj.accentColor : '#ff1a35'
-                      }}
-                    >
-                      {bountyState.unlockedCoupons.length}
-                    </span>
-                  )}
-                </button>
-
                 {activeDepartment === 'hardware' && (
                   <button
                     onClick={() => openBattlestationBuilder()}
