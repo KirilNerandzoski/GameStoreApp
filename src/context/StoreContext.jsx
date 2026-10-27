@@ -778,10 +778,12 @@ export function StoreProvider({ children }) {
 
   const signUpWithEmail = async (email, password, gamertag) => {
     try {
+      const redirectUrl = new URL(import.meta.env.BASE_URL, window.location.origin).href;
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: redirectUrl,
           data: {
             gamertag: gamertag || email.split('@')[0]
           }

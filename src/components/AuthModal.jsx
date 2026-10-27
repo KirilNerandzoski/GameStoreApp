@@ -119,7 +119,11 @@ export default function AuthModal() {
       if (error) {
         setErrorMessage(error.message);
       } else {
-        addToast('Account Synthesized', 'Check your inbox for confirmation or login now.', 'success');
+        if (data?.session) {
+          addToast('Account Synthesized', 'Welcome, Operative! Neural link established.', 'success');
+        } else {
+          addToast('Confirmation Dispatched', 'Verification link sent to your email. Click it to activate your dossier.', 'success');
+        }
         handleClose();
       }
     }
