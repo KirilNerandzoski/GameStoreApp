@@ -10,6 +10,7 @@ import {
   ALL_OMNI_PRODUCTS 
 } from '../data/departmentsData.js';
 import { supabase } from '../lib/supabaseClient';
+import { dispatchOrderToWorkRelay } from '../lib/workRelay';
 import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
@@ -605,6 +606,11 @@ export function StoreProvider({ children }) {
       status: 'completed'
     }]).then(({ error }) => {
       if (error) console.warn('Supabase order sync notice:', error.message);
+    });
+
+    // Automatically dispatch order event to WorkRelay
+    dispatchOrderToWorkRelay(newOrder, userProfile).catch(err => {
+      console.warn('[WorkRelay] Order dispatch failed:', err);
     });
     
     // Award XP and stats to User Profile
