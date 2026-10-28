@@ -6,7 +6,7 @@ const WORKRELAY_BASE_URL = 'https://wayktzmupzrdcwosgnfg.supabase.co/functions/v
 // WorkRelay integration key & store configuration
 // Can be overridden via Vite env variables if desired
 export const WORKRELAY_CONFIG = {
-  apiKey: import.meta.env.VITE_WORKRELAY_API_KEY || 'wr_live_7b847f2c1add3658421721c15cf87207a4e49dd73f02463871f1ee11204f0cc2',
+  apiKey: import.meta.env.VITE_WORKRELAY_API_KEY || 'wr_live_c2e37694b9d0c7c92ac62b01de582f81435613e75ca8d9b2e46be900eaa1b975',
   storeId: import.meta.env.VITE_WORKRELAY_STORE_ID || 'ignis-gaming-store',
   storeName: 'IGNIS Gaming Store',
   storeUrl: 'https://kirilnerandzoski.github.io/GameStoreApp/'
