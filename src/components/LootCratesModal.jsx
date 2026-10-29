@@ -59,6 +59,8 @@ export default function LootCratesModal() {
   const [activeTab, setActiveTab] = useState('crates'); // 'crates' | 'history'
 
   const reelContainerRef = useRef(null);
+  const reelStripRef = useRef(null);
+  const reelAnimationRef = useRef(null);
   const tickIntervalRef = useRef(null);
 
   // Sync with context activeCrateId if changed externally
@@ -96,6 +98,22 @@ export default function LootCratesModal() {
     return list;
   };
 
+  // Pre-populate reel strip whenever active crate changes or modal opens
+  useEffect(() => {
+    if (isLootModalOpen) {
+      const initialWinner = getRandomItem(activeCrate);
+      setReelItems(prepareReel(initialWinner));
+      setWonItem(null);
+      setClaimedState(false);
+      if (reelAnimationRef.current) {
+        reelAnimationRef.current.cancel();
+      }
+      if (reelStripRef.current) {
+        reelStripRef.current.style.transform = 'translateX(0px)';
+      }
+    }
+  }, [selectedCrateId, isLootModalOpen]);
+
   const handleStartUnboxing = () => {
     if (isSpinning) return;
 
@@ -115,6 +133,17 @@ export default function LootCratesModal() {
     const success = deductUserXp(activeCrate.costXp);
     if (!success) return;
 
+    // Stop any previous running animation/tick & reset position
+    if (reelAnimationRef.current) {
+      reelAnimationRef.current.cancel();
+    }
+    if (tickIntervalRef.current) {
+      clearTimeout(tickIntervalRef.current);
+    }
+    if (reelStripRef.current) {
+      reelStripRef.current.style.transform = 'translateX(0px)';
+    }
+
     // Pick winner & prepare reel
     const winner = getRandomItem(activeCrate);
     const newReel = prepareReel(winner);
@@ -123,75 +152,85 @@ export default function LootCratesModal() {
     setClaimedState(false);
     setIsSpinning(true);
 
-    // Initial reset offset
-    setReelOffset(0);
-
     // Sound unlock hiss
     playCrateUnlock();
 
-    // Calculate landing offset: center needle position
-    // Center container width / 2 - (winner card position)
-    setTimeout(() => {
-      if (!reelContainerRef.current) return;
-      const containerWidth = reelContainerRef.current.offsetWidth || 800;
-      const centerLine = containerWidth / 2;
+    // Use requestAnimationFrame so DOM layout is committed before starting animation
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!reelContainerRef.current || !reelStripRef.current) return;
+        const containerWidth = reelContainerRef.current.offsetWidth || 800;
+        const centerLine = containerWidth / 2;
 
-      // Card center relative to start of strip
-      const cardCenter = (WINNER_INDEX * (CARD_WIDTH + CARD_GAP)) + (CARD_WIDTH / 2);
-      
-      // Slight random jitter (+/- 35px) so needle doesn't land dead center every time
-      const randomJitter = (Math.random() - 0.5) * 60;
-      const finalTranslate = -(cardCenter - centerLine + randomJitter);
-
-      setReelOffset(finalTranslate);
-
-      // Play decelerating tick sounds
-      let elapsed = 0;
-      const duration = 5200;
-      let tickDelay = 60;
-
-      const scheduleTick = () => {
-        if (elapsed >= duration) return;
-        playReelTick(Math.max(0.6, 1.2 - (elapsed / duration) * 0.5));
+        // Card center relative to start of strip
+        const cardCenter = (WINNER_INDEX * (CARD_WIDTH + CARD_GAP)) + (CARD_WIDTH / 2);
         
-        // Exponential deceleration curve for audio ticks
-        const progress = elapsed / duration;
-        tickDelay = 50 + Math.pow(progress, 3) * 350;
-        elapsed += tickDelay;
+        // Slight random jitter (+/- 25px) so needle doesn't land dead center every time
+        const randomJitter = (Math.random() - 0.5) * 50;
+        const finalTranslate = -(cardCenter - centerLine + randomJitter);
+
+        // Start decelerating audio ticks
+        let elapsed = 0;
+        const duration = 5400;
+        let tickDelay = 50;
+
+        const scheduleTick = () => {
+          if (elapsed >= duration) return;
+          playReelTick(Math.max(0.5, 1.2 - (elapsed / duration) * 0.6));
+          
+          const progress = elapsed / duration;
+          tickDelay = 40 + Math.pow(progress, 3.2) * 440;
+          elapsed += tickDelay;
+          tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
+        };
+
         tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
-      };
 
-      tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
+        // Hardware-accelerated smooth Web Animation (reliable 60/120fps)
+        const anim = reelStripRef.current.animate([
+          { transform: 'translateX(0px)' },
+          { transform: `translateX(${finalTranslate}px)` }
+        ], {
+          duration: 5400,
+          easing: 'cubic-bezier(0.08, 0.85, 0.18, 1)',
+          fill: 'forwards'
+        });
 
-      // Finish spin after 5.5s
-      setTimeout(() => {
-        clearTimeout(tickIntervalRef.current);
-        setIsSpinning(false);
-        setWonItem(winner);
+        reelAnimationRef.current = anim;
 
-        // RECORD EVERY CRATE OPEN IMMEDIATELY INTO PERMANENT HISTORY!
-        const record = recordCrateOpen(activeCrate, winner);
-        if (record?.id) setCurrentHistoryId(record.id);
+        anim.onfinish = () => {
+          if (reelStripRef.current) {
+            reelStripRef.current.style.transform = `translateX(${finalTranslate}px)`;
+          }
+          setReelOffset(finalTranslate);
+          if (tickIntervalRef.current) {
+            clearTimeout(tickIntervalRef.current);
+          }
+          setIsSpinning(false);
+          setWonItem(winner);
 
-        // Sound fanfare & confetti
-        playWinSound(winner.rarity);
-        
-        try {
-          const colors = winner.rarity === 'godtier' 
-            ? ['#ff1a35', '#ffffff', '#ffb700'] 
-            : ['#00f0ff', '#bf00ff', '#ffffff'];
+          // RECORD EVERY CRATE OPEN IMMEDIATELY INTO PERMANENT HISTORY!
+          const record = recordCrateOpen(activeCrate, winner);
+          if (record?.id) setCurrentHistoryId(record.id);
 
-          confetti({
-            particleCount: winner.rarity === 'godtier' || winner.rarity === 'legendary' ? 120 : 60,
-            spread: 70,
-            origin: { y: 0.6 },
-            colors
-          });
-        } catch (e) {}
+          // Sound fanfare & confetti
+          playWinSound(winner.rarity);
+          
+          try {
+            const colors = winner.rarity === 'godtier' 
+              ? ['#ff1a35', '#ffffff', '#ffb700'] 
+              : ['#00f0ff', '#bf00ff', '#ffffff'];
 
-      }, 5400);
-
-    }, 50);
+            confetti({
+              particleCount: winner.rarity === 'godtier' || winner.rarity === 'legendary' ? 120 : 60,
+              spread: 70,
+              origin: { y: 0.6 },
+              colors
+            });
+          } catch (e) {}
+        };
+      });
+    });
   };
 
   const handleClaim = () => {
@@ -567,125 +606,74 @@ export default function LootCratesModal() {
                   ref={reelContainerRef}
                   className="relative overflow-hidden w-full h-56 flex items-center"
                 >
-                  {reelItems.length > 0 ? (
-                    <div 
-                      className="flex items-center transition-transform duration-[5200ms] will-change-transform"
-                      style={{
-                        transform: `translateX(${reelOffset}px)`,
-                        transitionTimingFunction: 'cubic-bezier(0.1, 0.85, 0.2, 1)',
-                        gap: `${CARD_GAP}px`
-                      }}
-                    >
-                      {reelItems.map((item, idx) => {
-                        const rarityInfo = RARITY_CONFIG[item.rarity] || RARITY_CONFIG.common;
-                        const isTheWinner = wonItem && idx === WINNER_INDEX;
+                  <div 
+                    ref={reelStripRef}
+                    className="flex items-center will-change-transform"
+                    style={{
+                      transform: `translateX(${reelOffset}px)`,
+                      gap: `${CARD_GAP}px`
+                    }}
+                  >
+                    {reelItems.map((item, idx) => {
+                      const rarityInfo = RARITY_CONFIG[item.rarity] || RARITY_CONFIG.common;
+                      const isTheWinner = wonItem && idx === WINNER_INDEX;
 
-                        return (
-                          <div
-                            key={idx}
-                            className={`shrink-0 w-[180px] h-[210px] rounded-xl bg-[#0e101b] border flex flex-col justify-between p-3 relative overflow-hidden transition-all ${
-                              isTheWinner 
-                                ? `${rarityInfo.borderColor} ${rarityInfo.glowColor} scale-105 z-10` 
-                                : 'border-zinc-800'
-                            }`}
-                          >
-                            {/* Card Header Tag */}
-                            <div className="flex items-center justify-between z-10">
-                              <span className={`px-1.5 py-0.5 rounded text-[8px] font-mono font-bold uppercase ${rarityInfo.badgeClass}`}>
-                                {rarityInfo.label}
-                              </span>
-                              {item.category === 'coupon' && (
-                                <span className="text-[10px] font-mono font-black text-emerald-400">
-                                  {item.discountPercent}% OFF
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Image */}
-                            <div className="relative h-24 my-1 overflow-hidden rounded-lg">
-                              <img 
-                                src={item.image} 
-                                alt={item.title} 
-                                onError={(e) => {
-                                  e.currentTarget.onerror = null;
-                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
-                                }}
-                                className="w-full h-full object-cover" 
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-[#0e101b] via-transparent to-transparent" />
-                            </div>
-
-                            {/* Title & Desc */}
-                            <div className="z-10 space-y-0.5">
-                              <h4 className="text-xs font-bold text-white line-clamp-2 leading-tight">
-                                {item.title}
-                              </h4>
-                              <p className="text-[9px] font-mono text-zinc-400 line-clamp-1">
-                                {item.category === 'coupon' && `Code: ${item.code}`}
-                                {item.category === 'xp' && `+${item.xpAmount} XP Surge`}
-                                {item.category === 'free_item' && 'Free Item ($0.00)'}
-                              </p>
-                            </div>
-
-                            {/* Bottom Rarity Stripe */}
-                            <div 
-                              className="absolute bottom-0 left-0 right-0 h-1" 
-                              style={{ backgroundColor: rarityInfo.color }} 
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    /* Idle State: Crate Preview Stand */
-                    <div className="w-full h-full flex flex-col sm:flex-row items-center justify-center gap-6 text-center sm:text-left z-10">
-                      <div className="relative group">
-                        <div 
-                          className="w-36 h-36 rounded-2xl p-[2px] transition-all duration-500 shadow-2xl"
-                          style={{
-                            background: `linear-gradient(135deg, ${activeCrate.accentColor}, #000)`
-                          }}
+                      return (
+                        <div
+                          key={idx}
+                          className={`shrink-0 w-[180px] h-[210px] rounded-xl bg-[#0e101b] border flex flex-col justify-between p-3 relative overflow-hidden transition-all ${
+                            isTheWinner 
+                              ? `${rarityInfo.borderColor} ${rarityInfo.glowColor} scale-105 z-10` 
+                              : 'border-zinc-800'
+                          }`}
                         >
-                          <div className="w-full h-full rounded-2xl overflow-hidden relative">
+                          {/* Card Header Tag */}
+                          <div className="flex items-center justify-between z-10">
+                            <span className={`px-1.5 py-0.5 rounded text-[8px] font-mono font-bold uppercase ${rarityInfo.badgeClass}`}>
+                              {rarityInfo.label}
+                            </span>
+                            {item.category === 'coupon' && (
+                              <span className="text-[10px] font-mono font-black text-emerald-400">
+                                {item.discountPercent}% OFF
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Image */}
+                          <div className="relative h-24 my-1 overflow-hidden rounded-lg">
                             <img 
-                              src={activeCrate.image} 
-                              alt={activeCrate.name} 
+                              src={item.image} 
+                              alt={item.title} 
                               onError={(e) => {
                                 e.currentTarget.onerror = null;
-                                e.currentTarget.src = 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80';
+                                e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
                               }}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                              className="w-full h-full object-cover" 
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0e101b] via-transparent to-transparent" />
                           </div>
-                        </div>
-                      </div>
 
-                      <div className="space-y-2 max-w-md">
-                        <div className="flex items-center justify-center sm:justify-start gap-2">
-                          <span 
-                            className="px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase border"
-                            style={{
-                              borderColor: `${activeCrate.accentColor}50`,
-                              backgroundColor: `${activeCrate.accentColor}15`,
-                              color: activeCrate.accentColor
-                            }}
-                          >
-                            {activeCrate.tagline}
-                          </span>
-                          <span className="text-xs font-mono text-zinc-400 font-bold">
-                            Cost: {activeCrate.costXp} XP
-                          </span>
+                          {/* Title & Desc */}
+                          <div className="z-10 space-y-0.5">
+                            <h4 className="text-xs font-bold text-white line-clamp-2 leading-tight">
+                              {item.title}
+                            </h4>
+                            <p className="text-[9px] font-mono text-zinc-400 line-clamp-1">
+                              {item.category === 'coupon' && `Code: ${item.code}`}
+                              {item.category === 'xp' && `+${item.xpAmount} XP Surge`}
+                              {item.category === 'free_item' && 'Free Item ($0.00)'}
+                            </p>
+                          </div>
+
+                          {/* Bottom Rarity Stripe */}
+                          <div 
+                            className="absolute bottom-0 left-0 right-0 h-1" 
+                            style={{ backgroundColor: rarityInfo.color }} 
+                          />
                         </div>
-                        <h3 className="text-2xl font-black font-heading text-white">
-                          {activeCrate.name}
-                        </h3>
-                        <p className="text-xs text-zinc-400 font-sans leading-relaxed">
-                          {activeCrate.description}
-                        </p>
-                      </div>
-                    </div>
-                  )}
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Bottom Target Status */}
