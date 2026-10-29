@@ -80,10 +80,10 @@ export default function FilterBar({ resultCount }) {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all cursor-pointer active:scale-95 ${
                   isSelected
-                    ? 'bg-red-600 text-white shadow-[0_0_15px_rgba(255,26,53,0.5)] border border-red-500'
-                    : 'bg-[#0f1017] text-zinc-300 hover:text-white hover:bg-[#161722] border border-zinc-800'
+                    ? 'bg-red-600 text-white shadow-[0_0_18px_rgba(255,26,53,0.5)] border border-red-500'
+                    : 'bg-white/[0.03] text-zinc-300 hover:text-white hover:bg-white/[0.07] border border-white/[0.08]'
                 }`}
               >
                 <Icon className={`w-3.5 h-3.5 ${isSelected ? 'text-white' : 'text-red-500'}`} />
@@ -95,7 +95,7 @@ export default function FilterBar({ resultCount }) {
       </div>
 
       {/* Main Filter & Sort Controls Bar */}
-      <div className="p-4 rounded-xl bg-[#0d0e14] border border-zinc-800 shadow-xl flex flex-col lg:flex-row gap-4 items-center justify-between">
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#0c0d16] border border-white/[0.08] shadow-2xl flex flex-col lg:flex-row gap-4 items-center justify-between">
         
         {/* Left: Search input */}
         <div className="relative w-full lg:w-80">

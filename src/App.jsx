@@ -151,7 +151,7 @@ function MarketplaceContent() {
     .filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-[#070709] text-gray-100 flex flex-col font-sans selection:bg-red-600 selection:text-white relative">
+    <div className="min-h-screen bg-[#07070a] text-zinc-100 flex flex-col font-sans selection:bg-red-600 selection:text-white relative">
       
       {/* Red ambient glow at top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-red-600/[0.04] blur-[150px] pointer-events-none" />

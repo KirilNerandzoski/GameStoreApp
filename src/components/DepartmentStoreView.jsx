@@ -240,7 +240,7 @@ export default function DepartmentStoreView({ departmentId, onBackToHub }) {
             return (
               <div
                 key={product.id}
-                className="group rounded-2xl bg-[#0c0d16] border border-zinc-800 hover:border-zinc-700 transition-all flex flex-col overflow-hidden shadow-xl hover:shadow-[0_0_25px_rgba(0,0,0,0.8)]"
+                className="group rounded-2xl bg-[#0c0d16] border border-white/[0.08] hover:border-white/25 transition-all duration-300 flex flex-col overflow-hidden shadow-xl hover:shadow-[0_16px_40px_rgba(0,0,0,0.8)] hover:-translate-y-1.5"
               >
                 {/* Image */}
                 <div 

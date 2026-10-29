@@ -21,7 +21,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-[#060608] border-t border-red-500/20 pt-16 pb-12 overflow-hidden text-zinc-400">
+    <footer className="relative bg-[#060608] border-t border-white/[0.08] pt-16 pb-12 overflow-hidden text-zinc-400">
       
       {/* Background Subtle Red Ambience */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-red-600/5 blur-[140px] pointer-events-none" />
@@ -35,7 +35,7 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500 shadow-[0_0_15px_rgba(255,26,53,0.3)]">
-                <Flame className="w-5 h-5 animate-pulse" />
+                <Flame className="w-5 h-5 text-red-500" />
               </div>
               <span className="font-heading font-black text-2xl tracking-wider text-white">
                 IGNIS MARKETPLACE
@@ -47,8 +47,8 @@ export default function Footer() {
             </p>
 
             {/* Status Live Ticker */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0e0f17] border border-zinc-800 text-[11px] font-mono">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0e0f17] border border-white/[0.08] text-[11px] font-mono">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
               <span className="text-zinc-300">DISPATCH NODES: <strong>ONLINE (12ms)</strong></span>
             </div>
           </div>
