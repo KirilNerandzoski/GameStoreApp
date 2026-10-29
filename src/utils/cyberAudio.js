@@ -52,25 +52,19 @@ export function playReelTick(pitchMultiplier = 1) {
   try {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
 
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(800 * pitchMultiplier, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.025);
+    osc.frequency.setValueAtTime(600 * pitchMultiplier, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.018);
 
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(1400, ctx.currentTime);
-    filter.Q.setValueAtTime(3, ctx.currentTime);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.018);
 
-    gain.gain.setValueAtTime(0.12, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.025);
-
-    osc.connect(filter);
-    filter.connect(gain);
+    osc.connect(gain);
     gain.connect(ctx.destination);
 
     osc.start();
-    osc.stop(ctx.currentTime + 0.026);
+    osc.stop(ctx.currentTime + 0.019);
   } catch (e) {
     // Ignore audio errors
   }

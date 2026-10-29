@@ -109,7 +109,7 @@ export default function LootCratesModal() {
         reelAnimationRef.current.cancel();
       }
       if (reelStripRef.current) {
-        reelStripRef.current.style.transform = 'translateX(0px)';
+        reelStripRef.current.style.transform = 'translate3d(0px, 0, 0)';
       }
     }
   }, [selectedCrateId, isLootModalOpen]);
@@ -141,7 +141,7 @@ export default function LootCratesModal() {
       clearTimeout(tickIntervalRef.current);
     }
     if (reelStripRef.current) {
-      reelStripRef.current.style.transform = 'translateX(0px)';
+      reelStripRef.current.style.transform = 'translate3d(0px, 0, 0)';
     }
 
     // Pick winner & prepare reel
@@ -171,28 +171,28 @@ export default function LootCratesModal() {
 
         // Start decelerating audio ticks
         let elapsed = 0;
-        const duration = 5400;
-        let tickDelay = 50;
+        const duration = 5000;
+        let tickDelay = 55;
 
         const scheduleTick = () => {
           if (elapsed >= duration) return;
-          playReelTick(Math.max(0.5, 1.2 - (elapsed / duration) * 0.6));
+          playReelTick(Math.max(0.6, 1.2 - (elapsed / duration) * 0.5));
           
           const progress = elapsed / duration;
-          tickDelay = 40 + Math.pow(progress, 3.2) * 440;
+          tickDelay = 45 + Math.pow(progress, 3.4) * 460;
           elapsed += tickDelay;
           tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
         };
 
         tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
 
-        // Hardware-accelerated smooth Web Animation (reliable 60/120fps)
+        // Hardware-accelerated smooth Web Animation (silky 60/120fps GPU compositor)
         const anim = reelStripRef.current.animate([
-          { transform: 'translateX(0px)' },
-          { transform: `translateX(${finalTranslate}px)` }
+          { transform: 'translate3d(0px, 0, 0)' },
+          { transform: `translate3d(${finalTranslate}px, 0, 0)` }
         ], {
-          duration: 5400,
-          easing: 'cubic-bezier(0.08, 0.85, 0.18, 1)',
+          duration: 5000,
+          easing: 'cubic-bezier(0.12, 0.8, 0.2, 1)',
           fill: 'forwards'
         });
 
@@ -200,7 +200,7 @@ export default function LootCratesModal() {
 
         anim.onfinish = () => {
           if (reelStripRef.current) {
-            reelStripRef.current.style.transform = `translateX(${finalTranslate}px)`;
+            reelStripRef.current.style.transform = `translate3d(${finalTranslate}px, 0, 0)`;
           }
           setReelOffset(finalTranslate);
           if (tickIntervalRef.current) {
@@ -598,8 +598,11 @@ export default function LootCratesModal() {
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-x-[8px] border-x-transparent border-b-[10px] border-b-red-500" />
                 </div>
 
-                {/* Ambient glow in center */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-red-600/10 blur-[60px] pointer-events-none rounded-full" />
+                {/* Ambient glow in center (zero blur calculation overhead) */}
+                <div 
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 pointer-events-none rounded-full" 
+                  style={{ background: 'radial-gradient(circle, rgba(255,26,53,0.12) 0%, transparent 70%)' }}
+                />
 
                 {/* The Rolling Strip */}
                 <div 
@@ -608,9 +611,9 @@ export default function LootCratesModal() {
                 >
                   <div 
                     ref={reelStripRef}
-                    className="flex items-center will-change-transform"
+                    className="flex items-center will-change-transform [transform-style:preserve-3d] [backface-visibility:hidden]"
                     style={{
-                      transform: `translateX(${reelOffset}px)`,
+                      transform: `translate3d(${reelOffset}px, 0, 0)`,
                       gap: `${CARD_GAP}px`
                     }}
                   >
@@ -621,9 +624,9 @@ export default function LootCratesModal() {
                       return (
                         <div
                           key={idx}
-                          className={`shrink-0 w-[180px] h-[210px] rounded-xl bg-[#0e101b] border flex flex-col justify-between p-3 relative overflow-hidden transition-all ${
+                          className={`shrink-0 w-[180px] h-[210px] rounded-xl bg-[#0e101b] border flex flex-col justify-between p-3 relative overflow-hidden [contain:content] ${
                             isTheWinner 
-                              ? `${rarityInfo.borderColor} ${rarityInfo.glowColor} scale-105 z-10` 
+                              ? `${rarityInfo.borderColor} ${rarityInfo.glowColor} scale-105 z-10 transition-transform duration-300` 
                               : 'border-zinc-800'
                           }`}
                         >
