@@ -44,7 +44,8 @@ export default function LootCratesModal() {
     clearLootHistory,
     applyPromoCode,
     setIsCartOpen,
-    lootHistory
+    lootHistory,
+    addToast
   } = useStore();
 
   const [selectedCrateId, setSelectedCrateId] = useState(activeCrateId || 'crate-neon');
@@ -100,7 +101,13 @@ export default function LootCratesModal() {
 
     // Check XP balance
     if ((userProfile.xp || 0) < activeCrate.costXp) {
-      alert(`Insufficient XP! You need ${activeCrate.costXp} XP to unlock this crate. Click '+500 Free XP Refill' to replenish!`);
+      if (addToast) {
+        addToast(
+          'Insufficient XP', 
+          `You need ${activeCrate.costXp} XP to unlock ${activeCrate.name}. Click '+500 Free XP' in the top right to replenish!`,
+          'warning'
+        );
+      }
       return;
     }
 
@@ -781,7 +788,7 @@ export default function LootCratesModal() {
                       disabled={isSpinning || (userProfile.xp || 0) < activeCrate.costXp}
                       className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-red-600 via-rose-600 to-red-600 hover:from-red-500 hover:to-rose-500 text-white font-heading font-black text-sm tracking-wider uppercase shadow-[0_0_30px_rgba(255,26,53,0.5)] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed group"
                     >
-                      <Zap className="w-4 h-4 fill-current group-hover:animate-bounce" />
+                      <Zap className="w-4 h-4 fill-current group-hover:scale-125 group-hover:-translate-y-0.5 transition-transform duration-200" />
                       <span>
                         {isSpinning ? 'DECRYPTING CRATE...' : `UNLOCK ${activeCrate.name.toUpperCase()} (${activeCrate.costXp} XP)`}
                       </span>

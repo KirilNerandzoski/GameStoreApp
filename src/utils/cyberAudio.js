@@ -1,7 +1,31 @@
 // Web Audio API Synthesizer for Cyber Crate Unboxing & UI Sounds
 let audioCtx = null;
 
+let isAudioMuted = typeof window !== 'undefined' 
+  ? localStorage.getItem('ignis_audio_muted') === 'true' 
+  : false;
+
+export function getAudioMuted() {
+  return isAudioMuted;
+}
+
+export function setAudioMuted(muted) {
+  isAudioMuted = Boolean(muted);
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem('ignis_audio_muted', isAudioMuted ? 'true' : 'false');
+      window.dispatchEvent(new CustomEvent('ignis_audio_muted_change', { detail: isAudioMuted }));
+    } catch (e) {}
+  }
+  return isAudioMuted;
+}
+
+export function toggleAudioMuted() {
+  return setAudioMuted(!isAudioMuted);
+}
+
 function getAudioContext() {
+  if (isAudioMuted) return null;
   if (typeof window === 'undefined') return null;
   try {
     if (!audioCtx) {
@@ -21,6 +45,7 @@ function getAudioContext() {
  * Play an authentic mechanical click/tick as cards spin past the needle
  */
 export function playReelTick(pitchMultiplier = 1) {
+  if (isAudioMuted) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 
@@ -55,6 +80,7 @@ export function playReelTick(pitchMultiplier = 1) {
  * Deep mechanical unboxing hydraulic hiss / unlock sound
  */
 export function playCrateUnlock() {
+  if (isAudioMuted) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 
@@ -95,6 +121,7 @@ export function playCrateUnlock() {
  * Triumphant fanfare when unboxing completes based on tier
  */
 export function playWinSound(rarity = 'rare') {
+  if (isAudioMuted) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 

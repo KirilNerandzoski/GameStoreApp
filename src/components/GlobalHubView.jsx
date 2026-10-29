@@ -61,8 +61,11 @@ export default function GlobalHubView({ onEnterStore }) {
       
       {/* Universal Hero Portal Banner */}
       <section className="relative overflow-hidden pt-28 pb-16 px-4 sm:px-6 lg:px-8 border-b border-red-500/20 bg-gradient-to-b from-[#0b0c14] via-[#08080c] to-[#050608]">
-        {/* Cyber Grid Background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ff1a3508_1px,transparent_1px),linear-gradient(to_bottom,#ff1a3508_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" />
+        {/* Cyber Grid Background with Radial Vignette */}
+        <div 
+          className="absolute inset-0 bg-[linear-gradient(to_right,#ff1a3508_1px,transparent_1px),linear-gradient(to_bottom,#ff1a3508_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" 
+          style={{ maskImage: 'radial-gradient(ellipse at 50% 30%, black 30%, transparent 80%)' }}
+        />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-red-600/15 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto text-center space-y-6">
@@ -72,7 +75,7 @@ export default function GlobalHubView({ onEnterStore }) {
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight uppercase leading-none max-w-5xl mx-auto">
-            One Shell. <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-amber-400">Six Universes.</span><br />
+            One Shell. <span className="text-red-500 drop-shadow-[0_0_25px_rgba(255,26,53,0.4)]">Six Universes.</span><br />
             Unified Checkout.
           </h1>
 
@@ -301,7 +304,7 @@ export default function GlobalHubView({ onEnterStore }) {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
             <div className="space-y-2 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-amber-950/40 border border-amber-500/40 text-amber-400 text-xs font-mono font-bold">
-                <Package className="w-4 h-4 animate-bounce" />
+                <Package className="w-4 h-4 text-amber-400" />
                 <span>THE SYNDICATE CRATE TERMINAL</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">
@@ -331,7 +334,7 @@ export default function GlobalHubView({ onEnterStore }) {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
             <div className="space-y-2 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-orange-950/40 border border-orange-500/40 text-orange-400 text-xs font-mono font-bold">
-                <FlaskConical className="w-4 h-4 animate-bounce" />
+                <FlaskConical className="w-4 h-4 text-orange-400" />
                 <span>INTERACTIVE MOLECULAR STUDIO</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">
@@ -361,7 +364,7 @@ export default function GlobalHubView({ onEnterStore }) {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 relative z-10">
             <div className="space-y-2 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/40 text-cyan-400 text-xs font-mono font-bold">
-                <Cpu className="w-4 h-4 animate-bounce" />
+                <Cpu className="w-4 h-4 text-cyan-400" />
                 <span>INTERACTIVE PC BATTLESTATION STUDIO</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black font-heading text-white tracking-wide uppercase">

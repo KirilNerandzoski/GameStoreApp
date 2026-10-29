@@ -289,7 +289,7 @@ export default function CyberFuelLabModal() {
 
               {/* Shaker Addon Badge (if checked) */}
               {includeShaker && (
-                <div className="mt-3 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/40 text-[10px] font-mono font-bold text-orange-400 flex items-center gap-1.5 animate-bounce">
+                <div className="mt-3 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/50 text-[10px] font-mono font-bold text-orange-400 flex items-center gap-1.5 shadow-[0_0_12px_rgba(255,85,0,0.2)]">
                   <span>+ MATCHING RGB STEEL SHAKER INCLUDED</span>
                 </div>
               )}

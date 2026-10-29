@@ -182,14 +182,8 @@ function MarketplaceContent() {
 
         {/* SECTION 1: FLASH SALES & EXCLUSIVE DEALS */}
         <section id="deals" ref={dealsRef} className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-red-500/20 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Flame className="w-5 h-5 text-red-500 animate-pulse" />
-                <span className="text-xs font-cyber font-bold tracking-widest text-red-400 uppercase">
-                  LIMITED TIME RED PROTOCOL
-                </span>
-              </div>
               <h2 className="text-3xl sm:text-4xl font-black font-heading text-white tracking-wide">
                 FLASH DROPS & MEGA SALES
               </h2>
@@ -199,9 +193,9 @@ function MarketplaceContent() {
               onClick={() => {
                 catalogRef.current?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="text-xs font-cyber font-bold tracking-wider text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors group"
+              className="text-xs font-cyber font-bold tracking-wider text-red-400 hover:text-red-300 flex items-center gap-1.5 transition-colors group cursor-pointer"
             >
-              <span>VIEW FULL DEALS DISPATCH</span>
+              <span>VIEW FULL DEALS CATALOG</span>
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
@@ -213,22 +207,16 @@ function MarketplaceContent() {
           </div>
         </section>
 
-        {/* SECTION 2: FULL TACTICAL CATALOG WITH LIVE FILTERING */}
+        {/* SECTION 2: FULL CATALOG WITH LIVE FILTERING */}
         <section id="catalog" ref={catalogRef} className="py-12 bg-[#0a0a0f] border-y border-zinc-800/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <Zap className="w-5 h-5 text-red-500" />
-                <span className="text-xs font-cyber font-bold tracking-widest text-red-400 uppercase">
-                  ARMORY DATABASE
-                </span>
-              </div>
+            <div className="space-y-1.5">
               <h2 className="text-3xl sm:text-4xl font-black font-heading text-white tracking-wide">
                 EXPLORE ALL TITLES
               </h2>
               <p className="text-xs text-zinc-400 max-w-xl">
-                Filter by combat genre, target gaming platform, maximum price ceiling, or real-time search queries.
+                Filter by genre, target gaming platform, maximum price ceiling, or real-time search queries.
               </p>
             </div>
 
@@ -257,16 +245,10 @@ function MarketplaceContent() {
           </div>
         </section>
 
-        {/* SECTION 3: TRENDING OPERATIVE RELEASES */}
+        {/* SECTION 3: TRENDING RELEASES */}
         <section className="py-14 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Sparkles className="w-5 h-5 text-red-500" />
-                <span className="text-xs font-cyber font-bold tracking-widest text-red-400 uppercase">
-                  GLOBAL NETWORK HEATMAP
-                </span>
-              </div>
               <h2 className="text-3xl font-black font-heading text-white tracking-wide">
                 TRENDING & TOP PICKS
               </h2>
@@ -285,14 +267,14 @@ function MarketplaceContent() {
           <BountiesSection />
         </div>
 
-        {/* SECTION 4: RECENTLY VIEWED GAMES */}
+        {/* SECTION 4: RECENTLY VIEWED */}
         {recentGameObjects.length > 0 && (
           <section id="recently-viewed" className="py-12 bg-[#09090e] border-t border-zinc-800/80">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
               <div className="flex items-center gap-2">
                 <History className="w-4 h-4 text-red-500" />
                 <h3 className="text-sm font-cyber font-bold tracking-widest text-zinc-300 uppercase">
-                  RECENTLY VIEWED DOSSIERS
+                  RECENTLY VIEWED
                 </h3>
               </div>
 

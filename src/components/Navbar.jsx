@@ -21,8 +21,11 @@ import {
   ChevronDown,
   Package,
   FlaskConical,
-  LogOut
+  LogOut,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
+import { getAudioMuted, toggleAudioMuted } from '../utils/cyberAudio';
 
 export default function Navbar({ onNavigateSection }) {
   const { 
@@ -52,7 +55,16 @@ export default function Navbar({ onNavigateSection }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(() => getAudioMuted());
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleMuteChange = (e) => {
+      setIsMuted(e.detail);
+    };
+    window.addEventListener('ignis_audio_muted_change', handleMuteChange);
+    return () => window.removeEventListener('ignis_audio_muted_change', handleMuteChange);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -151,10 +163,10 @@ export default function Navbar({ onNavigateSection }) {
             {/* Universal Earn Coupons Button */}
             <button
               onClick={() => openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties')}
-              className="px-2.5 py-0.5 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-400 hover:text-emerald-300 transition-all flex items-center gap-1.5 font-bold tracking-wider uppercase shadow-[0_0_10px_rgba(16,185,129,0.2)] hover:scale-105 active:scale-95 cursor-pointer text-[10px]"
+              className="px-2.5 py-0.5 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-400 hover:text-emerald-300 transition-all flex items-center gap-1.5 font-bold tracking-wider uppercase hover:scale-105 active:scale-95 cursor-pointer text-[10px]"
               title="Complete Operative Bounties & Earn Discount Coupons (Up to 40% OFF)"
             >
-              <Ticket className="w-3 h-3 text-emerald-400 animate-pulse shrink-0" />
+              <Ticket className="w-3 h-3 text-emerald-400 shrink-0" />
               <span>Earn Coupons</span>
               {bountyState?.unlockedCoupons?.length > 0 && (
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-500 text-black text-[9px] font-black">
@@ -165,8 +177,8 @@ export default function Navbar({ onNavigateSection }) {
 
             <span>•</span>
 
-            <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               1 Shared Cart
             </span>
           </div>
@@ -253,8 +265,8 @@ export default function Navbar({ onNavigateSection }) {
                   </span>
                 ) : (
                   <span className="font-sans text-xs xl:text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors truncate whitespace-nowrap">
-                    <span className="hidden xl:inline">Search across all 5 storefronts...</span>
-                    <span className="xl:hidden">Search 5 stores...</span>
+                    <span className="hidden xl:inline">Search across all 6 sub-stores...</span>
+                    <span className="xl:hidden">Search 6 stores...</span>
                   </span>
                 )}
               </div>
@@ -281,7 +293,7 @@ export default function Navbar({ onNavigateSection }) {
           </div>
 
           {/* Right Action Icons & User Profile */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
             {/* Mobile Search button */}
             <button
               onClick={() => setIsSearchOpen(true)}
@@ -294,10 +306,10 @@ export default function Navbar({ onNavigateSection }) {
             {/* Loot Crates Unboxing Button */}
             <button
               onClick={() => openLootCrate()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/40 text-amber-400 hover:text-amber-300 transition-all shadow-[0_0_12px_rgba(255,183,0,0.2)] group cursor-pointer"
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:text-amber-300 transition-all group cursor-pointer"
               title="Open Cyber Crate Terminal"
             >
-              <Package className="w-4 h-4 text-amber-400 animate-pulse group-hover:scale-110 transition-transform" />
+              <Package className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
                 LOOT CRATES
               </span>
@@ -306,10 +318,10 @@ export default function Navbar({ onNavigateSection }) {
             {/* Battlestation Rig Builder Button */}
             <button
               onClick={() => openBattlestationBuilder()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/40 text-cyan-400 hover:text-cyan-300 transition-all shadow-[0_0_12px_rgba(0,240,255,0.25)] group cursor-pointer"
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:text-cyan-300 transition-all group cursor-pointer"
               title="Open Interactive PC Battlestation Studio"
             >
-              <Cpu className="w-4 h-4 text-cyan-400 animate-pulse group-hover:scale-110 transition-transform" />
+              <Cpu className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
               <span className="hidden xl:inline text-xs font-bold font-cyber tracking-wider">
                 RIG BUILDER
               </span>
@@ -318,22 +330,40 @@ export default function Navbar({ onNavigateSection }) {
             {/* CyberFuel Custom Formula Lab Button */}
             <button
               onClick={() => openFormulaLab()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-orange-500/15 hover:bg-orange-500/25 border border-orange-500/40 text-orange-400 hover:text-orange-300 transition-all shadow-[0_0_12px_rgba(255,85,0,0.25)] group cursor-pointer"
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 hover:text-orange-300 transition-all group cursor-pointer"
               title="Open CyberFuel Custom Formula Lab (Mix Energy Tub)"
             >
-              <FlaskConical className="w-4 h-4 text-orange-400 animate-pulse group-hover:scale-110 transition-transform" />
+              <FlaskConical className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
               <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
                 FORMULA LAB
               </span>
             </button>
 
+            {/* Audio Mute/Unmute Toggle Button */}
+            <button
+              onClick={() => toggleAudioMuted()}
+              className={`p-2 rounded-lg border transition-all cursor-pointer ${
+                isMuted 
+                  ? 'text-zinc-500 border-zinc-800 hover:text-zinc-300 hover:border-zinc-700 bg-zinc-900/40' 
+                  : 'text-zinc-300 border-white/10 hover:text-white hover:border-white/20 bg-white/5'
+              }`}
+              title={isMuted ? 'Audio Muted — Click to unmute sound effects' : 'Audio Active — Click to mute sound effects'}
+              aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+            >
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-zinc-500" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-emerald-400" />
+              )}
+            </button>
+
             {/* Wishlist Button */}
             <button
               onClick={() => setIsWishlistOpen(true)}
-              className="relative p-2.5 rounded-lg text-zinc-300 hover:text-red-400 hover:bg-red-950/20 border border-transparent hover:border-red-500/30 transition-all group"
+              className="relative p-2 rounded-lg text-zinc-300 hover:text-red-400 hover:bg-red-950/20 border border-white/5 hover:border-red-500/30 transition-all group"
               title="Tactical Wishlist"
             >
-              <Heart className="w-5 h-5 transition-transform group-hover:scale-110" />
+              <Heart className="w-4 h-4 transition-transform group-hover:scale-110" />
               {wishlistCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-red-600 text-[10px] font-bold text-white shadow-[0_0_8px_#ff1a35]">
                   {wishlistCount}
@@ -344,10 +374,10 @@ export default function Navbar({ onNavigateSection }) {
             {/* Universal Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center gap-2 px-3 py-2 rounded-xl bg-red-600/15 hover:bg-red-600/25 border border-red-500/40 hover:border-red-500 text-white transition-all shadow-[0_0_15px_rgba(255,26,53,0.15)] group"
+              className="relative flex items-center gap-2 px-3 py-2 rounded-xl bg-red-600/15 hover:bg-red-600/25 border border-red-500/40 hover:border-red-500 text-white transition-all group"
               title="Global Universal Cart"
             >
-              <ShoppingBag className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform" />
+              <ShoppingBag className="w-4 h-4 text-red-500 group-hover:scale-110 transition-transform" />
               <span className="hidden sm:inline text-xs font-bold font-cyber tracking-wider">
                 CART
               </span>
