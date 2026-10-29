@@ -60,7 +60,7 @@ export default function GlobalHubView({ onEnterStore }) {
     <div className="space-y-16 animate-fade-in pb-20">
       
       {/* Universal Hero Portal Banner */}
-      <section className="relative overflow-hidden pt-28 pb-16 px-4 sm:px-6 lg:px-8 border-b border-red-500/20 bg-gradient-to-b from-[#0b0c14] via-[#08080c] to-[#050608]">
+      <section className="relative overflow-hidden pt-36 sm:pt-40 lg:pt-44 pb-16 px-4 sm:px-6 lg:px-8 border-b border-red-500/20 bg-gradient-to-b from-[#0b0c14] via-[#08080c] to-[#050608]">
         {/* Cyber Grid Background with Radial Vignette */}
         <div 
           className="absolute inset-0 bg-[linear-gradient(to_right,#ff1a3508_1px,transparent_1px),linear-gradient(to_bottom,#ff1a3508_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" 

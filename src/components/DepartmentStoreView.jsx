@@ -57,7 +57,7 @@ export default function DepartmentStoreView({ departmentId, onBackToHub }) {
   };
 
   return (
-    <div className="space-y-12 animate-fade-in pb-24 pt-28">
+    <div className="space-y-12 animate-fade-in pb-24 pt-32 sm:pt-36">
       
       {/* Top Department Return Bar & Context */}
       <div className="border-b border-zinc-800 bg-[#090a10] sticky top-24 z-30">

@@ -58,7 +58,7 @@ export default function HeroShowcase() {
   const formatDigits = (num) => String(num).padStart(2, '0');
 
   return (
-    <div className="relative w-full min-h-[620px] lg:h-[720px] overflow-hidden pt-24 pb-14 flex items-center bg-[#07070a]">
+    <div className="relative w-full min-h-[620px] lg:h-[720px] overflow-hidden pt-28 sm:pt-32 pb-14 flex items-center bg-[#07070a]">
       {/* Background Hero Artwork with smooth transition */}
       <div className="absolute inset-0 z-0">
         <img
