@@ -163,15 +163,6 @@ export default function Navbar({ onNavigateSection }) {
               );
             })}
           </div>
-
-          {/* Quick Perks Indicator */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0 text-xs text-zinc-400 font-mono">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold text-[11px]">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>1 Unified Cart</span>
-            </span>
-          </div>
-
         </div>
       </div>
 
