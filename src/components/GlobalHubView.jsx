@@ -69,11 +69,6 @@ export default function GlobalHubView({ onEnterStore }) {
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-red-600/15 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-500/40 text-red-400 text-xs font-mono font-semibold tracking-wider uppercase shadow-[0_0_15px_rgba(255,26,53,0.3)]">
-            <Globe2 className="w-4 h-4 text-red-400 shrink-0" />
-            <span>IGNIS Universal Ecosystem • 6 Curated Storefronts</span>
-          </div>
-
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight uppercase leading-tight max-w-4xl mx-auto">
             One Ecosystem. <span className="text-red-500 drop-shadow-[0_0_30px_rgba(255,26,53,0.5)]">Six Universes.</span><br />
             Unified Checkout.
