@@ -60,7 +60,7 @@ export default function GlobalHubView({ onEnterStore }) {
     <div className="space-y-16 animate-fade-in pb-20">
       
       {/* Universal Hero Portal Banner */}
-      <section className="relative overflow-hidden pt-28 sm:pt-[134px] lg:pt-[136px] pb-16 px-4 sm:px-6 lg:px-8 border-b border-red-500/20 bg-gradient-to-b from-[#0b0c14] via-[#08080c] to-[#050608]">
+      <section className="relative overflow-hidden pt-36 sm:pt-44 lg:pt-48 pb-20 px-4 sm:px-6 lg:px-8 border-b border-red-500/20 bg-gradient-to-b from-[#0b0c14] via-[#08080c] to-[#050608]">
         {/* Cyber Grid Background with Radial Vignette */}
         <div 
           className="absolute inset-0 bg-[linear-gradient(to_right,#ff1a3508_1px,transparent_1px),linear-gradient(to_bottom,#ff1a3508_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none" 
@@ -68,18 +68,18 @@ export default function GlobalHubView({ onEnterStore }) {
         />
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-red-600/15 blur-[120px] rounded-full pointer-events-none" />
 
-        <div className="relative max-w-7xl mx-auto text-center space-y-6">
+        <div className="relative max-w-7xl mx-auto text-center space-y-8">
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight uppercase leading-tight max-w-4xl mx-auto">
             One Ecosystem. <span className="text-red-500 drop-shadow-[0_0_30px_rgba(255,26,53,0.5)]">Six Universes.</span><br />
             Unified Checkout.
           </h1>
 
-          <p className="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto font-sans leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto font-sans leading-relaxed pt-1">
             Browse specialized storefronts across game keys, custom battle rigs, cyberpunk techwear, numbered statues, and energy fuel with one consolidated cart and instant checkout.
           </p>
 
           {/* Direct Action CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
             <button
               onClick={() => handleEnter('gaming')}
               className="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-cyber font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_25px_rgba(255,26,53,0.4)] hover:shadow-[0_0_35px_rgba(255,26,53,0.6)] hover:scale-[1.02] flex items-center gap-2 cursor-pointer"
