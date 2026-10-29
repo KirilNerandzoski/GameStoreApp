@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Flame,
   Zap,
-  RefreshCw
+  RefreshCw,
+  Truck
 } from 'lucide-react';
 
 export default function CheckoutModal() {
@@ -104,7 +105,7 @@ export default function CheckoutModal() {
                 GLOBAL UNIVERSAL SHELL // CHECKOUT
               </h3>
               <span className="text-[11px] text-zinc-400 font-mono">
-                Consolidated Payment Protocol for All 5 Storefronts
+                Consolidated Universal Checkout for All 6 Storefronts
               </span>
             </div>
           </div>
@@ -383,6 +384,30 @@ export default function CheckoutModal() {
                 </p>
               </div>
             )}
+          </div>
+
+          {/* Universal Delivery & Security Guarantees */}
+          <div className="p-3.5 rounded-xl bg-[#090a10] border border-white/[0.06] space-y-2 text-xs font-mono">
+            <div className="text-[10px] uppercase font-bold text-zinc-400 tracking-wider flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>IGNIS Buyer Protection & Delivery Guarantees</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-zinc-400">
+              <div className="flex items-start gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                <Zap className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-zinc-200 font-bold block">Instant Digital Reveal</span>
+                  <span className="text-[10px] text-zinc-400 leading-tight block">AAA keys generate in &lt; 2s with 1-click Steam/Epic activation.</span>
+                </div>
+              </div>
+              <div className="flex items-start gap-2 p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                <Truck className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="text-zinc-200 font-bold block">Insured Express Courier</span>
+                  <span className="text-[10px] text-zinc-400 leading-tight block">Rigs &amp; merch ship via express DHL with 30-day return warranty.</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Submit Action */}

@@ -48,8 +48,20 @@ export default function Navbar({ onNavigateSection }) {
     openBountiesModal,
     currentUser,
     openAuthModal,
-    signOut
+    signOut,
+    addToast
   } = useStore();
+
+  const handleToggleAudio = () => {
+    const nextMuted = toggleAudioMuted();
+    if (addToast) {
+      if (nextMuted) {
+        addToast('Audio Muted', 'Sound effects are now turned off.', 'info');
+      } else {
+        addToast('Audio Active', 'Cyber synthesizer sound effects enabled.', 'success');
+      }
+    }
+  };
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -380,7 +392,7 @@ export default function Navbar({ onNavigateSection }) {
 
             {/* Audio Mute/Unmute Toggle Button */}
             <button
-              onClick={() => toggleAudioMuted()}
+              onClick={handleToggleAudio}
               className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                 isMuted 
                   ? 'text-zinc-500 border-white/[0.06] hover:text-zinc-300 hover:border-white/10 bg-white/[0.02]' 
@@ -601,6 +613,23 @@ export default function Navbar({ onNavigateSection }) {
           >
             <FlaskConical className="w-4 h-4 text-orange-400" />
             <span>CyberFuel Formula Lab</span>
+          </button>
+
+          <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest px-2 pt-2 border-t border-white/[0.06]">
+            PREFERENCES
+          </div>
+
+          <button
+            onClick={handleToggleAudio}
+            className="w-full text-left py-2 px-3 rounded-xl hover:bg-white/5 font-medium flex items-center justify-between text-xs transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-2.5 text-zinc-200">
+              {isMuted ? <VolumeX className="w-4 h-4 text-zinc-500" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+              <span>Sound Effects</span>
+            </div>
+            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded ${isMuted ? 'bg-zinc-800 text-zinc-400' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'}`}>
+              {isMuted ? 'MUTED' : 'ENABLED'}
+            </span>
           </button>
         </div>
       )}

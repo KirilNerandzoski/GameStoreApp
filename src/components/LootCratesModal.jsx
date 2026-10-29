@@ -45,7 +45,8 @@ export default function LootCratesModal() {
     applyPromoCode,
     setIsCartOpen,
     lootHistory,
-    addToast
+    addToast,
+    openBountiesModal
   } = useStore();
 
   const [selectedCrateId, setSelectedCrateId] = useState(activeCrateId || 'crate-neon');
@@ -755,6 +756,50 @@ export default function LootCratesModal() {
                         </button>
                       )}
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* LOW XP REFILL PROMPT BANNER */}
+              {(userProfile.xp || 0) < activeCrate.costXp && (
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-amber-500/10 border border-amber-500/35 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono shadow-[0_0_25px_rgba(255,183,0,0.12)]">
+                  <div className="flex items-center gap-3 text-amber-300 text-center sm:text-left">
+                    <div className="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center shrink-0 text-amber-400">
+                      <Sparkles className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-white uppercase text-[11px] tracking-wide">
+                        Insufficient XP for {activeCrate.name}
+                      </div>
+                      <div className="text-[11px] text-zinc-400">
+                        Need <strong className="text-amber-400">{activeCrate.costXp - (userProfile.xp || 0)} more XP</strong> to unlock this crate. Refill instantly below or complete daily bounties.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        addUserXp(500);
+                        if (addToast) addToast('+500 XP Refilled!', 'Operative balance updated successfully.', 'success');
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-cyber font-black tracking-wider uppercase text-xs transition-all shadow-[0_0_15px_rgba(255,183,0,0.4)] cursor-pointer active:scale-95 flex items-center gap-1.5"
+                    >
+                      <PlusCircle className="w-3.5 h-3.5 text-black" />
+                      <span>+500 FREE XP</span>
+                    </button>
+                    {openBountiesModal && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsLootModalOpen(false);
+                          openBountiesModal();
+                        }}
+                        className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10 text-xs font-mono font-bold transition-all cursor-pointer"
+                      >
+                        Bounties
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
