@@ -27,8 +27,8 @@ import {
 
 const CARD_WIDTH = 180; // width of each item card in pixels
 const CARD_GAP = 12;   // gap between cards
-const TOTAL_CARDS = 46; // number of cards on the roulette reel
-const WINNER_INDEX = 35; // index where the winning item sits
+const TOTAL_CARDS = 36; // optimized card strip length for silky 60/120fps compositor performance
+const WINNER_INDEX = 26; // index where the winning item sits
 
 export default function LootCratesModal() {
   const { 
@@ -52,7 +52,6 @@ export default function LootCratesModal() {
   const [selectedCrateId, setSelectedCrateId] = useState(activeCrateId || 'crate-neon');
   const [isSpinning, setIsSpinning] = useState(false);
   const [reelItems, setReelItems] = useState([]);
-  const [reelOffset, setReelOffset] = useState(0);
   const [wonItem, setWonItem] = useState(null);
   const [claimedState, setClaimedState] = useState(false);
   const [currentHistoryId, setCurrentHistoryId] = useState(null);
@@ -109,9 +108,11 @@ export default function LootCratesModal() {
       setReelItems(initialList);
       setWonItem(null);
       setClaimedState(false);
-      setReelOffset(0);
       if (reelAnimationRef.current) {
-        reelAnimationRef.current.cancel();
+        try { reelAnimationRef.current.cancel(); } catch (e) {}
+      }
+      if (tickIntervalRef.current) {
+        clearTimeout(tickIntervalRef.current);
       }
       if (reelStripRef.current) {
         reelStripRef.current.style.transform = 'translate3d(0px, 0, 0)';
@@ -127,20 +128,16 @@ export default function LootCratesModal() {
       if (addToast) {
         addToast(
           'Insufficient XP', 
-          `You need ${activeCrate.costXp} XP to unlock ${activeCrate.name}. Click '+500 Free XP' in the top right to replenish!`,
+          `You need ${activeCrate.costXp} XP to unlock ${activeCrate.name}. Refill in the banner below!`,
           'warning'
         );
       }
       return;
     }
 
-    // Deduct XP
-    const success = deductUserXp(activeCrate.costXp);
-    if (!success) return;
-
-    // Stop any previous running animation/tick & reset position
+    // Cancel any previous running animation/tick & reset position to 0 cleanly
     if (reelAnimationRef.current) {
-      reelAnimationRef.current.cancel();
+      try { reelAnimationRef.current.cancel(); } catch (e) {}
     }
     if (tickIntervalRef.current) {
       clearTimeout(tickIntervalRef.current);
@@ -149,10 +146,21 @@ export default function LootCratesModal() {
       reelStripRef.current.style.transform = 'translate3d(0px, 0, 0)';
     }
 
+    // Measure container width BEFORE state updates dirty DOM layout
+    const containerWidth = reelContainerRef.current ? reelContainerRef.current.clientWidth : 800;
+    const centerLine = containerWidth / 2;
+    const cardCenter = (WINNER_INDEX * (CARD_WIDTH + CARD_GAP)) + (CARD_WIDTH / 2);
+    const randomJitter = (Math.random() - 0.5) * 36;
+    const finalTranslate = -(cardCenter - centerLine + randomJitter);
+
     // Pick winner item
     const winner = getRandomItem(activeCrate);
-    
-    // Smoothly swap ONLY the card at WINNER_INDEX so 45 cards DO NOT re-render (zero start lag & zero image blinking)
+
+    // Deduct XP
+    const success = deductUserXp(activeCrate.costXp);
+    if (!success) return;
+
+    // Mutate only winner card index in reelItems
     setReelItems(prev => {
       const updated = [...prev];
       updated[WINNER_INDEX] = winner;
@@ -166,42 +174,30 @@ export default function LootCratesModal() {
     // Sound unlock hiss
     playCrateUnlock();
 
-    // Trigger animation directly without layout thrashing
-    requestAnimationFrame(() => {
-      if (!reelContainerRef.current || !reelStripRef.current) return;
-      const containerWidth = reelContainerRef.current.offsetWidth || 800;
-      const centerLine = containerWidth / 2;
+    // Start decelerating audio ticks
+    let elapsed = 0;
+    const duration = 5200;
+    let tickDelay = 80;
 
-      // Card center relative to start of strip
-      const cardCenter = (WINNER_INDEX * (CARD_WIDTH + CARD_GAP)) + (CARD_WIDTH / 2);
-      
-      // Slight random jitter (+/- 20px) so needle doesn't land dead center every time
-      const randomJitter = (Math.random() - 0.5) * 40;
-      const finalTranslate = -(cardCenter - centerLine + randomJitter);
-
-      // Start decelerating audio ticks
-      let elapsed = 0;
-      const duration = 5200;
-      let tickDelay = 65;
-
-      const scheduleTick = () => {
-        if (elapsed >= duration) return;
-        playReelTick(Math.max(0.6, 1.2 - (elapsed / duration) * 0.5));
-        
-        const progress = elapsed / duration;
-        tickDelay = 55 + Math.pow(progress, 3.2) * 440;
-        elapsed += tickDelay;
-        tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
-      };
-
+    const scheduleTick = () => {
+      if (elapsed >= duration) return;
+      playReelTick(Math.max(0.65, 1.2 - (elapsed / duration) * 0.45));
+      const progress = elapsed / duration;
+      tickDelay = 75 + Math.pow(progress, 2.8) * 450;
+      elapsed += tickDelay;
       tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
+    };
 
-      // Silky, momentum-conserving deceleration curve (zero strobing / zero blinking)
+    tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
+
+    // Launch hardware-accelerated compositor animation (easing in options for pure GPU rendering)
+    if (reelStripRef.current) {
       const anim = reelStripRef.current.animate([
-        { transform: 'translate3d(0px, 0, 0)', offset: 0, easing: 'cubic-bezier(0.2, 0.9, 0.25, 1)' },
-        { transform: `translate3d(${finalTranslate}px, 0, 0)`, offset: 1 }
+        { transform: 'translate3d(0px, 0, 0)' },
+        { transform: `translate3d(${finalTranslate}px, 0, 0)` }
       ], {
         duration: 5200,
+        easing: 'cubic-bezier(0.14, 0.82, 0.22, 1)',
         fill: 'forwards'
       });
 
@@ -211,7 +207,6 @@ export default function LootCratesModal() {
         if (reelStripRef.current) {
           reelStripRef.current.style.transform = `translate3d(${finalTranslate}px, 0, 0)`;
         }
-        setReelOffset(finalTranslate);
         if (tickIntervalRef.current) {
           clearTimeout(tickIntervalRef.current);
         }
@@ -238,7 +233,7 @@ export default function LootCratesModal() {
           });
         } catch (e) {}
       };
-    });
+    }
   };
 
   const handleClaim = () => {
@@ -615,13 +610,12 @@ export default function LootCratesModal() {
                 {/* The Rolling Strip */}
                 <div 
                   ref={reelContainerRef}
-                  className="relative overflow-hidden w-full h-56 flex items-center"
+                  className="relative overflow-hidden w-full h-56 flex items-center [contain:paint_layout] isolate"
                 >
                   <div 
                     ref={reelStripRef}
                     className="flex items-center will-change-transform [transform-style:preserve-3d] [backface-visibility:hidden]"
                     style={{
-                      transform: `translate3d(${reelOffset}px, 0, 0)`,
                       gap: `${CARD_GAP}px`
                     }}
                   >
@@ -692,7 +686,7 @@ export default function LootCratesModal() {
                 {/* Bottom Target Status */}
                 <div className="mt-3 pt-3 border-t border-zinc-800/60 flex items-center justify-between text-xs font-mono text-zinc-400">
                   <span className="flex items-center gap-1.5">
-                    <span className={`w-2 h-2 rounded-full ${isSpinning ? 'bg-amber-400 animate-ping' : 'bg-emerald-400'}`} />
+                    <span className={`w-2 h-2 rounded-full ${isSpinning ? 'bg-amber-400 shadow-[0_0_8px_#fbbf24]' : 'bg-emerald-400 shadow-[0_0_8px_#34d399]'}`} />
                     <span>{isSpinning ? 'DECRYPTION MATRIX ROTATING...' : 'READY FOR EXTRACTION'}</span>
                   </span>
                   <span className="hidden sm:inline">
