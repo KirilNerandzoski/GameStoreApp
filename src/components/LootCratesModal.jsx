@@ -27,8 +27,8 @@ import {
 
 const CARD_WIDTH = 180; // width of each item card in pixels
 const CARD_GAP = 12;   // gap between cards
-const TOTAL_CARDS = 50; // number of cards on the roulette reel
-const WINNER_INDEX = 42; // index where the winning item sits
+const TOTAL_CARDS = 46; // number of cards on the roulette reel
+const WINNER_INDEX = 35; // index where the winning item sits
 
 export default function LootCratesModal() {
   const { 
@@ -85,26 +85,30 @@ export default function LootCratesModal() {
     return crate.items[0];
   };
 
-  // Generate roulette reel items
-  const prepareReel = (targetWinner) => {
-    const list = [];
-    for (let i = 0; i < TOTAL_CARDS; i++) {
-      if (i === WINNER_INDEX) {
-        list.push(targetWinner);
-      } else {
-        list.push(getRandomItem(activeCrate));
-      }
-    }
-    return list;
-  };
-
-  // Pre-populate reel strip whenever active crate changes or modal opens
+  // Pre-load all images in crate loot pool to eliminate decoding jank
   useEffect(() => {
-    if (isLootModalOpen) {
-      const initialWinner = getRandomItem(activeCrate);
-      setReelItems(prepareReel(initialWinner));
+    if (activeCrate?.items) {
+      activeCrate.items.forEach(item => {
+        if (item.image) {
+          const img = new Image();
+          img.src = item.image;
+        }
+      });
+    }
+  }, [selectedCrateId]);
+
+  // Pre-populate stable reel strip on crate change or modal open
+  useEffect(() => {
+    if (isLootModalOpen && activeCrate?.items?.length > 0) {
+      const pool = activeCrate.items;
+      const initialList = [];
+      for (let i = 0; i < TOTAL_CARDS; i++) {
+        initialList.push(pool[i % pool.length]);
+      }
+      setReelItems(initialList);
       setWonItem(null);
       setClaimedState(false);
+      setReelOffset(0);
       if (reelAnimationRef.current) {
         reelAnimationRef.current.cancel();
       }
@@ -144,10 +148,16 @@ export default function LootCratesModal() {
       reelStripRef.current.style.transform = 'translate3d(0px, 0, 0)';
     }
 
-    // Pick winner & prepare reel
+    // Pick winner item
     const winner = getRandomItem(activeCrate);
-    const newReel = prepareReel(winner);
-    setReelItems(newReel);
+    
+    // Smoothly swap ONLY the card at WINNER_INDEX so 45 cards DO NOT re-render (zero start lag & zero image blinking)
+    setReelItems(prev => {
+      const updated = [...prev];
+      updated[WINNER_INDEX] = winner;
+      return updated;
+    });
+
     setWonItem(null);
     setClaimedState(false);
     setIsSpinning(true);
@@ -155,81 +165,78 @@ export default function LootCratesModal() {
     // Sound unlock hiss
     playCrateUnlock();
 
-    // Use requestAnimationFrame so DOM layout is committed before starting animation
+    // Trigger animation directly without layout thrashing
     requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (!reelContainerRef.current || !reelStripRef.current) return;
-        const containerWidth = reelContainerRef.current.offsetWidth || 800;
-        const centerLine = containerWidth / 2;
+      if (!reelContainerRef.current || !reelStripRef.current) return;
+      const containerWidth = reelContainerRef.current.offsetWidth || 800;
+      const centerLine = containerWidth / 2;
 
-        // Card center relative to start of strip
-        const cardCenter = (WINNER_INDEX * (CARD_WIDTH + CARD_GAP)) + (CARD_WIDTH / 2);
+      // Card center relative to start of strip
+      const cardCenter = (WINNER_INDEX * (CARD_WIDTH + CARD_GAP)) + (CARD_WIDTH / 2);
+      
+      // Slight random jitter (+/- 20px) so needle doesn't land dead center every time
+      const randomJitter = (Math.random() - 0.5) * 40;
+      const finalTranslate = -(cardCenter - centerLine + randomJitter);
+
+      // Start decelerating audio ticks
+      let elapsed = 0;
+      const duration = 5200;
+      let tickDelay = 65;
+
+      const scheduleTick = () => {
+        if (elapsed >= duration) return;
+        playReelTick(Math.max(0.6, 1.2 - (elapsed / duration) * 0.5));
         
-        // Slight random jitter (+/- 25px) so needle doesn't land dead center every time
-        const randomJitter = (Math.random() - 0.5) * 50;
-        const finalTranslate = -(cardCenter - centerLine + randomJitter);
-
-        // Start decelerating audio ticks
-        let elapsed = 0;
-        const duration = 5000;
-        let tickDelay = 55;
-
-        const scheduleTick = () => {
-          if (elapsed >= duration) return;
-          playReelTick(Math.max(0.6, 1.2 - (elapsed / duration) * 0.5));
-          
-          const progress = elapsed / duration;
-          tickDelay = 45 + Math.pow(progress, 3.4) * 460;
-          elapsed += tickDelay;
-          tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
-        };
-
+        const progress = elapsed / duration;
+        tickDelay = 55 + Math.pow(progress, 3.2) * 440;
+        elapsed += tickDelay;
         tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
+      };
 
-        // Hardware-accelerated smooth Web Animation (silky 60/120fps GPU compositor)
-        const anim = reelStripRef.current.animate([
-          { transform: 'translate3d(0px, 0, 0)' },
-          { transform: `translate3d(${finalTranslate}px, 0, 0)` }
-        ], {
-          duration: 5000,
-          easing: 'cubic-bezier(0.12, 0.8, 0.2, 1)',
-          fill: 'forwards'
-        });
+      tickIntervalRef.current = setTimeout(scheduleTick, tickDelay);
 
-        reelAnimationRef.current = anim;
-
-        anim.onfinish = () => {
-          if (reelStripRef.current) {
-            reelStripRef.current.style.transform = `translate3d(${finalTranslate}px, 0, 0)`;
-          }
-          setReelOffset(finalTranslate);
-          if (tickIntervalRef.current) {
-            clearTimeout(tickIntervalRef.current);
-          }
-          setIsSpinning(false);
-          setWonItem(winner);
-
-          // RECORD EVERY CRATE OPEN IMMEDIATELY INTO PERMANENT HISTORY!
-          const record = recordCrateOpen(activeCrate, winner);
-          if (record?.id) setCurrentHistoryId(record.id);
-
-          // Sound fanfare & confetti
-          playWinSound(winner.rarity);
-          
-          try {
-            const colors = winner.rarity === 'godtier' 
-              ? ['#ff1a35', '#ffffff', '#ffb700'] 
-              : ['#00f0ff', '#bf00ff', '#ffffff'];
-
-            confetti({
-              particleCount: winner.rarity === 'godtier' || winner.rarity === 'legendary' ? 120 : 60,
-              spread: 70,
-              origin: { y: 0.6 },
-              colors
-            });
-          } catch (e) {}
-        };
+      // Silky, momentum-conserving deceleration curve (zero strobing / zero blinking)
+      const anim = reelStripRef.current.animate([
+        { transform: 'translate3d(0px, 0, 0)', offset: 0, easing: 'cubic-bezier(0.2, 0.9, 0.25, 1)' },
+        { transform: `translate3d(${finalTranslate}px, 0, 0)`, offset: 1 }
+      ], {
+        duration: 5200,
+        fill: 'forwards'
       });
+
+      reelAnimationRef.current = anim;
+
+      anim.onfinish = () => {
+        if (reelStripRef.current) {
+          reelStripRef.current.style.transform = `translate3d(${finalTranslate}px, 0, 0)`;
+        }
+        setReelOffset(finalTranslate);
+        if (tickIntervalRef.current) {
+          clearTimeout(tickIntervalRef.current);
+        }
+        setIsSpinning(false);
+        setWonItem(winner);
+
+        // Record crate open immediately into permanent history
+        const record = recordCrateOpen(activeCrate, winner);
+        if (record?.id) setCurrentHistoryId(record.id);
+
+        // Sound fanfare & confetti
+        playWinSound(winner.rarity);
+        
+        try {
+          const colors = winner.rarity === 'godtier' 
+            ? ['#ff1a35', '#ffffff', '#ffb700'] 
+            : ['#00f0ff', '#bf00ff', '#ffffff'];
+
+          confetti({
+            particleCount: winner.rarity === 'godtier' || winner.rarity === 'legendary' ? 120 : 60,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors
+          });
+        } catch (e) {}
+      };
     });
   };
 
@@ -647,6 +654,8 @@ export default function LootCratesModal() {
                             <img 
                               src={item.image} 
                               alt={item.title} 
+                              loading="eager"
+                              decoding="async"
                               onError={(e) => {
                                 e.currentTarget.onerror = null;
                                 e.currentTarget.src = 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80';
