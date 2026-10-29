@@ -16,13 +16,18 @@ import confetti from 'canvas-confetti';
 const StoreContext = createContext();
 
 export function StoreProvider({ children }) {
-  // Active Department / Sub-store: 'hub' (Global Universal Shell) | 'gaming' | 'hardware' | 'apparel' | 'collectibles' | 'services'
+  // Active Department / Sub-store: 'gaming' (Primary Game Storefront) | 'hub' (Universal Ecosystem) | 'hardware' | 'apparel' | 'collectibles' | 'services' | 'fuel'
   const [activeDepartment, setActiveDepartment] = useState(() => {
-    return localStorage.getItem('omni_active_department') || 'hub';
+    const hash = window.location.hash.toLowerCase().replace('#', '');
+    if (['gaming', 'hardware', 'apparel', 'collectibles', 'services', 'fuel', 'hub'].includes(hash)) {
+      return hash;
+    }
+    const saved = localStorage.getItem('ignis_active_department');
+    return saved || 'gaming';
   });
 
   useEffect(() => {
-    localStorage.setItem('omni_active_department', activeDepartment);
+    localStorage.setItem('ignis_active_department', activeDepartment);
   }, [activeDepartment]);
 
   // Live Supabase Products state (with instant local seed fallback)

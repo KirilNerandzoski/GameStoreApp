@@ -60,7 +60,7 @@ export default function DepartmentStoreView({ departmentId, onBackToHub }) {
     <div className="space-y-12 animate-fade-in pb-24 pt-28">
       
       {/* Top Department Return Bar & Context */}
-      <div className="border-b border-zinc-800 bg-[#090a10]/95 backdrop-blur sticky top-24 z-30">
+      <div className="border-b border-zinc-800 bg-[#090a10] sticky top-24 z-30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
           <button
             onClick={onBackToHub}

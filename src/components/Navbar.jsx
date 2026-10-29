@@ -126,12 +126,12 @@ export default function Navbar({ onNavigateSection }) {
               }}
               className={`px-3 py-1 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeDepartment === 'hub'
-                  ? 'bg-red-600 text-white shadow-[0_0_12px_rgba(255,26,53,0.5)]'
+                  ? 'bg-zinc-800 text-white border border-white/30 shadow-[0_0_12px_rgba(255,255,255,0.15)]'
                   : 'text-zinc-400 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
-              <Globe2 className="w-3.5 h-3.5" />
-              <span>Universal Hub</span>
+              <Globe2 className="w-3.5 h-3.5 text-zinc-300" />
+              <span>All Stores Hub</span>
             </button>
 
             <span className="text-zinc-700">|</span>
@@ -145,15 +145,16 @@ export default function Navbar({ onNavigateSection }) {
                     setActiveDepartment(dept.id);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold tracking-wide transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-3 py-1 rounded-lg text-xs tracking-wide transition-all flex items-center gap-1.5 cursor-pointer ${
                     isActive
-                      ? 'text-white shadow-md'
+                      ? 'text-white shadow-lg font-bold'
                       : 'text-zinc-400 hover:text-white hover:bg-white/[0.06]'
                   }`}
                   style={isActive ? {
-                    backgroundColor: `${dept.accentColor}25`,
-                    border: `1px solid ${dept.accentColor}80`,
-                    color: dept.accentColor
+                    backgroundColor: `${dept.accentColor}30`,
+                    border: `1px solid ${dept.accentColor}`,
+                    color: '#ffffff',
+                    boxShadow: `0 0 14px ${dept.accentColor}50`
                   } : {}}
                 >
                   <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: dept.accentColor }} />
@@ -222,21 +223,21 @@ export default function Navbar({ onNavigateSection }) {
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
                   <span className="font-heading font-black text-2xl tracking-wider text-white group-hover:text-red-400 transition-colors">
-                    {activeDepartment === 'hub' ? 'OMNI' : (currentDeptObj ? currentDeptObj.shortName.toUpperCase() : 'IGNIS')}
+                    IGNIS
                   </span>
                   <span 
                     className="text-[10px] font-cyber px-1.5 py-0.5 rounded border"
                     style={{
-                      backgroundColor: currentDeptObj ? `${currentDeptObj.accentColor}20` : 'rgba(255,26,53,0.2)',
-                      borderColor: currentDeptObj ? `${currentDeptObj.accentColor}40` : 'rgba(255,26,53,0.3)',
-                      color: currentDeptObj ? currentDeptObj.accentColor : '#ff4d66'
+                      backgroundColor: currentDeptObj && activeDepartment !== 'hub' ? `${currentDeptObj.accentColor}20` : 'rgba(255,26,53,0.2)',
+                      borderColor: currentDeptObj && activeDepartment !== 'hub' ? `${currentDeptObj.accentColor}40` : 'rgba(255,26,53,0.3)',
+                      color: currentDeptObj && activeDepartment !== 'hub' ? currentDeptObj.accentColor : '#ff4d66'
                     }}
                   >
-                    STORE
+                    {activeDepartment === 'hub' ? 'HUB' : (currentDeptObj ? currentDeptObj.shortName.toUpperCase() : 'STORE')}
                   </span>
                 </div>
                 <span className="text-[9px] font-mono tracking-widest text-zinc-400 uppercase -mt-0.5">
-                  {activeDepartment === 'hub' ? 'Universal Marketplace' : `${currentDeptObj?.name || 'Syndicate'}`}
+                  {activeDepartment === 'hub' ? 'Universal Marketplace' : (currentDeptObj?.name || 'Next-Gen Gaming')}
                 </span>
               </div>
             </a>
@@ -309,9 +310,10 @@ export default function Navbar({ onNavigateSection }) {
 
               {/* Studios Dropdown Menu */}
               {studiosDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-[#0c0d16]/98 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.9)] p-2 z-50 backdrop-blur-2xl animate-fade-in space-y-1">
-                  <div className="px-3 py-2 text-[10px] font-mono text-zinc-400 uppercase tracking-widest border-b border-white/[0.06]">
-                    Interactive Studios & Labs
+                <div className="absolute right-0 top-full mt-2 w-80 rounded-2xl bg-[#0e101a] border border-zinc-700/80 shadow-[0_25px_60px_rgba(0,0,0,0.95)] p-2.5 z-50 animate-fade-in space-y-1.5 ring-1 ring-white/10">
+                  <div className="px-3 py-2 text-[10px] font-mono text-zinc-400 uppercase tracking-widest border-b border-zinc-800 flex items-center justify-between">
+                    <span>Interactive Studios & Labs</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   </div>
 
                   {/* Loot Crates */}
@@ -320,7 +322,7 @@ export default function Navbar({ onNavigateSection }) {
                       openLootCrate();
                       setStudiosDropdownOpen(false);
                     }}
-                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer"
+                    className="w-full p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-amber-500/40 transition-all flex items-center gap-3 text-left group cursor-pointer"
                   >
                     <div className="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 group-hover:scale-105 transition-transform">
                       <Package className="w-5 h-5" />
@@ -341,7 +343,7 @@ export default function Navbar({ onNavigateSection }) {
                       openBattlestationBuilder();
                       setStudiosDropdownOpen(false);
                     }}
-                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer"
+                    className="w-full p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-cyan-500/40 transition-all flex items-center gap-3 text-left group cursor-pointer"
                   >
                     <div className="w-9 h-9 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 group-hover:scale-105 transition-transform">
                       <Cpu className="w-5 h-5" />
@@ -362,7 +364,7 @@ export default function Navbar({ onNavigateSection }) {
                       openFormulaLab();
                       setStudiosDropdownOpen(false);
                     }}
-                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer"
+                    className="w-full p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-orange-500/40 transition-all flex items-center gap-3 text-left group cursor-pointer"
                   >
                     <div className="w-9 h-9 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 shrink-0 group-hover:scale-105 transition-transform">
                       <FlaskConical className="w-5 h-5" />
@@ -383,7 +385,7 @@ export default function Navbar({ onNavigateSection }) {
                       openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties');
                       setStudiosDropdownOpen(false);
                     }}
-                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer border-t border-white/[0.06]"
+                    className="w-full p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-emerald-500/40 transition-all flex items-center gap-3 text-left group cursor-pointer"
                   >
                     <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 group-hover:scale-105 transition-transform">
                       <Ticket className="w-5 h-5" />
@@ -501,7 +503,7 @@ export default function Navbar({ onNavigateSection }) {
 
               {/* Profile Dropdown Menu */}
               {currentUser && profileDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl bg-[#0c0d16]/98 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.9)] p-2 z-50 animate-fade-in backdrop-blur-2xl">
+                <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl bg-[#0e101a] border border-zinc-700/80 shadow-[0_25px_60px_rgba(0,0,0,0.95)] p-2 z-50 animate-fade-in ring-1 ring-white/10">
                   <div className="p-3 border-b border-white/[0.06] flex items-center gap-3">
                     <img
                       src={userProfile.avatar}
@@ -559,7 +561,7 @@ export default function Navbar({ onNavigateSection }) {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#07080d]/98 border-b border-white/10 px-5 py-4 shadow-2xl space-y-2.5 backdrop-blur-2xl animate-fade-in">
+        <div className="lg:hidden bg-[#0a0b12] border-b border-zinc-800 px-5 py-4 shadow-2xl space-y-2.5 animate-fade-in">
           <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest px-2 pb-1 border-b border-white/[0.06]">
             STOREFRONTS
           </div>

@@ -84,7 +84,7 @@ function MarketplaceContent() {
         openLootCrate();
       } else if (h === '#lab' || h === '#formula' || h === '#customfuel' || h === '#mix') {
         openFormulaLab();
-      } else if (['#gaming', '#hardware', '#apparel', '#collectibles', '#services', '#fuel'].includes(h)) {
+      } else if (['#gaming', '#hardware', '#apparel', '#collectibles', '#services', '#fuel', '#hub'].includes(h)) {
         setActiveDepartment(h.replace('#', ''));
       }
     };

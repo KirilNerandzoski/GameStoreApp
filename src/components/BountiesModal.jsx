@@ -21,7 +21,7 @@ export default function BountiesModal() {
         <div className="sticky top-0 z-50 h-1.5 w-full bg-gradient-to-r from-red-600 via-amber-500 to-red-600 shadow-[0_0_15px_#ff1a35]" />
 
         {/* Modal Top Bar */}
-        <div className="sticky top-1.5 z-40 bg-[#0d0e19]/95 backdrop-blur-md px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
+        <div className="sticky top-1.5 z-40 bg-[#0d0e19] px-6 py-4 border-b border-zinc-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-400 shadow-[0_0_12px_rgba(255,26,53,0.3)]">
               <Ticket className="w-5 h-5 animate-pulse" />

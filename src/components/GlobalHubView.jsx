@@ -69,22 +69,39 @@ export default function GlobalHubView({ onEnterStore }) {
         <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-red-600/15 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/60 border border-red-500/40 text-red-400 text-xs font-mono font-semibold tracking-wider uppercase shadow-[0_0_15px_rgba(255,26,53,0.3)]">
-            <Globe2 className="w-4 h-4 animate-spin-slow text-red-400" />
-            <span>Global Universal Shell // Omni-Commerce Protocol</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-500/40 text-red-400 text-xs font-mono font-semibold tracking-wider uppercase shadow-[0_0_15px_rgba(255,26,53,0.3)]">
+            <Globe2 className="w-4 h-4 text-red-400 shrink-0" />
+            <span>IGNIS Universal Ecosystem • 6 Curated Storefronts</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight uppercase leading-none max-w-5xl mx-auto">
-            One Shell. <span className="text-red-500 drop-shadow-[0_0_25px_rgba(255,26,53,0.4)]">Six Universes.</span><br />
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-heading text-white tracking-tight uppercase leading-tight max-w-4xl mx-auto">
+            One Ecosystem. <span className="text-red-500 drop-shadow-[0_0_30px_rgba(255,26,53,0.5)]">Six Universes.</span><br />
             Unified Checkout.
           </h1>
 
-          <p className="text-sm sm:text-base lg:text-lg text-zinc-400 max-w-3xl mx-auto font-sans leading-relaxed">
-            Welcome to the overarching ecosystem. Browse specialized independent storefronts across game keys, extreme rigs, cyberpunk techwear, numbered statues, cloud nodes, and gamer energy fuel.
-            <span className="text-white font-medium block mt-1">
-              Add products from any store into your unified cache—pay in 1 frictionless transaction through the Global Shell.
-            </span>
+          <p className="text-sm sm:text-base lg:text-lg text-zinc-300 max-w-2xl mx-auto font-sans leading-relaxed">
+            Browse specialized storefronts across game keys, custom battle rigs, cyberpunk techwear, numbered statues, and energy fuel with one consolidated cart and instant checkout.
           </p>
+
+          {/* Direct Action CTA Buttons */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={() => handleEnter('gaming')}
+              className="px-6 py-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-cyber font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_25px_rgba(255,26,53,0.4)] hover:shadow-[0_0_35px_rgba(255,26,53,0.6)] hover:scale-[1.02] flex items-center gap-2 cursor-pointer"
+            >
+              <Gamepad2 className="w-4 h-4" />
+              <span>Enter Main Game Store</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+
+            <a
+              href="#storefronts"
+              className="px-6 py-3 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-zinc-700/80 font-cyber font-bold text-sm tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <Layers className="w-4 h-4 text-zinc-400" />
+              <span>Explore 6 Storefronts</span>
+            </a>
+          </div>
 
           {/* Quick Universal Highlights Pill */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto pt-4">
@@ -132,7 +149,7 @@ export default function GlobalHubView({ onEnterStore }) {
       </section>
 
       {/* The 6 Sub-Storefront Portals Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section id="storefronts" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-28">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <h2 className="text-2xl sm:text-4xl font-black font-heading text-white tracking-wide">
