@@ -165,23 +165,7 @@ export default function Navbar({ onNavigateSection }) {
           </div>
 
           {/* Quick Perks Indicator */}
-          <div className="hidden lg:flex items-center gap-4 shrink-0 text-xs text-zinc-400 font-mono">
-            <button
-              onClick={() => openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties')}
-              className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-bold uppercase transition-colors cursor-pointer text-[11px]"
-              title="Complete Bounties & Earn Discount Coupons"
-            >
-              <Ticket className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Earn Coupons</span>
-              {bountyState?.unlockedCoupons?.length > 0 && (
-                <span className="px-1.5 py-0.2 rounded-full bg-emerald-500 text-black text-[9px] font-black">
-                  {bountyState.unlockedCoupons.length}
-                </span>
-              )}
-            </button>
-
-            <span className="text-zinc-700">•</span>
-
+          <div className="hidden lg:flex items-center gap-3 shrink-0 text-xs text-zinc-400 font-mono">
             <span className="flex items-center gap-1.5 text-emerald-400 font-semibold text-[11px]">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               <span>1 Unified Cart</span>
