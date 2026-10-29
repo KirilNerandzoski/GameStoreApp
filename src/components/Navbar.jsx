@@ -15,15 +15,15 @@ import {
   Ticket,
   Globe2,
   Cpu,
-  Shirt,
-  Trophy,
-  Cloud,
   ChevronDown,
   Package,
   FlaskConical,
   LogOut,
   Volume2,
-  VolumeX
+  VolumeX,
+  Layers,
+  Wrench,
+  Boxes
 } from 'lucide-react';
 import { getAudioMuted, toggleAudioMuted } from '../utils/cyberAudio';
 
@@ -39,7 +39,6 @@ export default function Navbar({ onNavigateSection }) {
     setIsSearchOpen,
     searchQuery, 
     setSearchQuery, 
-    setSelectedCategory,
     activeDepartment,
     setActiveDepartment,
     departments,
@@ -55,8 +54,11 @@ export default function Navbar({ onNavigateSection }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [studiosDropdownOpen, setStudiosDropdownOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(() => getAudioMuted());
-  const dropdownRef = useRef(null);
+
+  const profileRef = useRef(null);
+  const studiosRef = useRef(null);
 
   useEffect(() => {
     const handleMuteChange = (e) => {
@@ -68,8 +70,11 @@ export default function Navbar({ onNavigateSection }) {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileDropdownOpen(false);
+      }
+      if (studiosRef.current && !studiosRef.current.contains(e.target)) {
+        setStudiosDropdownOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -98,39 +103,38 @@ export default function Navbar({ onNavigateSection }) {
 
   const totalCartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
   const wishlistCount = wishlist.length;
-
   const currentDeptObj = departments.find(d => d.id === activeDepartment);
 
   return (
     <header 
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-[#08080c]/95 backdrop-blur-xl border-b border-red-500/20 shadow-[0_10px_30px_rgba(0,0,0,0.8)]' 
-          : 'bg-gradient-to-b from-[#08080c]/98 via-[#08080c]/85 to-transparent border-b border-white/5'
+          ? 'bg-[#07080d]/95 backdrop-blur-2xl border-b border-white/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.85)]' 
+          : 'bg-[#07080d]/85 backdrop-blur-xl border-b border-white/[0.05]'
       }`}
     >
-      {/* Global Universal Shell Ecosystem Strip */}
-      <div className="bg-[#05060a]/95 border-b border-white/5 py-1 px-4 sm:px-6 lg:px-8 text-xs font-mono">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 overflow-x-auto scrollbar-none">
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-            <span className="text-[10px] text-zinc-500 uppercase tracking-widest hidden xl:inline">
-              OMNI PROTOCOL:
-            </span>
-
+      {/* Top Department Switcher Strip */}
+      <div className="bg-[#050609]/95 border-b border-white/[0.06] py-1.5 px-4 sm:px-6 lg:px-8 text-xs font-mono">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 overflow-x-auto scrollbar-none">
+          
+          {/* Store Switcher Pills */}
+          <div className="flex items-center gap-1.5 shrink-0">
             <button
               onClick={() => {
                 setActiveDepartment('hub');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className={`px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1 rounded-lg text-xs font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 cursor-pointer ${
                 activeDepartment === 'hub'
                   ? 'bg-red-600 text-white shadow-[0_0_12px_rgba(255,26,53,0.5)]'
-                  : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                  : 'text-zinc-400 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <Globe2 className="w-3.5 h-3.5" />
               <span>Universal Hub</span>
             </button>
+
+            <span className="text-zinc-700">|</span>
 
             {departments.map(dept => {
               const isActive = activeDepartment === dept.id;
@@ -141,10 +145,10 @@ export default function Navbar({ onNavigateSection }) {
                     setActiveDepartment(dept.id);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`px-2.5 py-1 rounded-md text-[11px] font-bold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1 rounded-lg text-xs font-semibold tracking-wide transition-all flex items-center gap-1.5 cursor-pointer ${
                     isActive
                       ? 'text-white shadow-md'
-                      : 'text-zinc-400 hover:text-white hover:bg-white/5'
+                      : 'text-zinc-400 hover:text-white hover:bg-white/[0.06]'
                   }`}
                   style={isActive ? {
                     backgroundColor: `${dept.accentColor}25`,
@@ -152,21 +156,21 @@ export default function Navbar({ onNavigateSection }) {
                     color: dept.accentColor
                   } : {}}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: dept.accentColor }} />
+                  <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: dept.accentColor }} />
                   <span>{dept.shortName}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="hidden md:flex items-center gap-2.5 sm:gap-3 shrink-0 text-[10px] text-zinc-400 font-mono">
-            {/* Universal Earn Coupons Button */}
+          {/* Quick Perks Indicator */}
+          <div className="hidden lg:flex items-center gap-4 shrink-0 text-xs text-zinc-400 font-mono">
             <button
               onClick={() => openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties')}
-              className="px-2.5 py-0.5 rounded-md bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-400 hover:text-emerald-300 transition-all flex items-center gap-1.5 font-bold tracking-wider uppercase hover:scale-105 active:scale-95 cursor-pointer text-[10px]"
-              title="Complete Operative Bounties & Earn Discount Coupons (Up to 40% OFF)"
+              className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-bold uppercase transition-colors cursor-pointer text-[11px]"
+              title="Complete Bounties & Earn Discount Coupons"
             >
-              <Ticket className="w-3 h-3 text-emerald-400 shrink-0" />
+              <Ticket className="w-3.5 h-3.5 text-emerald-400" />
               <span>Earn Coupons</span>
               {bountyState?.unlockedCoupons?.length > 0 && (
                 <span className="px-1.5 py-0.2 rounded-full bg-emerald-500 text-black text-[9px] font-black">
@@ -175,21 +179,23 @@ export default function Navbar({ onNavigateSection }) {
               )}
             </button>
 
-            <span>•</span>
+            <span className="text-zinc-700">•</span>
 
-            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+            <span className="flex items-center gap-1.5 text-emerald-400 font-semibold text-[11px]">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              1 Shared Cart
+              <span>1 Unified Cart</span>
             </span>
           </div>
+
         </div>
       </div>
 
+      {/* Main Command Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-4 lg:gap-8">
           
           {/* Brand Logo */}
-          <div className="flex items-center gap-4 xl:gap-6 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
             <a 
               href="#" 
               onClick={(e) => {
@@ -197,18 +203,18 @@ export default function Navbar({ onNavigateSection }) {
                 setActiveDepartment('hub');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-2.5 group cursor-pointer shrink-0"
-              title="Return to Global Universal Shell"
+              className="flex items-center gap-2.5 group cursor-pointer"
+              title="Return to Universal Hub"
             >
               <div 
-                className="relative w-10 h-10 rounded-lg p-[1px] shadow-lg transition-all"
+                className="w-10 h-10 rounded-xl p-[1px] shadow-lg transition-transform group-hover:scale-105"
                 style={{
                   background: currentDeptObj ? `linear-gradient(135deg, ${currentDeptObj.accentColor}, #000)` : 'linear-gradient(135deg, #ff1a35, #3b0000)'
                 }}
               >
-                <div className="w-full h-full bg-[#0d0e14] rounded-lg flex items-center justify-center">
+                <div className="w-full h-full bg-[#0d0e14] rounded-xl flex items-center justify-center">
                   <Flame 
-                    className="w-6 h-6 animate-pulse group-hover:scale-110 transition-transform" 
+                    className="w-5 h-5 transition-transform" 
                     style={{ color: currentDeptObj ? currentDeptObj.accentColor : '#ff1a35' }}
                   />
                 </div>
@@ -226,47 +232,33 @@ export default function Navbar({ onNavigateSection }) {
                       color: currentDeptObj ? currentDeptObj.accentColor : '#ff4d66'
                     }}
                   >
-                    SHELL
+                    STORE
                   </span>
                 </div>
-                <span className="text-[9px] font-mono tracking-widest text-zinc-400 uppercase -mt-1">
+                <span className="text-[9px] font-mono tracking-widest text-zinc-400 uppercase -mt-0.5">
                   {activeDepartment === 'hub' ? 'Universal Marketplace' : `${currentDeptObj?.name || 'Syndicate'}`}
                 </span>
               </div>
             </a>
-
-            {/* Department Back Link */}
-            {activeDepartment !== 'hub' && (
-              <div className="hidden lg:flex items-center gap-2 pl-3 xl:pl-4 border-l border-zinc-800">
-                <button
-                  onClick={() => setActiveDepartment('hub')}
-                  className="text-xs font-mono text-zinc-400 hover:text-white transition-colors cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
-                  title="Return to OMNI Ecosystem Hub"
-                >
-                  <span>← Back to Ecosystem Hub</span>
-                </button>
-              </div>
-            )}
           </div>
 
-          {/* Quick Search Bar trigger */}
-          <div className="flex-1 min-w-[180px] max-w-sm xl:max-w-md hidden md:block mx-2 xl:mx-4">
+          {/* Central Omni-Search Bar */}
+          <div className="flex-1 min-w-[200px] max-w-xl hidden md:block">
             <button
               type="button"
               onClick={() => setIsSearchOpen(true)}
-              className="w-full h-10 px-3.5 rounded-xl bg-[#0f1018]/90 hover:bg-[#151624] border border-zinc-800/80 hover:border-red-500/50 text-zinc-400 text-sm transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] hover:shadow-[0_0_15px_rgba(255,26,53,0.18)] group flex items-center justify-between gap-2.5 overflow-hidden text-left focus:outline-none focus:ring-1 focus:ring-red-500/50 cursor-pointer"
-              title="Search across all 6 stores (Ctrl + K)"
+              className="w-full h-11 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.08] hover:border-red-500/50 text-zinc-400 text-sm transition-all group flex items-center justify-between gap-3 cursor-pointer shadow-inner"
+              title="Global Omni-Search across all 6 stores (Ctrl + K)"
             >
-              <div className="flex items-center gap-2.5 min-w-0 flex-1 overflow-hidden">
+              <div className="flex items-center gap-3 min-w-0 flex-1">
                 <Search className="w-4 h-4 text-zinc-400 group-hover:text-red-400 transition-colors shrink-0" />
                 {searchQuery ? (
-                  <span className="font-sans text-xs xl:text-sm text-red-400 font-medium truncate whitespace-nowrap">
-                    Active: <span className="text-white font-semibold">"{searchQuery}"</span>
+                  <span className="font-sans text-xs sm:text-sm text-red-400 font-medium truncate">
+                    Active Search: <span className="text-white font-semibold">"{searchQuery}"</span>
                   </span>
                 ) : (
-                  <span className="font-sans text-xs xl:text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors truncate whitespace-nowrap">
-                    <span className="hidden xl:inline">Search across all 6 sub-stores...</span>
-                    <span className="xl:hidden">Search 6 stores...</span>
+                  <span className="font-sans text-xs sm:text-sm text-zinc-400 group-hover:text-zinc-200 transition-colors truncate">
+                    Search across all 6 stores, titles, rigs, apparel...
                   </span>
                 )}
               </div>
@@ -279,12 +271,12 @@ export default function Navbar({ onNavigateSection }) {
                       setSearchQuery('');
                     }}
                     className="p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
-                    title="Clear search"
+                    title="Clear query"
                   >
                     <X className="w-3.5 h-3.5" />
                   </span>
                 )}
-                <kbd className="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-mono font-medium text-zinc-400 group-hover:text-red-400 bg-[#161722] border border-zinc-700/60 group-hover:border-red-500/30 rounded shadow-sm shrink-0">
+                <kbd className="hidden sm:inline-flex items-center gap-0.5 px-2 py-0.5 text-[10px] font-mono font-medium text-zinc-400 bg-white/5 border border-white/10 rounded group-hover:text-red-400 group-hover:border-red-500/30">
                   <Command className="w-3 h-3 inline" />
                   <span>K</span>
                 </kbd>
@@ -292,60 +284,130 @@ export default function Navbar({ onNavigateSection }) {
             </button>
           </div>
 
-          {/* Right Action Icons & User Profile */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Mobile Search button */}
+          {/* Right Action Icons & Studios Dropdown */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Mobile Search Icon */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="md:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors"
+              className="md:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
             </button>
 
-            {/* Loot Crates Unboxing Button */}
-            <button
-              onClick={() => openLootCrate()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 hover:text-amber-300 transition-all group cursor-pointer"
-              title="Open Cyber Crate Terminal"
-            >
-              <Package className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform" />
-              <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
-                LOOT CRATES
-              </span>
-            </button>
+            {/* Consolidated Studios & Labs Dropdown */}
+            <div className="relative" ref={studiosRef}>
+              <button
+                onClick={() => setStudiosDropdownOpen(prev => !prev)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 text-zinc-200 hover:text-white transition-all cursor-pointer font-cyber text-xs font-bold tracking-wider"
+                title="Open Interactive Studios & Arcade Labs"
+              >
+                <Boxes className="w-4 h-4 text-red-500" />
+                <span className="hidden sm:inline">STUDIOS</span>
+                <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${studiosDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-            {/* Battlestation Rig Builder Button */}
-            <button
-              onClick={() => openBattlestationBuilder()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:text-cyan-300 transition-all group cursor-pointer"
-              title="Open Interactive PC Battlestation Studio"
-            >
-              <Cpu className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-              <span className="hidden xl:inline text-xs font-bold font-cyber tracking-wider">
-                RIG BUILDER
-              </span>
-            </button>
+              {/* Studios Dropdown Menu */}
+              {studiosDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-[#0c0d16]/98 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.9)] p-2 z-50 backdrop-blur-2xl animate-fade-in space-y-1">
+                  <div className="px-3 py-2 text-[10px] font-mono text-zinc-400 uppercase tracking-widest border-b border-white/[0.06]">
+                    Interactive Studios & Labs
+                  </div>
 
-            {/* CyberFuel Custom Formula Lab Button */}
-            <button
-              onClick={() => openFormulaLab()}
-              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-orange-400 hover:text-orange-300 transition-all group cursor-pointer"
-              title="Open CyberFuel Custom Formula Lab (Mix Energy Tub)"
-            >
-              <FlaskConical className="w-4 h-4 text-orange-400 group-hover:scale-110 transition-transform" />
-              <span className="hidden md:inline text-xs font-bold font-cyber tracking-wider">
-                FORMULA LAB
-              </span>
-            </button>
+                  {/* Loot Crates */}
+                  <button
+                    onClick={() => {
+                      openLootCrate();
+                      setStudiosDropdownOpen(false);
+                    }}
+                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 group-hover:scale-105 transition-transform">
+                      <Package className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors font-cyber">
+                        CYBER LOOT CRATES
+                      </div>
+                      <div className="text-[11px] text-zinc-400 truncate">
+                        Spin & decrypt vouchers & drops
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* PC Battlestation Studio */}
+                  <button
+                    onClick={() => {
+                      openBattlestationBuilder();
+                      setStudiosDropdownOpen(false);
+                    }}
+                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 group-hover:scale-105 transition-transform">
+                      <Cpu className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors font-cyber">
+                        RIG BUILDER STUDIO
+                      </div>
+                      <div className="text-[11px] text-zinc-400 truncate">
+                        Configure custom PC & desk setup
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Formula Lab */}
+                  <button
+                    onClick={() => {
+                      openFormulaLab();
+                      setStudiosDropdownOpen(false);
+                    }}
+                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-400 shrink-0 group-hover:scale-105 transition-transform">
+                      <FlaskConical className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-white group-hover:text-orange-400 transition-colors font-cyber">
+                        CYBERFUEL FORMULA LAB
+                      </div>
+                      <div className="text-[11px] text-zinc-400 truncate">
+                        Mix custom energy drink tubs
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Bounties & Earn Coupons */}
+                  <button
+                    onClick={() => {
+                      openBountiesModal ? openBountiesModal() : onNavigateSection?.('bounties');
+                      setStudiosDropdownOpen(false);
+                    }}
+                    className="w-full p-2.5 rounded-xl hover:bg-white/[0.05] transition-all flex items-center gap-3 text-left group cursor-pointer border-t border-white/[0.06]"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 group-hover:scale-105 transition-transform">
+                      <Ticket className="w-5 h-5" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors font-cyber">
+                        EARN DISCOUNT COUPONS
+                      </div>
+                      <div className="text-[11px] text-zinc-400 truncate">
+                        Complete quests for up to 40% OFF
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Audio Mute/Unmute Toggle Button */}
             <button
               onClick={() => toggleAudioMuted()}
-              className={`p-2 rounded-lg border transition-all cursor-pointer ${
+              className={`p-2.5 rounded-xl border transition-all cursor-pointer ${
                 isMuted 
-                  ? 'text-zinc-500 border-zinc-800 hover:text-zinc-300 hover:border-zinc-700 bg-zinc-900/40' 
-                  : 'text-zinc-300 border-white/10 hover:text-white hover:border-white/20 bg-white/5'
+                  ? 'text-zinc-500 border-white/[0.06] hover:text-zinc-300 hover:border-white/10 bg-white/[0.02]' 
+                  : 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:border-emerald-500/50'
               }`}
               title={isMuted ? 'Audio Muted — Click to unmute sound effects' : 'Audio Active — Click to mute sound effects'}
               aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
@@ -360,7 +422,7 @@ export default function Navbar({ onNavigateSection }) {
             {/* Wishlist Button */}
             <button
               onClick={() => setIsWishlistOpen(true)}
-              className="relative p-2 rounded-lg text-zinc-300 hover:text-red-400 hover:bg-red-950/20 border border-white/5 hover:border-red-500/30 transition-all group"
+              className="relative p-2.5 rounded-xl text-zinc-300 hover:text-red-400 hover:bg-white/[0.05] border border-white/[0.08] hover:border-red-500/40 transition-all group cursor-pointer"
               title="Tactical Wishlist"
             >
               <Heart className="w-4 h-4 transition-transform group-hover:scale-110" />
@@ -374,53 +436,52 @@ export default function Navbar({ onNavigateSection }) {
             {/* Universal Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center gap-2 px-3 py-2 rounded-xl bg-red-600/15 hover:bg-red-600/25 border border-red-500/40 hover:border-red-500 text-white transition-all group"
+              className="relative flex items-center gap-2 px-3.5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white transition-all shadow-[0_0_20px_rgba(255,26,53,0.35)] hover:shadow-[0_0_25px_rgba(255,26,53,0.6)] cursor-pointer active:scale-95"
               title="Global Universal Cart"
             >
-              <ShoppingBag className="w-4 h-4 text-red-500 group-hover:scale-110 transition-transform" />
+              <ShoppingBag className="w-4 h-4 group-hover:scale-110 transition-transform" />
               <span className="hidden sm:inline text-xs font-bold font-cyber tracking-wider">
                 CART
               </span>
               {totalCartCount > 0 && (
-                <span className="flex h-5 min-w-5 px-1.5 items-center justify-center rounded-full bg-red-600 text-[11px] font-bold text-white shadow-[0_0_10px_#ff1a35]">
+                <span className="flex h-5 min-w-5 px-1.5 items-center justify-center rounded-full bg-black text-[11px] font-black text-white ml-0.5">
                   {totalCartCount}
                 </span>
               )}
             </button>
 
-            {/* User Profile / Auth Pill with Dropdown */}
-            <div className="relative" ref={dropdownRef}>
+            {/* User Profile / Auth Pill */}
+            <div className="relative" ref={profileRef}>
               {currentUser ? (
-                <div className="flex items-center gap-1 bg-[#14151f] hover:bg-[#1a1b28] border border-red-500/20 hover:border-red-500/50 rounded-lg p-1 sm:px-2.5 sm:py-1.5 transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                <div className="flex items-center gap-1 bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 rounded-xl p-1 sm:px-2.5 sm:py-1.5 transition-all">
                   <button
                     onClick={() => setProfileDropdownOpen(prev => !prev)}
                     className="flex items-center gap-2 cursor-pointer text-left"
-                    title="Operative Menu"
+                    title="User Account"
                   >
                     <div className="relative">
                       <img
                         src={userProfile.avatar}
                         alt={userProfile.gamertag}
-                        className="w-8 h-8 rounded-md object-cover border border-red-500/40"
+                        className="w-7 h-7 rounded-lg object-cover border border-white/20"
                       />
-                      <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-black" />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 border border-black" />
                     </div>
                     <div className="hidden sm:flex flex-col">
-                      <span className="text-xs font-semibold text-white tracking-wide truncate max-w-[110px]">
+                      <span className="text-xs font-semibold text-white tracking-wide truncate max-w-[100px]">
                         {userProfile.gamertag}
                       </span>
-                      <span className="text-[10px] text-emerald-400 font-mono">
-                        ONLINE • LVL {userProfile.level}
+                      <span className="text-[9px] text-emerald-400 font-mono">
+                        LVL {userProfile.level}
                       </span>
                     </div>
                     <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${profileDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
 
-                  {/* Direct Logout Button */}
                   <button
                     onClick={() => signOut()}
-                    className="p-1.5 rounded-md text-zinc-500 hover:text-red-400 hover:bg-red-500/15 transition-colors cursor-pointer"
-                    title="Sign Out (Disconnect Session)"
+                    className="p-1.5 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-white/5 transition-colors cursor-pointer"
+                    title="Sign Out"
                   >
                     <LogOut className="w-3.5 h-3.5" />
                   </button>
@@ -428,47 +489,45 @@ export default function Navbar({ onNavigateSection }) {
               ) : (
                 <button
                   onClick={() => openAuthModal()}
-                  className="flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-red-600/20 via-cyan-500/20 to-red-600/20 hover:from-red-600/30 hover:to-cyan-500/30 border border-cyan-500/40 text-white transition-all shadow-[0_0_15px_rgba(0,240,255,0.2)] group cursor-pointer"
+                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.1] hover:border-white/25 text-white transition-all cursor-pointer"
                   title="Sign In with Google or Email"
                 >
-                  <User className="w-4 h-4 text-cyan-400 animate-pulse" />
-                  <span className="text-xs font-cyber font-bold tracking-wider uppercase text-cyan-300">
-                    LOGIN / JOIN
+                  <User className="w-4 h-4 text-zinc-300" />
+                  <span className="text-xs font-cyber font-bold tracking-wider uppercase text-zinc-200">
+                    SIGN IN
                   </span>
                 </button>
               )}
 
               {/* Profile Dropdown Menu */}
               {currentUser && profileDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 rounded-xl bg-[#0e101a] border border-red-500/30 shadow-[0_10px_35px_rgba(0,0,0,0.9)] py-2 z-50 animate-fade-in backdrop-blur-xl">
-                  {/* User Header */}
-                  <div className="px-3.5 py-2.5 border-b border-zinc-800 flex items-center gap-2.5">
+                <div className="absolute right-0 top-full mt-2 w-64 rounded-2xl bg-[#0c0d16]/98 border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.9)] p-2 z-50 animate-fade-in backdrop-blur-2xl">
+                  <div className="p-3 border-b border-white/[0.06] flex items-center gap-3">
                     <img
                       src={userProfile.avatar}
                       alt={userProfile.gamertag}
-                      className="w-9 h-9 rounded-md object-cover border border-red-500/40"
+                      className="w-10 h-10 rounded-xl object-cover border border-white/20"
                     />
                     <div className="min-w-0 flex-1">
                       <div className="text-xs font-bold text-white truncate font-cyber">
                         {userProfile.gamertag}
                       </div>
                       <div className="text-[10px] text-zinc-400 truncate font-mono">
-                        {currentUser.email || 'Operative Session'}
+                        {currentUser.email || 'Session Active'}
                       </div>
                     </div>
                   </div>
 
-                  {/* Menu Options */}
-                  <div className="p-1.5 space-y-1">
+                  <div className="p-1 space-y-1">
                     <button
                       onClick={() => {
                         setIsProfileOpen(true);
                         setProfileDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/5 transition-colors text-left cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-zinc-300 hover:text-white hover:bg-white/5 transition-colors text-left cursor-pointer"
                     >
-                      <User className="w-4 h-4 text-cyan-400" />
-                      <span>View Dossier & Vault</span>
+                      <User className="w-4 h-4 text-red-400" />
+                      <span>View Account & Orders</span>
                     </button>
 
                     <button
@@ -476,10 +535,10 @@ export default function Navbar({ onNavigateSection }) {
                         signOut();
                         setProfileDropdownOpen(false);
                       }}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left border-t border-zinc-800/80 mt-1 pt-2 cursor-pointer"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left border-t border-white/[0.06] mt-1 pt-2 cursor-pointer"
                     >
                       <LogOut className="w-4 h-4 text-red-500" />
-                      <span>Sign Out (Disconnect)</span>
+                      <span>Sign Out</span>
                     </button>
                   </div>
                 </div>
@@ -489,60 +548,33 @@ export default function Navbar({ onNavigateSection }) {
             {/* Mobile Hamburger toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800/60"
+              className="lg:hidden p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-white/5 cursor-pointer"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
+
         </div>
       </div>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0c0d13]/98 border-b border-red-500/30 px-6 py-5 shadow-2xl space-y-3 animate-fade-in backdrop-blur-xl">
-          <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest px-2">
-            SELECT STOREFRONT:
+        <div className="lg:hidden bg-[#07080d]/98 border-b border-white/10 px-5 py-4 shadow-2xl space-y-2.5 backdrop-blur-2xl animate-fade-in">
+          <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest px-2 pb-1 border-b border-white/[0.06]">
+            STOREFRONTS
           </div>
+
           <button
             onClick={() => {
               setActiveDepartment('hub');
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left py-2 px-3 rounded text-zinc-200 hover:text-white hover:bg-white/5 font-medium flex items-center gap-2"
+            className="w-full text-left py-2 px-3 rounded-xl text-zinc-200 hover:text-white hover:bg-white/5 font-medium flex items-center gap-2.5 text-xs"
           >
             <Globe2 className="w-4 h-4 text-red-500" />
-            Global Universal Hub
+            <span>Universal Hub</span>
           </button>
-          <button
-            onClick={() => {
-              openLootCrate();
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left py-2 px-3 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30 font-medium flex items-center gap-2"
-          >
-            <Package className="w-4 h-4 text-amber-400" />
-            Cyber Loot Crates (Unbox Drops)
-          </button>
-          <button
-            onClick={() => {
-              openBattlestationBuilder();
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left py-2 px-3 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-medium flex items-center gap-2"
-          >
-            <Cpu className="w-4 h-4 text-cyan-400" />
-            PC Battlestation Studio (Build Rig)
-          </button>
-          <button
-            onClick={() => {
-              openFormulaLab();
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left py-2 px-3 rounded bg-orange-500/10 text-orange-400 border border-orange-500/30 font-medium flex items-center gap-2"
-          >
-            <FlaskConical className="w-4 h-4 text-orange-400" />
-            CyberFuel Formula Lab (Mix Tub)
-          </button>
+
           {departments.map(dept => (
             <button
               key={dept.id}
@@ -550,12 +582,49 @@ export default function Navbar({ onNavigateSection }) {
                 setActiveDepartment(dept.id);
                 setMobileMenuOpen(false);
               }}
-              className="w-full text-left py-2 px-3 rounded text-zinc-300 hover:text-white hover:bg-white/5 font-medium flex items-center gap-2"
+              className="w-full text-left py-2 px-3 rounded-xl text-zinc-300 hover:text-white hover:bg-white/5 font-medium flex items-center gap-2.5 text-xs"
             >
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: dept.accentColor }} />
               <span>{dept.name}</span>
             </button>
           ))}
+
+          <div className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest px-2 pt-2 border-t border-white/[0.06]">
+            INTERACTIVE STUDIOS
+          </div>
+
+          <button
+            onClick={() => {
+              openLootCrate();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-3 rounded-xl bg-amber-500/10 text-amber-400 font-medium flex items-center gap-2.5 text-xs"
+          >
+            <Package className="w-4 h-4 text-amber-400" />
+            <span>Cyber Loot Crates (Vouchers & Drops)</span>
+          </button>
+
+          <button
+            onClick={() => {
+              openBattlestationBuilder();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-3 rounded-xl bg-cyan-500/10 text-cyan-400 font-medium flex items-center gap-2.5 text-xs"
+          >
+            <Cpu className="w-4 h-4 text-cyan-400" />
+            <span>PC Battlestation Studio</span>
+          </button>
+
+          <button
+            onClick={() => {
+              openFormulaLab();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full text-left py-2 px-3 rounded-xl bg-orange-500/10 text-orange-400 font-medium flex items-center gap-2.5 text-xs"
+          >
+            <FlaskConical className="w-4 h-4 text-orange-400" />
+            <span>CyberFuel Formula Lab</span>
+          </button>
         </div>
       )}
     </header>
