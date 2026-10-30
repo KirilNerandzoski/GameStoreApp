@@ -203,20 +203,23 @@ ON CONFLICT (id) DO UPDATE SET
     hero_banner = EXCLUDED.hero_banner,
     description = EXCLUDED.description;
 
-
 -- ==========================================
--- 7. Operative Profiles Tracker (auth.users sync)
+-- 7. Operative Profiles Tracker (auth.users sync + Google OAuth)
 -- ==========================================
 
--- Create the profiles table tracking only gamertag and email
+-- 1. Create the tracker table (tracking gamertag, email, and login provider)
 CREATE TABLE IF NOT EXISTS public.profiles (
     id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     gamertag TEXT NOT NULL,
     email TEXT NOT NULL,
+    provider TEXT DEFAULT 'email',
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Enable Row Level Security (RLS)
+-- Ensure provider column exists if table was created previously
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS provider TEXT DEFAULT 'email';
+
+-- 2. Enable Row Level Security (RLS)
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 
 DROP POLICY IF EXISTS "Allow public read access on profiles" ON public.profiles;
@@ -229,48 +232,86 @@ CREATE POLICY "Allow users to update own profile"
     ON public.profiles FOR UPDATE 
     USING (auth.uid() = id);
 
--- Automatic trigger function to sync new signups from auth.users
+-- 3. Trigger Function: Handles Email Signups + Google OAuth Logins
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER 
 LANGUAGE plpgsql 
 SECURITY DEFINER
 SET search_path = public
 AS $$
+DECLARE
+    detected_provider TEXT;
+    extracted_gamertag TEXT;
 BEGIN
-    INSERT INTO public.profiles (id, gamertag, email, created_at)
+    -- Detect Provider ('google', 'email', etc.)
+    detected_provider := COALESCE(
+        NULLIF(TRIM(NEW.raw_app_meta_data->>'provider'), ''),
+        CASE 
+            WHEN NEW.raw_user_meta_data->>'iss' LIKE '%google%' THEN 'google'
+            ELSE 'email'
+        END
+    );
+
+    -- Extract Gamertag:
+    -- Custom Signup: Uses chosen gamertag
+    -- Google OAuth First Login: Uses Google Full Name -> Name -> Username -> Email Prefix
+    extracted_gamertag := COALESCE(
+        NULLIF(TRIM(NEW.raw_user_meta_data->>'gamertag'), ''),
+        NULLIF(TRIM(NEW.raw_user_meta_data->>'full_name'), ''),
+        NULLIF(TRIM(NEW.raw_user_meta_data->>'name'), ''),
+        NULLIF(TRIM(NEW.raw_user_meta_data->>'preferred_username'), ''),
+        SPLIT_PART(NEW.email, '@', 1),
+        'Operative'
+    );
+
+    INSERT INTO public.profiles (id, gamertag, email, provider, created_at)
     VALUES (
         NEW.id,
-        COALESCE(
-            NULLIF(TRIM(NEW.raw_user_meta_data->>'gamertag'), ''),
-            SPLIT_PART(NEW.email, '@', 1),
-            'Operative'
-        ),
-        NEW.email,
+        extracted_gamertag,
+        COALESCE(NEW.email, ''),
+        detected_provider,
         NOW()
     )
     ON CONFLICT (id) DO UPDATE
-    SET gamertag = EXCLUDED.gamertag,
-        email = EXCLUDED.email;
+    SET gamertag = CASE 
+            -- Keep custom gamertag if one was already set
+            WHEN public.profiles.gamertag IS NOT NULL 
+                 AND public.profiles.gamertag NOT IN ('Operative', SPLIT_PART(NEW.email, '@', 1))
+            THEN public.profiles.gamertag
+            ELSE EXCLUDED.gamertag
+        END,
+        email = EXCLUDED.email,
+        provider = EXCLUDED.provider;
+
     RETURN NEW;
 END;
 $$;
 
--- Trigger firing immediately whenever a new user registers in auth.users
+-- 4. Trigger on auth.users for new signups and first OAuth logins
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
 
--- One-time backfill for any accounts already created
-INSERT INTO public.profiles (id, gamertag, email, created_at)
+-- 5. Backfill all existing users (email + Google accounts already registered)
+INSERT INTO public.profiles (id, gamertag, email, provider, created_at)
 SELECT 
     id,
     COALESCE(
         NULLIF(TRIM(raw_user_meta_data->>'gamertag'), ''),
+        NULLIF(TRIM(raw_user_meta_data->>'full_name'), ''),
+        NULLIF(TRIM(raw_user_meta_data->>'name'), ''),
         SPLIT_PART(email, '@', 1),
         'Operative'
     ),
-    email,
+    COALESCE(email, ''),
+    COALESCE(
+        NULLIF(TRIM(raw_app_meta_data->>'provider'), ''),
+        'email'
+    ),
     created_at
 FROM auth.users
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE
+SET gamertag = EXCLUDED.gamertag,
+    email = EXCLUDED.email,
+    provider = EXCLUDED.provider;
