@@ -1,5 +1,6 @@
 // Service for dispatching newly registered user webhooks
-// Notifies external endpoints (Discord, Make, Zapier, Slack, or custom APIs)
+// Notifies WorkRelay (/customer-webhook) and optional external endpoints (Discord, Make, Zapier, Slack, or custom APIs)
+import { dispatchCustomerToWorkRelay } from './workRelay';
 
 export const USER_WEBHOOK_CONFIG = {
   webhookUrl: import.meta.env.VITE_USER_WEBHOOK_URL || '',
@@ -36,6 +37,16 @@ export async function dispatchNewUserWebhook({ gamertag, email, provider = 'emai
   };
 
   console.log('[UserWebhook] Dispatching new user webhook event:', payload);
+
+  // Always dispatch customer signup event to WorkRelay's /customer-webhook
+  if (email) {
+    dispatchCustomerToWorkRelay({
+      email,
+      name: `${cleanGamertag} — ${websiteWithBracket}`,
+      externalId: cleanGamertag,
+      registeredAt: payload.created_at
+    }).catch(err => console.warn('[WorkRelay] Customer webhook notice:', err));
+  }
 
   if (!url) {
     console.warn('[UserWebhook] No VITE_USER_WEBHOOK_URL configured. Payload logged to console.');

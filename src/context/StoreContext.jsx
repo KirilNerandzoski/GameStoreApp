@@ -10,7 +10,7 @@ import {
   ALL_OMNI_PRODUCTS 
 } from '../data/departmentsData.js';
 import { supabase } from '../lib/supabaseClient';
-import { dispatchOrderToWorkRelay } from '../lib/workRelay';
+import { dispatchOrderToWorkRelay, syncInventoryToWorkRelay, getDefaultProductStock } from '../lib/workRelay';
 import { dispatchNewUserWebhook } from '../lib/userWebhook';
 import confetti from 'canvas-confetti';
 
@@ -34,12 +34,32 @@ export function StoreProvider({ children }) {
   // Live Supabase Products state (with instant local seed fallback)
   const [allProducts, setAllProducts] = useState(ALL_OMNI_PRODUCTS);
 
+  // Persistent stock map per SKU for WorkRelay Inventory synchronization
+  const [productStockMap, setProductStockMap] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ignis_product_stock_map');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    const initial = {};
+    ALL_OMNI_PRODUCTS.forEach((p, idx) => {
+      initial[p.id] = getDefaultProductStock(p, idx);
+    });
+    return initial;
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ignis_product_stock_map', JSON.stringify(productStockMap));
+    } catch (e) {}
+  }, [productStockMap]);
+
   useEffect(() => {
     async function syncProductsFromSupabase() {
+      let currentCatalog = ALL_OMNI_PRODUCTS;
       try {
         const { data, error } = await supabase.from('products').select('*');
         if (!error && data && data.length > 0) {
-          const mapped = data.map(row => ({
+          const mapped = data.map((row, idx) => ({
             id: row.id,
             department: row.department,
             departmentName: row.department_name,
@@ -57,16 +77,29 @@ export function StoreProvider({ children }) {
             heroBanner: row.hero_banner,
             tags: row.tags || [],
             features: row.features || [],
-            description: row.description
+            description: row.description,
+            stock: typeof row.stock === 'number' ? row.stock : getDefaultProductStock(row, idx),
+            notifyOn: typeof row.notify_on === 'number' ? row.notify_on : undefined
           }));
+          currentCatalog = mapped;
           setAllProducts(mapped);
         }
       } catch (err) {
         console.warn('Supabase offline or network error, using local fallback:', err);
       }
+
+      // Push initial inventory snapshot to WorkRelay (/inventory-webhook)
+      syncInventoryToWorkRelay(currentCatalog, productStockMap).catch(err => {
+        console.warn('[WorkRelay] Initial inventory sync notice:', err);
+      });
     }
     syncProductsFromSupabase();
   }, []);
+
+  // Expose manual WorkRelay inventory sync helper globally for quick testing
+  useEffect(() => {
+    window.syncWorkRelayInventory = () => syncInventoryToWorkRelay(allProducts, productStockMap);
+  }, [allProducts, productStockMap]);
 
   // Supabase Auth Session listener
   useEffect(() => {
@@ -667,6 +700,29 @@ export function StoreProvider({ children }) {
     dispatchOrderToWorkRelay(newOrder, userProfile).catch(err => {
       console.warn('[WorkRelay] Order dispatch failed:', err);
     });
+
+    // Deduct stock for purchased items and push real-time stock update to WorkRelay (/inventory-webhook)
+    setProductStockMap(prevStock => {
+      const nextStock = { ...prevStock };
+      const updatedCatalogItems = [];
+      (newOrder.items || []).forEach((item, idx) => {
+        const sku = String(item.id);
+        const fullProduct = allProducts.find(p => String(p.id) === sku) || item;
+        const currentQty = typeof nextStock[sku] === 'number'
+          ? nextStock[sku]
+          : getDefaultProductStock(fullProduct, idx);
+        const newQty = Math.max(0, currentQty - (Number(item.quantity) || 1));
+        nextStock[sku] = newQty;
+        updatedCatalogItems.push(fullProduct);
+      });
+
+      if (updatedCatalogItems.length > 0) {
+        syncInventoryToWorkRelay(updatedCatalogItems, nextStock).catch(err => {
+          console.warn('[WorkRelay] Post-order stock push notice:', err);
+        });
+      }
+      return nextStock;
+    });
     
     // Award XP and stats to User Profile
     const gainedXP = cart.length * 450;
@@ -1096,6 +1152,8 @@ export function StoreProvider({ children }) {
       fuelProducts: FUEL_PRODUCTS,
       // Store state
       games,
+      productStockMap,
+      syncWorkRelayInventory: () => syncInventoryToWorkRelay(allProducts, productStockMap),
       cart,
       wishlist,
       userProfile,
