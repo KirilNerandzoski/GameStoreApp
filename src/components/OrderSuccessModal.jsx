@@ -17,12 +17,22 @@ export default function OrderSuccessModal() {
     completedOrder, 
     setCompletedOrder, 
     setIsProfileOpen, 
-    addToast 
+    addToast,
+    userProfile,
+    currentUser
   } = useStore();
 
   const [copiedKey, setCopiedKey] = useState(null);
 
   if (!completedOrder) return null;
+
+  const customerDisplayName = 
+    completedOrder?.customer_name || 
+    completedOrder?.customer?.name || 
+    userProfile?.gamertag || 
+    currentUser?.user_metadata?.gamertag || 
+    currentUser?.email?.split('@')[0] || 
+    'Kirogamer';
 
   const handleCopyKey = (keyStr) => {
     if (navigator.clipboard) {
@@ -66,8 +76,8 @@ export default function OrderSuccessModal() {
             TRANSACTION COMPLETED // KEYS DEPLOYED
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-black font-heading text-white">
-            THANK YOU, OPERATIVE!
+          <h3 className="text-2xl sm:text-3xl font-black font-heading text-white uppercase tracking-wide">
+            THANK YOU, {customerDisplayName}!
           </h3>
 
           <p className="text-xs text-zinc-400 font-mono">

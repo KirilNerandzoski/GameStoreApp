@@ -714,7 +714,7 @@ export default function LootCratesModal() {
                       <div className="space-y-1 text-center sm:text-left">
                         <div className="flex items-center justify-center sm:justify-start gap-2">
                           <span className="text-[10px] font-mono font-black uppercase text-red-400">
-                            CONGRATULATIONS OPERATIVE!
+                            CONGRATULATIONS, {userProfile?.gamertag?.toUpperCase() || 'KIROGAMER'}!
                           </span>
                           <span className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase ${RARITY_CONFIG[wonItem.rarity]?.badgeClass}`}>
                             {RARITY_CONFIG[wonItem.rarity]?.label}
