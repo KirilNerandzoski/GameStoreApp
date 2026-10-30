@@ -197,6 +197,20 @@ export default function ProfileModal() {
                   Sign In / Connect
                 </button>
               )}
+
+              {isStoreAdmin && (
+                <button
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    openWorkRelayModal();
+                  }}
+                  className="px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 border border-emerald-500/40 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  title="Admin Only: Open WorkRelay Inventory & Webhook Sync Hub"
+                >
+                  <Database className="w-3.5 h-3.5" />
+                  Admin: WorkRelay Sync
+                </button>
+              )}
             </div>
 
           </div>
