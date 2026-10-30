@@ -1032,7 +1032,7 @@ export const SORT_OPTIONS = [
 ];
 
 export const GUEST_USER_PROFILE = {
-  gamertag: 'Guest Operative',
+  gamertag: 'Kirogamer',
   avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=180&auto=format&fit=crop',
   level: 1,
   xp: 0,
@@ -1046,7 +1046,7 @@ export const GUEST_USER_PROFILE = {
 };
 
 export const INITIAL_USER_PROFILE = {
-  gamertag: 'Valkyrie_99',
+  gamertag: 'Kirogamer',
   avatar: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
   level: 42,
   xp: 14850,

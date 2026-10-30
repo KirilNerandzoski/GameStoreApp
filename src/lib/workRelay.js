@@ -55,13 +55,12 @@ export async function dispatchOrderToWorkRelay(order, userProfile = null) {
       order.customer?.name || 
       userProfile?.gamertag || 
       userProfile?.name || 
-      userProfile?.operativeId || 
-      'Operative';
+      'Kirogamer';
     const customerEmail = 
       order.customer_email || 
       order.customer?.email || 
       userProfile?.email || 
-      'operative@ignis.cyber';
+      'kirogamer@ignis.cyber';
 
     const subtotalMinor = Math.round(Number(order.subtotal || order.total || order.total_amount || 0) * 100);
     const totalMinor = Math.round(Number(order.total || order.total_amount || 0) * 100);

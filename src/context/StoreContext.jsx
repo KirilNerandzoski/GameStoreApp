@@ -107,7 +107,7 @@ export function StoreProvider({ children }) {
         setUserProfile(prev => ({
           ...prev,
           email: user.email,
-          gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Operative',
+          gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Kirogamer',
           avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
           isGuest: false
         }));
@@ -145,7 +145,7 @@ export function StoreProvider({ children }) {
         setUserProfile(prev => ({
           ...prev,
           email: user.email,
-          gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Operative',
+          gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.email?.split('@')[0] || 'Kirogamer',
           avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
           isGuest: false
         }));
@@ -558,12 +558,12 @@ export function StoreProvider({ children }) {
       customerData?.fullName || 
       userProfile?.gamertag || 
       userProfile?.name || 
-      'Operative';
+      'Kirogamer';
 
     const resolvedCustomerEmail = 
       customerData?.email || 
       userProfile?.email || 
-      'operative@ignis.cyber';
+      'kirogamer@ignis.cyber';
 
     const newKeys = cart.map(item => {
       const isDigital = item.department === 'gaming' || item.itemType === 'digital';

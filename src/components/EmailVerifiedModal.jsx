@@ -98,7 +98,7 @@ export default function EmailVerifiedModal() {
                 Operative Gamertag:
               </span>
               <span className="font-bold text-cyan-300">
-                {userProfile?.gamertag || currentUser?.user_metadata?.gamertag || 'Operative'}
+                {userProfile?.gamertag || currentUser?.user_metadata?.gamertag || 'Kirogamer'}
               </span>
             </div>
 

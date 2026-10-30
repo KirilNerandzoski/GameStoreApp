@@ -56,7 +56,7 @@ export default function CheckoutModal() {
   }, [userProfile?.gamertag, userProfile?.email]);
 
   const [shippingData, setShippingData] = useState({
-    fullName: 'Alex Mercer',
+    fullName: userProfile.gamertag || 'Kirogamer',
     address: '88 Cybernetic Ave, Suite 402',
     city: 'Neo-Tokyo District 9',
     postalCode: '100-0001',
@@ -74,10 +74,10 @@ export default function CheckoutModal() {
 
   const handleAutofillDemo = () => {
     setFormData({
-      email: 'alex.mercer@prototype.io',
-      gamertag: 'Ghost_Operative_01',
+      email: userProfile.email || 'kirogamer@ignis.cyber',
+      gamertag: userProfile.gamertag || 'Kirogamer',
       cardNumber: '5500 2341 8899 4412',
-      cardName: 'ALEX MERCER',
+      cardName: (userProfile.gamertag || 'Kirogamer').toUpperCase(),
       expiry: '08/28',
       cvv: '773',
       country: 'Neo-Tokyo District 4'
