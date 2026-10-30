@@ -10,7 +10,13 @@ import {
   ALL_OMNI_PRODUCTS 
 } from '../data/departmentsData.js';
 import { supabase } from '../lib/supabaseClient';
-import { dispatchOrderToWorkRelay, syncInventoryToWorkRelay, getDefaultProductStock } from '../lib/workRelay';
+import {
+  dispatchOrderToWorkRelay,
+  syncInventoryToWorkRelay,
+  getDefaultProductStock,
+  queueBatchedStockPushToWorkRelay,
+  flushWorkRelayOutbox
+} from '../lib/workRelay';
 import { dispatchNewUserWebhook } from '../lib/userWebhook';
 import confetti from 'canvas-confetti';
 
@@ -92,6 +98,9 @@ export function StoreProvider({ children }) {
       syncInventoryToWorkRelay(currentCatalog, productStockMap).catch(err => {
         console.warn('[WorkRelay] Initial inventory sync notice:', err);
       });
+
+      // Retry any network-failed events stored in the persistent WorkRelay outbox
+      flushWorkRelayOutbox().catch(() => {});
     }
     syncProductsFromSupabase();
   }, []);
@@ -377,6 +386,7 @@ export function StoreProvider({ children }) {
   const [isFormulaLabOpen, setIsFormulaLabOpen] = useState(false);
   const [isBattlestationOpen, setIsBattlestationOpen] = useState(false);
   const [isBountiesModalOpen, setIsBountiesModalOpen] = useState(false);
+  const [isWorkRelayModalOpen, setIsWorkRelayModalOpen] = useState(false);
 
   // Loot Crate Unboxing History (with automatic healing for broken legacy URLs)
   const [lootHistory, setLootHistory] = useState(() => {
@@ -717,9 +727,7 @@ export function StoreProvider({ children }) {
       });
 
       if (updatedCatalogItems.length > 0) {
-        syncInventoryToWorkRelay(updatedCatalogItems, nextStock).catch(err => {
-          console.warn('[WorkRelay] Post-order stock push notice:', err);
-        });
+        queueBatchedStockPushToWorkRelay(updatedCatalogItems, nextStock);
       }
       return nextStock;
     });
@@ -1153,7 +1161,11 @@ export function StoreProvider({ children }) {
       // Store state
       games,
       productStockMap,
+      setProductStockMap,
       syncWorkRelayInventory: () => syncInventoryToWorkRelay(allProducts, productStockMap),
+      isWorkRelayModalOpen,
+      setIsWorkRelayModalOpen,
+      openWorkRelayModal: () => setIsWorkRelayModalOpen(true),
       cart,
       wishlist,
       userProfile,

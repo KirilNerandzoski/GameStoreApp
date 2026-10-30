@@ -15,8 +15,10 @@ import {
   ShieldCheck, 
   KeyRound,
   Edit2,
-  Save
+  Save,
+  Database
 } from 'lucide-react';
+import { dispatchCustomerToWorkRelay } from '../lib/workRelay';
 
 export default function ProfileModal() {
   const { 
@@ -29,6 +31,7 @@ export default function ProfileModal() {
     addToast,
     currentUser,
     openAuthModal,
+    openWorkRelayModal,
     signOut
   } = useStore();
 
@@ -49,9 +52,18 @@ export default function ProfileModal() {
   };
 
   const handleSaveGamertag = () => {
-    userProfile.gamertag = tempGamertag.trim() || 'Valkyrie_99';
+    userProfile.gamertag = tempGamertag.trim() || 'Kirogamer';
     setIsEditingGamertag(false);
     addToast('Profile Updated', `Gamertag updated to ${userProfile.gamertag}`, 'info');
+    // Section 4 Step 3: Send customer.updated when profile changes
+    if (userProfile.email) {
+      dispatchCustomerToWorkRelay({
+        email: userProfile.email,
+        name: userProfile.gamertag,
+        externalId: userProfile.gamertag,
+        eventType: 'customer.updated'
+      }).catch(() => {});
+    }
   };
 
   const xpPercentage = Math.min(100, Math.round((userProfile.xp % 1000) / 10));
@@ -184,6 +196,18 @@ export default function ProfileModal() {
                   Sign In / Connect
                 </button>
               )}
+
+              <button
+                onClick={() => {
+                  setIsProfileOpen(false);
+                  openWorkRelayModal();
+                }}
+                className="px-3 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 border border-emerald-500/40 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                title="Open WorkRelay Inventory & Webhook Sync Hub"
+              >
+                <Database className="w-3.5 h-3.5" />
+                WorkRelay Sync
+              </button>
             </div>
 
           </div>
