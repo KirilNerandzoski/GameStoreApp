@@ -22,7 +22,6 @@ import BountiesModal from './components/BountiesModal';
 import LootCratesModal from './components/LootCratesModal';
 import CyberFuelLabModal from './components/CyberFuelLabModal';
 import BattlestationBuilderModal from './components/BattlestationBuilderModal';
-import WorkRelayModal from './components/WorkRelayModal';
 import Footer from './components/Footer';
 import { 
   Flame, 
@@ -324,7 +323,6 @@ function MarketplaceContent() {
       <CyberFuelLabModal />
       <BattlestationBuilderModal />
       <BountiesModal />
-      <WorkRelayModal />
       <ToastContainer />
 
       {/* Footer */}
