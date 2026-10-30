@@ -161,7 +161,14 @@ export function StoreProvider({ children }) {
         }
       } else {
         const localUser = localStorage.getItem('ignis_auth_user');
-        if (!localUser) {
+        if (localUser) {
+          try {
+            setCurrentUser(JSON.parse(localUser));
+          } catch (e) {
+            setCurrentUser(null);
+            setUserProfile(GUEST_USER_PROFILE);
+          }
+        } else {
           setCurrentUser(null);
           setUserProfile(GUEST_USER_PROFILE);
         }
@@ -214,7 +221,14 @@ export function StoreProvider({ children }) {
         }
       } else {
         const localUser = localStorage.getItem('ignis_auth_user');
-        if (!localUser) {
+        if (localUser) {
+          try {
+            setCurrentUser(JSON.parse(localUser));
+          } catch (e) {
+            setCurrentUser(null);
+            setUserProfile(GUEST_USER_PROFILE);
+          }
+        } else {
           setCurrentUser(null);
           setUserProfile(GUEST_USER_PROFILE);
         }
@@ -903,6 +917,35 @@ export function StoreProvider({ children }) {
 
   const signInWithEmail = async (email, password) => {
     try {
+      const normalizedIdentifier = (email || '').trim().toLowerCase();
+      // Dedicated SuperAdmin login (the ONLY account with WorkRelay Sync permission)
+      if (normalizedIdentifier === 'superadmin@ignis.cyber' || normalizedIdentifier === 'ignis_superadmin') {
+        if (password === 'IgnisSuperAdmin#2026') {
+          const superAdminUser = {
+            id: 'superadmin-ignis-root',
+            email: 'superadmin@ignis.cyber',
+            role: 'superadmin',
+            user_metadata: {
+              gamertag: 'IGNIS_SUPERADMIN',
+              full_name: 'IGNIS SuperAdmin',
+              role: 'superadmin'
+            }
+          };
+          setCurrentUser(superAdminUser);
+          localStorage.setItem('ignis_auth_user', JSON.stringify(superAdminUser));
+          setUserProfile(prev => ({
+            ...prev,
+            email: 'superadmin@ignis.cyber',
+            gamertag: 'IGNIS_SUPERADMIN',
+            rank: 'Syndicate SuperAdmin',
+            role: 'superadmin',
+            isGuest: false
+          }));
+          return { data: { user: superAdminUser }, error: null };
+        }
+        return { data: null, error: { message: 'Invalid SuperAdmin security passkey.' } };
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       return { data, error };
     } catch (err) {
@@ -1135,10 +1178,10 @@ export function StoreProvider({ children }) {
     addToast('Simulation Active', 'Booting game executable... Neural link established.', 'info');
   };
 
-  // Restrict back-office WorkRelay Sync strictly to the store owner/admin account
-  const ADMIN_EMAILS = ['kiril.nerandz99@gmail.com'];
+  // Restrict back-office WorkRelay Sync strictly to the dedicated SuperAdmin account
   const isStoreAdmin = Boolean(
-    currentUser?.email && ADMIN_EMAILS.includes(currentUser.email.trim().toLowerCase())
+    currentUser?.email?.trim().toLowerCase() === 'superadmin@ignis.cyber' &&
+    currentUser?.role === 'superadmin'
   );
 
   return (

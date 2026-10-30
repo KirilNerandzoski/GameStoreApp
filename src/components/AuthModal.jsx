@@ -270,12 +270,12 @@ export default function AuthModal() {
 
             <div className="space-y-1.5">
               <label className="text-[11px] font-mono font-bold text-zinc-300 uppercase tracking-wider block">
-                Email Address
+                {mode === 'signin' ? 'Email Address or Username' : 'Email Address'}
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-zinc-500 absolute left-3.5 top-3" />
                 <input
-                  type="email"
+                  type={mode === 'signin' ? 'text' : 'email'}
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

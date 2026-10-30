@@ -46,6 +46,8 @@ export default function Navbar({ onNavigateSection }) {
     openFormulaLab,
     openBattlestationBuilder,
     openBountiesModal,
+    openWorkRelayModal,
+    isStoreAdmin,
     currentUser,
     openAuthModal,
     signOut,
@@ -518,6 +520,19 @@ export default function Navbar({ onNavigateSection }) {
                       <User className="w-4 h-4 text-red-400" />
                       <span>View Account & Orders</span>
                     </button>
+
+                    {isStoreAdmin && (
+                      <button
+                        onClick={() => {
+                          openWorkRelayModal?.();
+                          setProfileDropdownOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors text-left cursor-pointer"
+                      >
+                        <Layers className="w-4 h-4 text-emerald-400" />
+                        <span>SuperAdmin: WorkRelay Sync</span>
+                      </button>
+                    )}
 
                     <button
                       onClick={() => {
