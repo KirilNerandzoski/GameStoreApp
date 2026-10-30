@@ -315,3 +315,56 @@ ON CONFLICT (id) DO UPDATE
 SET gamertag = EXCLUDED.gamertag,
     email = EXCLUDED.email,
     provider = EXCLUDED.provider;
+
+
+-- ==========================================
+-- 8. New Operative Registration Webhook (pg_net)
+-- ==========================================
+-- Optional database-level webhook: fires an HTTP POST whenever a new row is added to public.profiles
+
+CREATE EXTENSION IF NOT EXISTS pg_net;
+
+CREATE OR REPLACE FUNCTION public.notify_new_user_webhook()
+RETURNS TRIGGER 
+LANGUAGE plpgsql 
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+    -- REPLACE WITH YOUR TARGET WEBHOOK URL (Discord, Make.com, Zapier, or custom endpoint)
+    target_webhook_url TEXT := 'https://your-webhook-endpoint.com/webhook';
+    site_name TEXT := 'IGNIS Gaming Store';
+    site_url TEXT := 'https://kirilnerandzoski.github.io/GameStoreApp/';
+    site_bracket TEXT := 'IGNIS Gaming Store (https://kirilnerandzoski.github.io/GameStoreApp/)';
+    payload JSONB;
+BEGIN
+    payload := jsonb_build_object(
+        'event', 'user.created',
+        'gamertag', NEW.gamertag,
+        'email', NEW.email,
+        'website_name', site_name,
+        'website_link', site_url,
+        'website', site_bracket,
+        'provider', COALESCE(NEW.provider, 'email'),
+        'created_at', NEW.created_at,
+        'content', format('🚨 **New Operative Registered**%s• **Gamertag:** %s%s• **Email:** %s%s• **Website:** %s',
+            E'\n', NEW.gamertag, E'\n', NEW.email, E'\n', site_bracket)
+    );
+
+    -- Only send if webhook URL is configured
+    IF target_webhook_url NOT LIKE '%your-webhook-endpoint%' THEN
+        PERFORM net.http_post(
+            url := target_webhook_url,
+            headers := jsonb_build_object('Content-Type', 'application/json'),
+            body := payload
+        );
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS on_new_operative_webhook ON public.profiles;
+CREATE TRIGGER on_new_operative_webhook
+    AFTER INSERT ON public.profiles
+    FOR EACH ROW EXECUTE FUNCTION public.notify_new_user_webhook();

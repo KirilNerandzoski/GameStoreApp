@@ -11,6 +11,7 @@ import {
 } from '../data/departmentsData.js';
 import { supabase } from '../lib/supabaseClient';
 import { dispatchOrderToWorkRelay } from '../lib/workRelay';
+import { dispatchNewUserWebhook } from '../lib/userWebhook';
 import confetti from 'canvas-confetti';
 
 const StoreContext = createContext();
@@ -111,6 +112,21 @@ export function StoreProvider({ children }) {
           avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
           isGuest: false
         }));
+
+        // Trigger new user webhook on first login / account creation (Google OAuth or email)
+        if (user.created_at) {
+          const userAgeMs = Date.now() - new Date(user.created_at).getTime();
+          const isFreshAccount = userAgeMs < 120000; // registered in the last 2 minutes
+          const sentKey = `ignis_usr_hook_${user.id}`;
+          if (isFreshAccount && !localStorage.getItem(sentKey)) {
+            localStorage.setItem(sentKey, 'true');
+            dispatchNewUserWebhook({
+              gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Kirogamer',
+              email: user.email,
+              provider: user.app_metadata?.provider || 'google'
+            });
+          }
+        }
       } else {
         const localUser = localStorage.getItem('ignis_auth_user');
         if (!localUser) {
@@ -149,6 +165,21 @@ export function StoreProvider({ children }) {
           avatar: user.user_metadata?.avatar_url || 'https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=180&auto=format&fit=crop',
           isGuest: false
         }));
+
+        // Trigger new user webhook on first login / account creation (Google OAuth or email)
+        if (user.created_at) {
+          const userAgeMs = Date.now() - new Date(user.created_at).getTime();
+          const isFreshAccount = userAgeMs < 120000; // registered in the last 2 minutes
+          const sentKey = `ignis_usr_hook_${user.id}`;
+          if (isFreshAccount && !localStorage.getItem(sentKey)) {
+            localStorage.setItem(sentKey, 'true');
+            dispatchNewUserWebhook({
+              gamertag: user.user_metadata?.gamertag || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Kirogamer',
+              email: user.email,
+              provider: user.app_metadata?.provider || 'google'
+            });
+          }
+        }
       } else {
         const localUser = localStorage.getItem('ignis_auth_user');
         if (!localUser) {
@@ -828,16 +859,28 @@ export function StoreProvider({ children }) {
   const signUpWithEmail = async (email, password, gamertag) => {
     try {
       const redirectUrl = new URL(import.meta.env.BASE_URL, window.location.origin).href;
+      const cleanGamertag = gamertag || email.split('@')[0];
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            gamertag: gamertag || email.split('@')[0]
+            gamertag: cleanGamertag
           }
         }
       });
+
+      if (!error && data?.user) {
+        const sentKey = `ignis_usr_hook_${data.user.id}`;
+        localStorage.setItem(sentKey, 'true');
+        dispatchNewUserWebhook({
+          gamertag: cleanGamertag,
+          email,
+          provider: 'email'
+        });
+      }
+
       return { data, error };
     } catch (err) {
       return { error: err };
