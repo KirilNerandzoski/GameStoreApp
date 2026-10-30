@@ -127,15 +127,19 @@ export function StoreProvider({ children }) {
       setSession(session);
       const user = session?.user || null;
       if (user) {
-        if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
+        const hasOAuthHash = window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'));
+        const hasOAuthCode = window.location.search && window.location.search.includes('code=');
+        if (hasOAuthHash) {
           window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
-        if (window.location.search && window.location.search.includes('code=')) {
+        if (hasOAuthCode) {
           const cleanSearch = window.location.search.replace(/[?&]code=[^&]+/, '').replace(/^[?&]/, '');
           window.history.replaceState(null, '', window.location.pathname + (cleanSearch ? '?' + cleanSearch : ''));
         }
         setCurrentUser(user);
-        setIsAuthModalOpen(false);
+        if (hasOAuthHash || hasOAuthCode) {
+          setIsAuthModalOpen(false);
+        }
         localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
           ...prev,
@@ -187,15 +191,19 @@ export function StoreProvider({ children }) {
           setIsVerifiedModalOpen(true);
         }
 
-        if (window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'))) {
+        const hasOAuthHash = window.location.hash && (window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token'));
+        const hasOAuthCode = window.location.search && window.location.search.includes('code=');
+        if (hasOAuthHash) {
           window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
-        if (window.location.search && window.location.search.includes('code=')) {
+        if (hasOAuthCode) {
           const cleanSearch = window.location.search.replace(/[?&]code=[^&]+/, '').replace(/^[?&]/, '');
           window.history.replaceState(null, '', window.location.pathname + (cleanSearch ? '?' + cleanSearch : ''));
         }
         setCurrentUser(user);
-        setIsAuthModalOpen(false);
+        if (hasOAuthHash || hasOAuthCode) {
+          setIsAuthModalOpen(false);
+        }
         localStorage.setItem('ignis_auth_user', JSON.stringify(user));
         setUserProfile(prev => ({
           ...prev,

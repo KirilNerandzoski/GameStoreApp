@@ -139,7 +139,6 @@ export default function AuthModal() {
   return (
     <div 
       className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fade-in"
-      onClick={handleClose}
     >
       <div 
         className="relative w-full max-w-md rounded-2xl bg-[#090a12] border border-cyan-500/40 shadow-[0_0_60px_rgba(0,240,255,0.25)] overflow-hidden my-auto"
