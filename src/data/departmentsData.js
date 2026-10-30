@@ -13,7 +13,7 @@ export const DEPARTMENTS = [
     accentText: 'text-red-500',
     accentGlow: 'shadow-[0_0_20px_rgba(255,26,53,0.35)]',
     bannerImage: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=80',
-    stats: { items: '20 Master Titles', rating: '4.9/5', delivery: '< 2s Digital' },
+    stats: { items: '25 Master Titles', rating: '4.9/5', delivery: '< 2s Digital' },
     badge: 'FLAGSHIP DIGITAL'
   },
   {
@@ -28,7 +28,7 @@ export const DEPARTMENTS = [
     accentText: 'text-cyan-400',
     accentGlow: 'shadow-[0_0_20px_rgba(0,240,255,0.35)]',
     bannerImage: 'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=1600&q=80',
-    stats: { items: '20 Elite Rigs & Parts', rating: '4.95/5', delivery: 'Insured Courier' },
+    stats: { items: '25 Elite Rigs & Parts', rating: '4.95/5', delivery: 'Insured Courier' },
     badge: 'EXTREME PERFORMANCE'
   },
   {
@@ -43,7 +43,7 @@ export const DEPARTMENTS = [
     accentText: 'text-fuchsia-400',
     accentGlow: 'shadow-[0_0_20px_rgba(191,0,255,0.35)]',
     bannerImage: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80',
-    stats: { items: '20 Tactical Drops', rating: '4.88/5', delivery: 'Worldwide 48h' },
+    stats: { items: '25 Tactical Drops', rating: '4.88/5', delivery: 'Worldwide 48h' },
     badge: 'LIMITED DROPS'
   },
   {
@@ -58,7 +58,7 @@ export const DEPARTMENTS = [
     accentText: 'text-amber-400',
     accentGlow: 'shadow-[0_0_20px_rgba(255,183,0,0.35)]',
     bannerImage: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1600&q=80',
-    stats: { items: '20 Master Relics', rating: '4.98/5', delivery: 'Crated Freight' },
+    stats: { items: '25 Master Relics', rating: '4.98/5', delivery: 'Crated Freight' },
     badge: 'NUMBERED EDITIONS'
   },
   {
@@ -73,7 +73,7 @@ export const DEPARTMENTS = [
     accentText: 'text-emerald-400',
     accentGlow: 'shadow-[0_0_20px_rgba(0,255,136,0.35)]',
     bannerImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=80',
-    stats: { items: '20 Infrastructure Nodes', rating: '99.99% Uptime', delivery: 'Instant Spinup' },
+    stats: { items: '25 Infrastructure Nodes', rating: '99.99% Uptime', delivery: 'Instant Spinup' },
     badge: 'ENTERPRISE TECH'
   },
   {
@@ -88,7 +88,7 @@ export const DEPARTMENTS = [
     accentText: 'text-orange-400',
     accentGlow: 'shadow-[0_0_20px_rgba(255,85,0,0.35)]',
     bannerImage: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=1600&q=80',
-    stats: { items: '20 Bio-Formulas', rating: '4.94/5', delivery: 'Same-Day Dispatch' },
+    stats: { items: '25 Bio-Formulas', rating: '4.94/5', delivery: 'Same-Day Dispatch' },
     badge: 'BIO-SYNAPSE LABS'
   }
 ];

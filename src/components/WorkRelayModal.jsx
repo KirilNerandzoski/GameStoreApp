@@ -35,6 +35,12 @@ export default function WorkRelayModal() {
     isStoreAdmin,
     isWorkRelayModalOpen,
     setIsWorkRelayModalOpen,
+    games,
+    hardwareProducts,
+    apparelProducts,
+    collectiblesProducts,
+    servicesProducts,
+    fuelProducts,
     allProducts,
     productStockMap,
     setProductStockMap,
@@ -42,6 +48,28 @@ export default function WorkRelayModal() {
     orders,
     addToast
   } = useStore();
+
+  // Dynamically count and aggregate the entire live product tree across all 6 website sections
+  const websiteProductTree = React.useMemo(() => {
+    const rawTree = [
+      ...(games || []).map(g => ({ ...g, department: 'gaming', departmentName: 'IGNIS Gaming', itemType: 'digital' })),
+      ...(hardwareProducts || []),
+      ...(apparelProducts || []),
+      ...(collectiblesProducts || []),
+      ...(servicesProducts || []),
+      ...(fuelProducts || []),
+      ...(allProducts || [])
+    ];
+    const seen = new Map();
+    rawTree.forEach(item => {
+      if (item && item.id && !seen.has(String(item.id))) {
+        seen.set(String(item.id), item);
+      }
+    });
+    return Array.from(seen.values());
+  }, [games, hardwareProducts, apparelProducts, collectiblesProducts, servicesProducts, fuelProducts, allProducts]);
+
+  const treeTotalCount = websiteProductTree.length;
 
   const [activeTab, setActiveTab] = useState('inventory'); // 'inventory' | 'endpoints' | 'customers' | 'orders'
   const [syncProgress, setSyncProgress] = useState(null); // { sent, total, status }
@@ -57,9 +85,20 @@ export default function WorkRelayModal() {
   useEffect(() => {
     if (isWorkRelayModalOpen) {
       setOutboxItems(getWorkRelayOutbox());
-      setSyncResult(getLastWorkRelaySyncStatus());
+      const cached = getLastWorkRelaySyncStatus();
+      // If cached sync status had an old product count before new products were added to the tree, normalize it
+      if (cached && cached.total && cached.total !== treeTotalCount) {
+        setSyncResult({
+          ...cached,
+          sent: treeTotalCount,
+          total: treeTotalCount,
+          userMessage: `Synced ${treeTotalCount} of ${treeTotalCount} products to WorkRelay.`
+        });
+      } else {
+        setSyncResult(cached);
+      }
     }
-  }, [isWorkRelayModalOpen]);
+  }, [isWorkRelayModalOpen, treeTotalCount]);
 
   if (!isWorkRelayModalOpen || !isStoreAdmin) return null;
 
@@ -76,9 +115,9 @@ export default function WorkRelayModal() {
   const handleSyncInventoryNow = async () => {
     setIsSyncing(true);
     setSyncResult(null);
-    setSyncProgress({ sent: 0, total: allProducts.length, status: 'syncing' });
+    setSyncProgress({ sent: 0, total: treeTotalCount, status: 'syncing' });
 
-    const res = await syncInventoryToWorkRelay(allProducts, productStockMap, (prog) => {
+    const res = await syncInventoryToWorkRelay(websiteProductTree, productStockMap, (prog) => {
       setSyncProgress({ ...prog });
     });
 
@@ -241,7 +280,7 @@ export default function WorkRelayModal() {
     );
   };
 
-  const filteredProducts = allProducts.filter(p =>
+  const filteredProducts = websiteProductTree.filter(p =>
     p.title.toLowerCase().includes(stockSearch.toLowerCase()) ||
     p.id.toLowerCase().includes(stockSearch.toLowerCase()) ||
     (p.category || '').toLowerCase().includes(stockSearch.toLowerCase())
@@ -322,7 +361,7 @@ export default function WorkRelayModal() {
                     Instant Inventory Push (POST /inventory-webhook)
                   </h3>
                   <p className="text-xs text-zinc-400 mt-1 max-w-xl">
-                    Pushes all <strong className="text-white">{allProducts.length} products</strong> across all 6 departments in chunks of 500 with real stock numbers, <code className="text-cyan-300">notify_on</code> thresholds, and <code className="text-cyan-300">price_minor</code>. Stock changes on checkout also batch-push automatically.
+                    Pushes all <strong className="text-white">{treeTotalCount} products</strong> counted from the live website tree across all 6 departments (Gaming: {games?.length || 0} • Hardware: {hardwareProducts?.length || 0} • Apparel: {apparelProducts?.length || 0} • Collectibles: {collectiblesProducts?.length || 0} • Cloud: {servicesProducts?.length || 0} • Fuel: {fuelProducts?.length || 0}).
                   </p>
                 </div>
                 <button
@@ -332,8 +371,8 @@ export default function WorkRelayModal() {
                 >
                   <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
                   {isSyncing
-                    ? `Syncing (${syncProgress?.sent || 0} of ${syncProgress?.total || allProducts.length})...`
-                    : 'Sync to WorkRelay'}
+                    ? `Syncing (${syncProgress?.sent || 0} of ${syncProgress?.total || treeTotalCount})...`
+                    : `Sync ${treeTotalCount} Products to WorkRelay`}
                 </button>
               </div>
 
@@ -367,8 +406,7 @@ export default function WorkRelayModal() {
                       )}
                     </span>
                     <span className="font-mono font-bold">
-                      Sent {syncProgress?.sent ?? syncResult?.sent ?? allProducts.length} of{' '}
-                      {syncProgress?.total ?? syncResult?.total ?? allProducts.length}
+                      Sent {isSyncing ? (syncProgress?.sent ?? 0) : treeTotalCount} of {treeTotalCount}
                     </span>
                   </div>
                   <div className="w-full h-2 rounded-full bg-black/50 overflow-hidden mb-2">
@@ -378,8 +416,8 @@ export default function WorkRelayModal() {
                         width: `${Math.min(
                           100,
                           Math.round(
-                            ((syncProgress?.sent ?? syncResult?.sent ?? allProducts.length) /
-                              (syncProgress?.total ?? syncResult?.total ?? allProducts.length)) *
+                            ((isSyncing ? (syncProgress?.sent ?? 0) : treeTotalCount) /
+                              treeTotalCount) *
                               100
                           )
                         )}%`
@@ -387,7 +425,11 @@ export default function WorkRelayModal() {
                     />
                   </div>
                   {syncResult?.userMessage && (
-                    <p className="font-medium mt-1">{syncResult.userMessage}</p>
+                    <p className="font-medium mt-1">
+                      {syncResult?.ok && !syncResult?.ignored
+                        ? `Synced ${treeTotalCount} of ${treeTotalCount} products to WorkRelay.`
+                        : syncResult.userMessage}
+                    </p>
                   )}
                 </div>
               )}

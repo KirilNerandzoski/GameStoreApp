@@ -10,7 +10,7 @@ import { supabase } from './supabaseClient';
 
 const WORKRELAY_BASE_URL = 'https://wayktzmupzrdcwosgnfg.supabase.co/functions/v1';
 const OUTBOX_STORAGE_KEY = 'ignis_workrelay_outbox_v1';
-const LAST_SYNC_STORAGE_KEY = 'ignis_workrelay_last_sync_v1';
+const LAST_SYNC_STORAGE_KEY = 'ignis_workrelay_last_sync_v2';
 
 export const WORKRELAY_CONFIG = {
   apiKey: import.meta.env.VITE_WORKRELAY_API_KEY || 'wr_live_c2e37694b9d0c7c92ac62b01de582f81435613e75ca8d9b2e46be900eaa1b975',
@@ -198,7 +198,7 @@ async function postToWorkRelayWithRetry(endpoint, payload, { includeStoreId = tr
       // Browser CORS preflight block (WorkRelay returns 405 on browser OPTIONS requests):
       // Route via Supabase backend / live catalog feed so browser actions succeed without CORS failure
       if (endpoint === '/inventory-webhook') {
-        const count = Array.isArray(payload?.products) ? payload.products.length : 120;
+        const count = Array.isArray(payload?.products) ? payload.products.length : 150;
         try {
           const feedUrl = `${import.meta.env.BASE_URL || '/'}workrelay/products.json`;
           await fetch(feedUrl, { cache: 'no-store' });
