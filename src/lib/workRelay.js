@@ -570,8 +570,14 @@ export function formatProductForWorkRelay(product, idx = 0, customStock = null) 
 /**
  * Pushes the product catalogue to WorkRelay's /inventory-webhook in chunks of 500
  * per Section 5.B of the developer guide, reporting progress via onProgress({ sent, total }).
+ * Supports optional `synced_by` ({ name, role }) and `quiet` (boolean) fields per Sync Notification spec.
  */
-export async function syncInventoryToWorkRelay(productsList = [], stockMap = {}, onProgress = null) {
+export async function syncInventoryToWorkRelay(
+  productsList = [],
+  stockMap = {},
+  onProgress = null,
+  options = {}
+) {
   if (!WORKRELAY_CONFIG.apiKey) {
     return { ok: false, error: 'missing_api_key', userMessage: 'No WorkRelay API key configured.' };
   }
@@ -585,6 +591,25 @@ export async function syncInventoryToWorkRelay(productsList = [], stockMap = {},
   const total = formattedAll.length;
   if (total === 0) {
     return { ok: false, error: 'no_products', sent: 0, total: 0 };
+  }
+
+  // Build optional Sync Notification extras (`synced_by` and `quiet`)
+  const extraBodyFields = {};
+  if (options?.quiet === true) {
+    extraBodyFields.quiet = true;
+  } else if (options?.syncedBy && typeof options.syncedBy === 'object') {
+    const cleanName = typeof options.syncedBy.name === 'string'
+      ? options.syncedBy.name.trim().slice(0, 120)
+      : '';
+    const cleanRole = typeof options.syncedBy.role === 'string'
+      ? options.syncedBy.role.trim().slice(0, 60)
+      : '';
+    const syncedByObj = {};
+    if (cleanName) syncedByObj.name = cleanName;
+    if (cleanRole) syncedByObj.role = cleanRole;
+    if (Object.keys(syncedByObj).length > 0) {
+      extraBodyFields.synced_by = syncedByObj;
+    }
   }
 
   const CHUNK_SIZE = 500;
@@ -602,7 +627,11 @@ export async function syncInventoryToWorkRelay(productsList = [], stockMap = {},
 
   for (let c = 0; c < chunks.length; c++) {
     const chunk = chunks[c];
-    const res = await postToWorkRelayWithRetry('/inventory-webhook', { products: chunk });
+    const requestPayload = {
+      products: chunk,
+      ...extraBodyFields
+    };
+    const res = await postToWorkRelayWithRetry('/inventory-webhook', requestPayload);
 
     if (!res.ok) {
       const failStatus = {
@@ -645,6 +674,16 @@ export async function syncInventoryToWorkRelay(productsList = [], stockMap = {},
     }
   }
 
+  const announcementPreview = extraBodyFields.quiet
+    ? 'Silent background push ("quiet": true — no channel announcement).'
+    : extraBodyFields.synced_by?.name && extraBodyFields.synced_by?.role
+    ? `Announcement: "${extraBodyFields.synced_by.name} (${extraBodyFields.synced_by.role}) has synced their products (${WORKRELAY_CONFIG.storeName})"`
+    : extraBodyFields.synced_by?.name
+    ? `Announcement: "${extraBodyFields.synced_by.name} has synced their products (${WORKRELAY_CONFIG.storeName})"`
+    : extraBodyFields.synced_by?.role
+    ? `Announcement: "${extraBodyFields.synced_by.role} has synced their products (${WORKRELAY_CONFIG.storeName})"`
+    : `Announcement: "${WORKRELAY_CONFIG.storeName} has synced their products"`;
+
   const successStatus = {
     ok: true,
     ignored: false,
@@ -652,25 +691,33 @@ export async function syncInventoryToWorkRelay(productsList = [], stockMap = {},
     sent: sentCount,
     total,
     applied: totalApplied,
-    userMessage: `Synced ${sentCount} of ${total} products to WorkRelay.`
+    syncedBy: extraBodyFields.synced_by || null,
+    quiet: Boolean(extraBodyFields.quiet),
+    announcementPreview,
+    userMessage: `Synced ${sentCount} of ${total} products to WorkRelay. ${announcementPreview}`
   };
   saveLastSyncStatus(successStatus);
   return successStatus;
 }
 
 // ==========================================
-// BATCHED REAL-TIME STOCK UPDATES (3s debounce)
+// BATCHED REAL-TIME STOCK UPDATES (2.5s debounce)
 // ==========================================
-// Per Section 5.B: "Besides the button, you can also push whenever a product's stock changes
-// (after a sale, a restock or an admin edit). Batch changes for a few seconds so a busy shop
-// sends one request, not one per order."
+// Per Section 5.B & Sync Notification Spec:
+// Automatic background pushes after a sale pass `{ quiet: true }` so nothing is announced.
 
 let pendingStockProductsMap = new Map();
 let latestStockSnapshot = {};
 let batchTimer = null;
+let pendingBatchOptions = { quiet: true };
 
-export function queueBatchedStockPushToWorkRelay(changedProducts = [], updatedStockMap = {}) {
+export function queueBatchedStockPushToWorkRelay(
+  changedProducts = [],
+  updatedStockMap = {},
+  options = { quiet: true }
+) {
   latestStockSnapshot = { ...latestStockSnapshot, ...updatedStockMap };
+  pendingBatchOptions = options || { quiet: true };
   const nowIso = new Date().toISOString();
 
   changedProducts.forEach(prod => {
@@ -687,11 +734,12 @@ export function queueBatchedStockPushToWorkRelay(changedProducts = [], updatedSt
 
   batchTimer = setTimeout(async () => {
     const batchList = Array.from(pendingStockProductsMap.values());
+    const batchOpts = pendingBatchOptions;
     pendingStockProductsMap.clear();
     batchTimer = null;
     if (batchList.length > 0) {
-      console.log(`[WorkRelay] Flushing batched stock update for ${batchList.length} product(s)...`);
-      await syncInventoryToWorkRelay(batchList, latestStockSnapshot);
+      console.log(`[WorkRelay] Flushing batched stock update for ${batchList.length} product(s) (quiet=${Boolean(batchOpts?.quiet)})...`);
+      await syncInventoryToWorkRelay(batchList, latestStockSnapshot, null, batchOpts);
     }
   }, 2500);
 }

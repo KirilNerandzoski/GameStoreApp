@@ -82,6 +82,11 @@ export default function WorkRelayModal() {
   const [orderStatusMsg, setOrderStatusMsg] = useState(null);
   const [feedTestStatus, setFeedTestStatus] = useState(null);
 
+  // Sync Notification fields (`synced_by` and `quiet` per WorkRelay spec) — SuperAdmin Only
+  const [syncNotifyMode, setSyncNotifyMode] = useState('synced_by'); // 'synced_by' | 'shop_only' | 'quiet'
+  const [syncedByName, setSyncedByName] = useState(() => userProfile?.gamertag || 'IGNIS_SUPERADMIN');
+  const [syncedByRole, setSyncedByRole] = useState('Admin');
+
   useEffect(() => {
     if (isWorkRelayModalOpen) {
       setOutboxItems(getWorkRelayOutbox());
@@ -111,15 +116,27 @@ export default function WorkRelayModal() {
     }
   };
 
-  // Section 5.B: "Sync to WorkRelay" button (chunked 500-product push with progress)
+  // Section 5.B + Sync Notification Spec: "Sync to WorkRelay" button (chunked 500-product push with synced_by / quiet)
   const handleSyncInventoryNow = async () => {
     setIsSyncing(true);
     setSyncResult(null);
     setSyncProgress({ sent: 0, total: treeTotalCount, status: 'syncing' });
 
-    const res = await syncInventoryToWorkRelay(websiteProductTree, productStockMap, (prog) => {
-      setSyncProgress({ ...prog });
-    });
+    const syncOptions =
+      syncNotifyMode === 'quiet'
+        ? { quiet: true }
+        : syncNotifyMode === 'synced_by'
+        ? { syncedBy: { name: syncedByName, role: syncedByRole } }
+        : {};
+
+    const res = await syncInventoryToWorkRelay(
+      websiteProductTree,
+      productStockMap,
+      (prog) => {
+        setSyncProgress({ ...prog });
+      },
+      syncOptions
+    );
 
     setIsSyncing(false);
     setSyncResult(res);
@@ -355,25 +372,102 @@ export default function WorkRelayModal() {
           {/* TAB 1: INVENTORY SYNC & LIVE STOCK */}
           {activeTab === 'inventory' && (
             <div className="space-y-5">
-              <div className="p-5 rounded-xl bg-zinc-900/80 border border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wide flex items-center gap-2">
-                    Instant Inventory Push (POST /inventory-webhook)
-                  </h3>
-                  <p className="text-xs text-zinc-400 mt-1 max-w-xl">
-                    Pushes all <strong className="text-white">{treeTotalCount} products</strong> counted from the live website tree across all 6 departments (Gaming: {games?.length || 0} • Hardware: {hardwareProducts?.length || 0} • Apparel: {apparelProducts?.length || 0} • Collectibles: {collectiblesProducts?.length || 0} • Cloud: {servicesProducts?.length || 0} • Fuel: {fuelProducts?.length || 0}).
-                  </p>
+              <div className="p-5 rounded-xl bg-zinc-900/80 border border-zinc-800 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-sm font-bold text-white uppercase tracking-wide flex items-center gap-2">
+                      Instant Inventory Push (POST /inventory-webhook)
+                    </h3>
+                    <p className="text-xs text-zinc-400 mt-1 max-w-xl">
+                      Pushes all <strong className="text-white">{treeTotalCount} products</strong> counted from the live website tree across all 6 departments (Gaming: {games?.length || 0} • Hardware: {hardwareProducts?.length || 0} • Apparel: {apparelProducts?.length || 0} • Collectibles: {collectiblesProducts?.length || 0} • Cloud: {servicesProducts?.length || 0} • Fuel: {fuelProducts?.length || 0}).
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleSyncInventoryNow}
+                    disabled={isSyncing}
+                    className="shrink-0 px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider bg-cyan-500 hover:bg-cyan-400 text-black shadow-[0_0_25px_rgba(0,240,255,0.35)] transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                  >
+                    <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
+                    {isSyncing
+                      ? `Syncing (${syncProgress?.sent || 0} of ${syncProgress?.total || treeTotalCount})...`
+                      : `Sync ${treeTotalCount} Products to WorkRelay`}
+                  </button>
                 </div>
-                <button
-                  onClick={handleSyncInventoryNow}
-                  disabled={isSyncing}
-                  className="shrink-0 px-5 py-3 rounded-xl font-bold text-xs uppercase tracking-wider bg-cyan-500 hover:bg-cyan-400 text-black shadow-[0_0_25px_rgba(0,240,255,0.35)] transition-all flex items-center gap-2 disabled:opacity-50"
-                >
-                  <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-                  {isSyncing
-                    ? `Syncing (${syncProgress?.sent || 0} of ${syncProgress?.total || treeTotalCount})...`
-                    : `Sync ${treeTotalCount} Products to WorkRelay`}
-                </button>
+
+                {/* SuperAdmin Sync Notification Controls (`synced_by` & `quiet`) */}
+                <div className="pt-3 border-t border-zinc-800/80 space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-[11px] font-mono font-bold text-cyan-300 uppercase tracking-wider">
+                      Sync Notification Mode (SuperAdmin Only):
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { id: 'synced_by', label: '1. With synced_by (Person + Role)' },
+                        { id: 'shop_only', label: '2. Shop Only (No synced_by)' },
+                        { id: 'quiet', label: '3. Quiet ("quiet": true)' }
+                      ].map(opt => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => setSyncNotifyMode(opt.id)}
+                          className={`px-2.5 py-1 rounded-lg text-[11px] font-mono font-semibold border transition-all cursor-pointer ${
+                            syncNotifyMode === opt.id
+                              ? 'bg-cyan-500/20 border-cyan-400 text-cyan-300'
+                              : 'bg-black/40 border-zinc-800 text-zinc-400 hover:text-white'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {syncNotifyMode === 'synced_by' && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-[10px] font-mono text-zinc-400 uppercase block mb-1">
+                          synced_by.name (max 120 chars)
+                        </label>
+                        <input
+                          type="text"
+                          maxLength={120}
+                          value={syncedByName}
+                          onChange={e => setSyncedByName(e.target.value)}
+                          placeholder="e.g. Marko or IGNIS_SUPERADMIN"
+                          className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-zinc-700 text-xs text-white font-mono focus:outline-none focus:border-cyan-400"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] font-mono text-zinc-400 uppercase block mb-1">
+                          synced_by.role (max 60 chars)
+                        </label>
+                        <input
+                          type="text"
+                          maxLength={60}
+                          value={syncedByRole}
+                          onChange={e => setSyncedByRole(e.target.value)}
+                          placeholder="e.g. Admin"
+                          className="w-full px-3 py-1.5 rounded-lg bg-black/60 border border-zinc-700 text-xs text-white font-mono focus:outline-none focus:border-cyan-400"
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="px-3 py-2 rounded-lg bg-black/50 border border-zinc-800/80 text-[11px] font-mono text-zinc-300 flex items-center justify-between gap-2">
+                    <span className="text-zinc-500">Team Channel Preview:</span>
+                    <span className="text-emerald-400 font-semibold truncate">
+                      {syncNotifyMode === 'quiet'
+                        ? 'Silent ("quiet": true — no message sent)'
+                        : syncNotifyMode === 'synced_by' && syncedByName.trim() && syncedByRole.trim()
+                        ? `${syncedByName.trim()} (${syncedByRole.trim()}) has synced their products (${WORKRELAY_CONFIG.storeName})`
+                        : syncNotifyMode === 'synced_by' && syncedByName.trim()
+                        ? `${syncedByName.trim()} has synced their products (${WORKRELAY_CONFIG.storeName})`
+                        : syncNotifyMode === 'synced_by' && syncedByRole.trim()
+                        ? `${syncedByRole.trim()} has synced their products (${WORKRELAY_CONFIG.storeName})`
+                        : `${WORKRELAY_CONFIG.storeName} has synced their products`}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {/* Progress / Diagnostic Banner */}
@@ -427,7 +521,7 @@ export default function WorkRelayModal() {
                   {syncResult?.userMessage && (
                     <p className="font-medium mt-1">
                       {syncResult?.ok && !syncResult?.ignored
-                        ? `Synced ${treeTotalCount} of ${treeTotalCount} products to WorkRelay.`
+                        ? `Synced ${treeTotalCount} of ${treeTotalCount} products to WorkRelay. ${syncResult.announcementPreview || ''}`
                         : syncResult.userMessage}
                     </p>
                   )}
