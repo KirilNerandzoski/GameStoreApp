@@ -46,7 +46,6 @@ export default function Navbar({ onNavigateSection }) {
     openFormulaLab,
     openBattlestationBuilder,
     openBountiesModal,
-    openWorkRelayModal,
     currentUser,
     openAuthModal,
     signOut,
@@ -384,27 +383,6 @@ export default function Navbar({ onNavigateSection }) {
                       </div>
                       <div className="text-[11px] text-zinc-400 truncate">
                         Complete quests for up to 40% OFF
-                      </div>
-                    </div>
-                  </button>
-
-                  {/* WorkRelay Sync Hub */}
-                  <button
-                    onClick={() => {
-                      openWorkRelayModal?.();
-                      setStudiosDropdownOpen(false);
-                    }}
-                    className="w-full p-2.5 rounded-xl bg-zinc-900/60 hover:bg-zinc-800/80 border border-zinc-800/80 hover:border-purple-500/40 transition-all flex items-center gap-3 text-left group cursor-pointer"
-                  >
-                    <div className="w-9 h-9 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0 group-hover:scale-105 transition-transform">
-                      <Layers className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors font-cyber">
-                        WORKRELAY SYNC HUB
-                      </div>
-                      <div className="text-[11px] text-zinc-400 truncate">
-                        Sync inventory, orders, signups & API feed
                       </div>
                     </div>
                   </button>

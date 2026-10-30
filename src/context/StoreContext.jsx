@@ -94,21 +94,11 @@ export function StoreProvider({ children }) {
         console.warn('Supabase offline or network error, using local fallback:', err);
       }
 
-      // Push initial inventory snapshot to WorkRelay (/inventory-webhook)
-      syncInventoryToWorkRelay(currentCatalog, productStockMap).catch(err => {
-        console.warn('[WorkRelay] Initial inventory sync notice:', err);
-      });
-
       // Retry any network-failed events stored in the persistent WorkRelay outbox
       flushWorkRelayOutbox().catch(() => {});
     }
     syncProductsFromSupabase();
   }, []);
-
-  // Expose manual WorkRelay inventory sync helper globally for quick testing
-  useEffect(() => {
-    window.syncWorkRelayInventory = () => syncInventoryToWorkRelay(allProducts, productStockMap);
-  }, [allProducts, productStockMap]);
 
   // Supabase Auth Session listener
   useEffect(() => {
@@ -1145,6 +1135,12 @@ export function StoreProvider({ children }) {
     addToast('Simulation Active', 'Booting game executable... Neural link established.', 'info');
   };
 
+  // Restrict back-office WorkRelay Sync strictly to the store owner/admin account
+  const ADMIN_EMAILS = ['kiril.nerandz99@gmail.com'];
+  const isStoreAdmin = Boolean(
+    currentUser?.email && ADMIN_EMAILS.includes(currentUser.email.trim().toLowerCase())
+  );
+
   return (
     <StoreContext.Provider value={{
       // Universal Multi-Department Ecosystem
@@ -1162,10 +1158,13 @@ export function StoreProvider({ children }) {
       games,
       productStockMap,
       setProductStockMap,
+      isStoreAdmin,
       syncWorkRelayInventory: () => syncInventoryToWorkRelay(allProducts, productStockMap),
-      isWorkRelayModalOpen,
+      isWorkRelayModalOpen: isStoreAdmin && isWorkRelayModalOpen,
       setIsWorkRelayModalOpen,
-      openWorkRelayModal: () => setIsWorkRelayModalOpen(true),
+      openWorkRelayModal: () => {
+        if (isStoreAdmin) setIsWorkRelayModalOpen(true);
+      },
       cart,
       wishlist,
       userProfile,

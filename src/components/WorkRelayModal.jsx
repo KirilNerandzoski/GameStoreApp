@@ -32,6 +32,7 @@ import {
 
 export default function WorkRelayModal() {
   const {
+    isStoreAdmin,
     isWorkRelayModalOpen,
     setIsWorkRelayModalOpen,
     allProducts,
@@ -60,7 +61,7 @@ export default function WorkRelayModal() {
     }
   }, [isWorkRelayModalOpen]);
 
-  if (!isWorkRelayModalOpen) return null;
+  if (!isWorkRelayModalOpen || !isStoreAdmin) return null;
 
   const handleCopy = (label, text) => {
     if (navigator.clipboard) {
