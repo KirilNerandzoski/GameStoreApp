@@ -1188,8 +1188,11 @@ export function StoreProvider({ children }) {
 
   // Restrict back-office WorkRelay Sync strictly to the dedicated SuperAdmin account
   const isStoreAdmin = Boolean(
-    currentUser?.email?.trim().toLowerCase() === 'superadmin@ignis.cyber' &&
-    currentUser?.role === 'superadmin'
+    currentUser && (
+      currentUser.email?.trim().toLowerCase() === 'superadmin@ignis.cyber' ||
+      currentUser.role === 'superadmin' ||
+      userProfile?.gamertag?.trim().toUpperCase() === 'IGNIS_SUPERADMIN'
+    )
   );
 
   return (

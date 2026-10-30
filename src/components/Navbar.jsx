@@ -388,6 +388,29 @@ export default function Navbar({ onNavigateSection }) {
                       </div>
                     </div>
                   </button>
+
+                  {/* WorkRelay Sync Hub — SuperAdmin Only */}
+                  {isStoreAdmin && (
+                    <button
+                      onClick={() => {
+                        openWorkRelayModal?.();
+                        setStudiosDropdownOpen(false);
+                      }}
+                      className="w-full p-2.5 rounded-xl bg-purple-950/40 hover:bg-purple-900/50 border border-purple-500/40 hover:border-purple-400 transition-all flex items-center gap-3 text-left group cursor-pointer"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shrink-0 group-hover:scale-105 transition-transform">
+                        <Layers className="w-5 h-5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-bold text-white group-hover:text-purple-300 transition-colors font-cyber">
+                          WORKRELAY SYNC HUB
+                        </div>
+                        <div className="text-[11px] text-purple-300/80 truncate">
+                          SuperAdmin: Sync inventory, orders & feed
+                        </div>
+                      </div>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
