@@ -410,7 +410,7 @@ export default function WorkRelayModal() {
                   </div>
                 </div>
                 <div className="max-h-64 overflow-y-auto divide-y divide-zinc-800/60">
-                  {filteredProducts.slice(0, 40).map(prod => {
+                  {filteredProducts.map(prod => {
                     const currentStock = productStockMap[prod.id] ?? 50;
                     return (
                       <div key={prod.id} className="px-4 py-2.5 flex items-center justify-between gap-4 text-xs hover:bg-zinc-800/30">

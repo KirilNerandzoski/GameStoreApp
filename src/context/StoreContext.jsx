@@ -87,8 +87,16 @@ export function StoreProvider({ children }) {
             stock: typeof row.stock === 'number' ? row.stock : getDefaultProductStock(row, idx),
             notifyOn: typeof row.notify_on === 'number' ? row.notify_on : undefined
           }));
-          currentCatalog = mapped;
-          setAllProducts(mapped);
+          const byId = new Map(mapped.map(item => [String(item.id), item]));
+          const mergedCatalog = ALL_OMNI_PRODUCTS.map((localProd, idx) => {
+            const dbItem = byId.get(String(localProd.id));
+            return dbItem ? { ...localProd, ...dbItem } : {
+              ...localProd,
+              stock: getDefaultProductStock(localProd, idx)
+            };
+          });
+          currentCatalog = mergedCatalog;
+          setAllProducts(mergedCatalog);
         }
       } catch (err) {
         console.warn('Supabase offline or network error, using local fallback:', err);

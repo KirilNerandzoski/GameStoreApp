@@ -3,1442 +3,1802 @@
     {
       "sku": "game-1",
       "name": "CYBERPULSE: Omega Protocol",
-      "stock": 173,
+      "stock": 162,
       "notify_on": 15,
       "price_minor": 4799,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Action RPG",
       "barcode": "IGNIS-GAME-1",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-2",
       "name": "SHADOWS OF VALHALLA: Bloodline",
-      "stock": 104,
+      "stock": 161,
       "notify_on": 15,
       "price_minor": 5999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Dark Fantasy",
       "barcode": "IGNIS-GAME-2",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-3",
       "name": "CRIMSON VENGEANCE: Retribution",
-      "stock": 155,
+      "stock": 160,
       "notify_on": 15,
       "price_minor": 3499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Action",
       "barcode": "IGNIS-GAME-3",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-4",
       "name": "STELLAR HORIZON 2189",
-      "stock": 86,
+      "stock": 159,
       "notify_on": 15,
       "price_minor": 4999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Sci-Fi Simulator",
       "barcode": "IGNIS-GAME-4",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-5",
       "name": "NEON APEX: Zero Hour",
-      "stock": 137,
+      "stock": 158,
       "notify_on": 15,
       "price_minor": 2999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "FPS",
       "barcode": "IGNIS-GAME-5",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-6",
       "name": "CHRONO DRIFT: Tokyo Underground",
-      "stock": 188,
+      "stock": 157,
       "notify_on": 15,
       "price_minor": 3999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Racing",
       "barcode": "IGNIS-GAME-6",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-7",
       "name": "VOIDBORNE: Abyssal Echoes",
-      "stock": 119,
+      "stock": 156,
       "notify_on": 15,
       "price_minor": 2499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Horror",
       "barcode": "IGNIS-GAME-7",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-8",
       "name": "TACTICAL OPS: Ghost Frontier",
-      "stock": 170,
+      "stock": 155,
       "notify_on": 15,
       "price_minor": 4499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "FPS",
       "barcode": "IGNIS-GAME-8",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-9",
       "name": "MYTHOS: Reign of Asgard",
-      "stock": 101,
+      "stock": 154,
       "notify_on": 15,
       "price_minor": 3899,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Action RPG",
       "barcode": "IGNIS-GAME-9",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-10",
       "name": "BIOHAZARD: Extinction Wave",
-      "stock": 152,
+      "stock": 150,
       "notify_on": 15,
       "price_minor": 3199,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Horror",
       "barcode": "IGNIS-GAME-10",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-11",
       "name": "IRON DREADNOUGHT: Void Fleet",
-      "stock": 83,
+      "stock": 149,
       "notify_on": 15,
       "price_minor": 3499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Strategy",
       "barcode": "IGNIS-GAME-11",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-12",
       "name": "NEO TOKYO: Synthetic Soul",
-      "stock": 134,
+      "stock": 148,
       "notify_on": 15,
       "price_minor": 3699,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Cyberpunk Adventure",
       "barcode": "IGNIS-GAME-12",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-13",
       "name": "ELDEN BLAZE: Ashes of Eternity",
-      "stock": 185,
+      "stock": 147,
       "notify_on": 15,
       "price_minor": 5999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Dark Fantasy",
       "barcode": "IGNIS-GAME-13",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-14",
       "name": "HELIOS PRIME: Orbital Strike",
-      "stock": 116,
+      "stock": 146,
       "notify_on": 15,
       "price_minor": 3999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "FPS",
       "barcode": "IGNIS-GAME-14",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-15",
       "name": "BLACK SEA PIRATE: Corsairs of Gold",
-      "stock": 167,
+      "stock": 145,
       "notify_on": 15,
       "price_minor": 3499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Action RPG",
       "barcode": "IGNIS-GAME-15",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-16",
       "name": "APEX SURVIVAL: Primordial Earth",
-      "stock": 98,
+      "stock": 144,
       "notify_on": 15,
       "price_minor": 4499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Horror",
       "barcode": "IGNIS-GAME-16",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-17",
       "name": "PHANTOM BLADE: Zero Dynasty",
-      "stock": 149,
+      "stock": 143,
       "notify_on": 15,
       "price_minor": 5499,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Action",
       "barcode": "IGNIS-GAME-17",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-18",
       "name": "HYPER-SPEED RUSH: Formula GP",
-      "stock": 80,
+      "stock": 142,
       "notify_on": 15,
       "price_minor": 4999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Racing",
       "barcode": "IGNIS-GAME-18",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-19",
       "name": "FORGE & REALM: Medieval Kingdoms",
-      "stock": 131,
+      "stock": 141,
       "notify_on": 15,
       "price_minor": 2999,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "Strategy",
       "barcode": "IGNIS-GAME-19",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "game-20",
       "name": "GHOST PROTOCOL: Extraction Delta",
-      "stock": 182,
+      "stock": 119,
       "notify_on": 15,
       "price_minor": 4299,
       "currency": "USD",
-      "unit": "keys",
+      "unit": "pcs",
       "category": "FPS",
       "barcode": "IGNIS-GAME-20",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "game-21",
+      "name": "CHRONO VANGUARD: Rift Wars",
+      "stock": 118,
+      "notify_on": 15,
+      "price_minor": 5499,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "FPS",
+      "barcode": "IGNIS-GAME-21",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "game-22",
+      "name": "BLOOD MOON: Shogunate Reborn",
+      "stock": 117,
+      "notify_on": 15,
+      "price_minor": 5999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Action RPG",
+      "barcode": "IGNIS-GAME-22",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "game-23",
+      "name": "SUBZERO LEVIATHAN: Abyssal Trench",
+      "stock": 116,
+      "notify_on": 15,
+      "price_minor": 3499,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Horror",
+      "barcode": "IGNIS-GAME-23",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "game-24",
+      "name": "IRON HORIZON: Mecha Armored Core",
+      "stock": 115,
+      "notify_on": 15,
+      "price_minor": 5799,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Action",
+      "barcode": "IGNIS-GAME-24",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "game-25",
+      "name": "ARCANUM ECLIPSE: Grand Magister",
+      "stock": 114,
+      "notify_on": 15,
+      "price_minor": 4999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Strategy",
+      "barcode": "IGNIS-GAME-25",
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-apex-titan",
       "name": "TITAN-X Liquid Core Battlestation",
-      "stock": 19,
+      "stock": 51,
       "notify_on": 5,
       "price_minor": 349999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Desktops",
       "barcode": "IGNIS-HW-APEX-TITAN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-rtx-vanguard",
       "name": "Vanguard RTX 4090 OC 24GB Titanium",
-      "stock": 18,
+      "stock": 15,
       "notify_on": 5,
       "price_minor": 184999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Components",
       "barcode": "IGNIS-HW-RTX-VANGUARD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-oled-curved",
       "name": "Specter 49\" QD-OLED 240Hz Curved Panel",
-      "stock": 13,
+      "stock": 46,
       "notify_on": 5,
       "price_minor": 129999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Monitors",
       "barcode": "IGNIS-HW-OLED-CURVED",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-cyber-keyboard",
       "name": "CyberHaptic 65% Hall-Effect Keyboard",
-      "stock": 12,
+      "stock": 49,
       "notify_on": 5,
       "price_minor": 19999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Peripherals",
       "barcode": "IGNIS-HW-CYBER-KEYBOARD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-apex-mouse",
       "name": "Phantom Ultra 36g Wireless Carbon Fiber Mouse",
-      "stock": 11,
+      "stock": 15,
       "notify_on": 5,
       "price_minor": 15999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Peripherals",
       "barcode": "IGNIS-HW-APEX-MOUSE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-hifi-headset",
       "name": "Aether Pro Planar Magnetic Wireless Gaming Headset",
-      "stock": 24,
+      "stock": 23,
       "notify_on": 5,
       "price_minor": 29999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Audio",
       "barcode": "IGNIS-HW-HIFI-HEADSET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-sim-wheel",
       "name": "Apex Direct Drive 25Nm Sim Racing Wheel Base",
-      "stock": 23,
+      "stock": 36,
       "notify_on": 5,
       "price_minor": 119999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Simulation",
       "barcode": "IGNIS-HW-SIM-WHEEL",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-vr-headset",
       "name": "HoloVision 8K Micro-OLED VR Headset",
-      "stock": 18,
+      "stock": 17,
       "notify_on": 5,
       "price_minor": 139999,
       "currency": "USD",
       "unit": "pcs",
       "category": "VR",
       "barcode": "IGNIS-HW-VR-HEADSET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-nvme-ssd",
       "name": "ChronoDrive 4TB PCIe Gen5 NVMe SSD 14,000MB/s",
-      "stock": 17,
+      "stock": 37,
       "notify_on": 5,
       "price_minor": 38999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Storage",
       "barcode": "IGNIS-HW-NVME-SSD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-ergo-chair",
       "name": "NeoThrone Magnetic Memory Foam Cyber Ergonomic Chair",
-      "stock": 12,
+      "stock": 53,
       "notify_on": 5,
       "price_minor": 54999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Furniture",
       "barcode": "IGNIS-HW-ERGO-CHAIR",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-ryzen-9950x",
       "name": "AMD Ryzen 9 9950X3D 16-Core 32-Thread Gaming Processor",
-      "stock": 11,
+      "stock": 47,
       "notify_on": 5,
       "price_minor": 69999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Components",
       "barcode": "IGNIS-HW-RYZEN-9950X",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-stream-deck",
       "name": "Matrix Macro Pad 15-Key Tactile Stream Controller",
-      "stock": 10,
+      "stock": 34,
       "notify_on": 5,
       "price_minor": 14999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Streaming",
       "barcode": "IGNIS-HW-STREAM-DECK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-liquid-cooler",
       "name": "CryoLoop 360mm LCD AIO Liquid CPU Cooler",
-      "stock": 23,
+      "stock": 17,
       "notify_on": 5,
       "price_minor": 24999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Components",
       "barcode": "IGNIS-HW-LIQUID-COOLER",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-gaming-desk",
       "name": "CyberRiser Motorized Height-Adjustable Carbon Fiber Desk",
-      "stock": 22,
+      "stock": 47,
       "notify_on": 5,
       "price_minor": 69999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Furniture",
       "barcode": "IGNIS-HW-GAMING-DESK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-power-supply",
       "name": "Thorium 1600W Titanium ATX 3.1 Modular Power Supply",
-      "stock": 17,
+      "stock": 15,
       "notify_on": 5,
       "price_minor": 42999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Components",
       "barcode": "IGNIS-HW-POWER-SUPPLY",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-microphone",
       "name": "VocalPoint XLR Broadcast Studio Condenser Microphone",
-      "stock": 16,
+      "stock": 19,
       "notify_on": 5,
       "price_minor": 18999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Audio",
       "barcode": "IGNIS-HW-MICROPHONE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-capture-card",
       "name": "PulseCam 4K 120Hz HDR Zero-Lag PCIe Capture Card",
-      "stock": 11,
+      "stock": 16,
       "notify_on": 5,
       "price_minor": 24999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Streaming",
       "barcode": "IGNIS-HW-CAPTURE-CARD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-ddr5-ram",
       "name": "Dominator Titanium 64GB (2x32GB) DDR5-7200MHz RGB RAM",
-      "stock": 10,
+      "stock": 39,
       "notify_on": 5,
       "price_minor": 29999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Components",
       "barcode": "IGNIS-HW-DDR5-RAM",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-gaming-laptop",
       "name": "Blade X17 Thin 240Hz RTX 4090 Gaming Laptop",
-      "stock": 9,
+      "stock": 22,
       "notify_on": 5,
       "price_minor": 369999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Laptops",
       "barcode": "IGNIS-HW-GAMING-LAPTOP",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "hw-flight-stick",
       "name": "Orion HOTAS Dual Throttle & Flight Joystick System",
-      "stock": 22,
+      "stock": 37,
       "notify_on": 5,
       "price_minor": 49999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Simulation",
       "barcode": "IGNIS-HW-FLIGHT-STICK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "hw-quantum-deck",
+      "name": "QuantumDeck OLED 1TB Handheld Gaming Console",
+      "stock": 15,
+      "notify_on": 5,
+      "price_minor": 69999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Desktops",
+      "barcode": "IGNIS-HW-QUANTUM-DECK",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "hw-cryo-radiator",
+      "name": "CryoMatrix 360mm IPS-LCD Liquid CPU Cooler",
+      "stock": 66,
+      "notify_on": 5,
+      "price_minor": 26999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Components",
+      "barcode": "IGNIS-HW-CRYO-RADIATOR",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "hw-optic-webcam",
+      "name": "LumixPro 4K60 Sony STARVIS AI Gimbal Webcam",
+      "stock": 54,
+      "notify_on": 5,
+      "price_minor": 21999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Streaming",
+      "barcode": "IGNIS-HW-OPTIC-WEBCAM",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "hw-thunder-dock",
+      "name": "NexusHub 18-in-1 Thunderbolt 5 Battlestation Dock",
+      "stock": 21,
+      "notify_on": 5,
+      "price_minor": 32999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Peripherals",
+      "barcode": "IGNIS-HW-THUNDER-DOCK",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "hw-titanium-arm",
+      "name": "Hercules Heavy-Duty Gas-Spring Ultrawide Monitor Arm",
+      "stock": 32,
+      "notify_on": 5,
+      "price_minor": 14999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Furniture",
+      "barcode": "IGNIS-HW-TITANIUM-ARM",
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-stealth-jacket",
       "name": "Kuro-09 Tactical Cyberpunk Shell Jacket",
-      "stock": 56,
-      "notify_on": 10,
+      "stock": 18,
+      "notify_on": 5,
       "price_minor": 24999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Jackets",
       "barcode": "IGNIS-AP-STEALTH-JACKET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-cargo-pants",
       "name": "Ronin-X Articulated Techwear Cargo Pants",
-      "stock": 33,
-      "notify_on": 10,
+      "stock": 42,
+      "notify_on": 5,
       "price_minor": 16999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Bottoms",
       "barcode": "IGNIS-AP-CARGO-PANTS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-led-hoodie",
       "name": "Syndicate Cyber-Glow Heavyweight Hoodie",
-      "stock": 50,
-      "notify_on": 10,
+      "stock": 19,
+      "notify_on": 5,
       "price_minor": 11999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Tops",
       "barcode": "IGNIS-AP-LED-HOODIE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-combat-boots",
       "name": "ExoSole Waterproof Tactical Cyber Combat Boots",
-      "stock": 27,
-      "notify_on": 10,
+      "stock": 31,
+      "notify_on": 5,
       "price_minor": 18999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Footwear",
       "barcode": "IGNIS-AP-COMBAT-BOOTS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-tech-vest",
       "name": "Recon-01 Modular Molle Utility Tactical Vest",
-      "stock": 44,
-      "notify_on": 10,
+      "stock": 45,
+      "notify_on": 5,
       "price_minor": 13999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Jackets",
       "barcode": "IGNIS-AP-TECH-VEST",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-sneakers",
       "name": "Quantum Nitro Cushion Streetwear Runners",
-      "stock": 61,
-      "notify_on": 10,
+      "stock": 19,
+      "notify_on": 5,
       "price_minor": 15999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Footwear",
       "barcode": "IGNIS-AP-SNEAKERS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-crossbody-bag",
       "name": "Sector-X Waterproof Fidlock Sling Crossbody Bag",
-      "stock": 38,
-      "notify_on": 10,
+      "stock": 43,
+      "notify_on": 5,
       "price_minor": 8999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Bags",
       "barcode": "IGNIS-AP-CROSSBODY-BAG",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-cyber-mask",
       "name": "Ghost-Tech Ergonomic Anti-Pollution LED Cyber Mask",
-      "stock": 55,
-      "notify_on": 10,
+      "stock": 12,
+      "notify_on": 5,
       "price_minor": 7999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Accessories",
       "barcode": "IGNIS-AP-CYBER-MASK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-syndicate-cap",
       "name": "NightCity Embroidered Reflective Snapback Cap",
-      "stock": 32,
-      "notify_on": 10,
+      "stock": 38,
+      "notify_on": 5,
       "price_minor": 3999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Headwear",
       "barcode": "IGNIS-AP-SYNDICATE-CAP",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-bomber-jacket",
       "name": "NeoShibuya Reversible Kanji MA-1 Flight Bomber",
-      "stock": 49,
-      "notify_on": 10,
+      "stock": 46,
+      "notify_on": 5,
       "price_minor": 21999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Jackets",
       "barcode": "IGNIS-AP-BOMBER-JACKET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-thermal-joggers",
       "name": "Thermal Grid Fleece Cuffed Cyber Joggers",
-      "stock": 26,
-      "notify_on": 10,
+      "stock": 21,
+      "notify_on": 5,
       "price_minor": 9999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Bottoms",
       "barcode": "IGNIS-AP-THERMAL-JOGGERS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-oversized-tee",
       "name": "Glitch Matrix Heavyweight 280GSM Washed Tee",
-      "stock": 43,
-      "notify_on": 10,
+      "stock": 62,
+      "notify_on": 5,
       "price_minor": 5499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Tops",
       "barcode": "IGNIS-AP-OVERSIZED-TEE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-windbreaker",
       "name": "Neon Horizon Ultralight Packable Windbreaker",
-      "stock": 60,
-      "notify_on": 10,
+      "stock": 61,
+      "notify_on": 5,
       "price_minor": 12999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Jackets",
       "barcode": "IGNIS-AP-WINDBREAKER",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-tactical-gloves",
       "name": "Carbon Knuckle Touchscreen Cybernetic Gloves",
-      "stock": 37,
-      "notify_on": 10,
+      "stock": 57,
+      "notify_on": 5,
       "price_minor": 6999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Accessories",
       "barcode": "IGNIS-AP-TACTICAL-GLOVES",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-utility-belt",
       "name": "Cobra Buckle Heavy-Duty Nylon Tactical Belt",
-      "stock": 54,
-      "notify_on": 10,
+      "stock": 64,
+      "notify_on": 5,
       "price_minor": 4999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Accessories",
       "barcode": "IGNIS-AP-UTILITY-BELT",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-cyber-glasses",
       "name": "Prism HUD UV400 Polarized Cyberpunk Visor Shades",
-      "stock": 31,
-      "notify_on": 10,
+      "stock": 41,
+      "notify_on": 5,
       "price_minor": 8999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Accessories",
       "barcode": "IGNIS-AP-CYBER-GLASSES",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-longsleeve",
       "name": "Cybernetic Anatomy Compression Baselayer Top",
-      "stock": 48,
-      "notify_on": 10,
+      "stock": 17,
+      "notify_on": 5,
       "price_minor": 6999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Tops",
       "barcode": "IGNIS-AP-LONGSLEEVE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-cargo-shorts",
       "name": "Summer Techwear Quick-Dry Modular Cargo Shorts",
-      "stock": 25,
-      "notify_on": 10,
+      "stock": 32,
+      "notify_on": 5,
       "price_minor": 9499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Bottoms",
       "barcode": "IGNIS-AP-CARGO-SHORTS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-duffle-bag",
       "name": "50L Waterproof Tactical LAN & Travel Duffle",
-      "stock": 42,
-      "notify_on": 10,
+      "stock": 17,
+      "notify_on": 5,
       "price_minor": 13999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Bags",
       "barcode": "IGNIS-AP-DUFFLE-BAG",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "ap-syndicate-beanie",
       "name": "Merino Wool Reflective Syndicate Patch Beanie",
-      "stock": 59,
-      "notify_on": 10,
+      "stock": 51,
+      "notify_on": 5,
       "price_minor": 3499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Headwear",
       "barcode": "IGNIS-AP-SYNDICATE-BEANIE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "ap-stealth-poncho",
+      "name": "Ronin-X 3-Layer Waterproof Tactical Storm Poncho",
+      "stock": 62,
+      "notify_on": 5,
+      "price_minor": 18999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Outerwear",
+      "barcode": "IGNIS-AP-STEALTH-PONCHO",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "ap-exo-gloves",
+      "name": "Valkyrie Carbon-Knuckle Capacitive Tech Gloves",
+      "stock": 15,
+      "notify_on": 5,
+      "price_minor": 6499,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Accessories",
+      "barcode": "IGNIS-AP-EXO-GLOVES",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "ap-neon-visor-cap",
+      "name": "Shibuya-2088 Reflective Ripstop 5-Panel Tech Cap",
+      "stock": 27,
+      "notify_on": 5,
+      "price_minor": 4499,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Headwear",
+      "barcode": "IGNIS-AP-NEON-VISOR-CAP",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "ap-kevlar-utility-belt",
+      "name": "Cobra-GT Quick-Release Tactical Webbing Belt",
+      "stock": 36,
+      "notify_on": 5,
+      "price_minor": 5899,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Accessories",
+      "barcode": "IGNIS-AP-KEVLAR-UTILITY-BELT",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "ap-holo-bomber-vest",
+      "name": "Aegis Modular Multi-Pocket Tactical Chest Rig Vest",
+      "stock": 33,
+      "notify_on": 5,
+      "price_minor": 16999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Outerwear",
+      "barcode": "IGNIS-AP-HOLO-BOMBER-VEST",
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-valkyrie-statue",
       "name": "Valkyrie of Valhalla 1:4 Scale Master Statue",
-      "stock": 16,
+      "stock": 33,
       "notify_on": 5,
       "price_minor": 64999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Statues",
       "barcode": "IGNIS-COL-VALKYRIE-STATUE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-cyber-katana",
       "name": "Plasma Edge High-Frequency Katana Replica",
-      "stock": 18,
+      "stock": 63,
       "notify_on": 5,
       "price_minor": 38999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Replicas",
       "barcode": "IGNIS-COL-CYBER-KATANA",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-samurai-bust",
       "name": "Cyber Oni Demon Lord Life-Size Polystone Bust",
-      "stock": 10,
+      "stock": 35,
       "notify_on": 5,
       "price_minor": 89999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Statues",
       "barcode": "IGNIS-COL-SAMURAI-BUST",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-metal-card",
       "name": "Ignis Syndicate 24K Gold Plated Member Keycard",
-      "stock": 12,
+      "stock": 56,
       "notify_on": 5,
       "price_minor": 12999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Relics",
       "barcode": "IGNIS-COL-METAL-CARD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-artbook-deluxe",
       "name": "The Art of Neo-Sarasota: 400-Page Leatherbound Folio",
-      "stock": 14,
+      "stock": 20,
       "notify_on": 5,
       "price_minor": 11999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Artbooks",
       "barcode": "IGNIS-COL-ARTBOOK-DELUXE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-vinyl-boxset",
       "name": "Cyberpulse 4xLP Heavyweight 180g Colored Vinyl OST",
-      "stock": 6,
+      "stock": 45,
       "notify_on": 5,
       "price_minor": 14999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Music",
       "barcode": "IGNIS-COL-VINYL-BOXSET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-hologram-display",
       "name": "3D Fan Holographic Floating Syndicate Emblem",
-      "stock": 8,
+      "stock": 35,
       "notify_on": 5,
       "price_minor": 27999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Displays",
       "barcode": "IGNIS-COL-HOLOGRAM-DISPLAY",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-tactical-helmet",
       "name": "Ghost Recon 1:1 Scale Wearable LED Operative Helmet",
-      "stock": 15,
+      "stock": 55,
       "notify_on": 5,
       "price_minor": 44999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Helmets",
       "barcode": "IGNIS-COL-TACTICAL-HELMET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-dice-set",
       "name": "Solid Damascus Steel Engraved Cyberpunk RPG Dice Set",
-      "stock": 17,
+      "stock": 19,
       "notify_on": 5,
       "price_minor": 15999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Relics",
       "barcode": "IGNIS-COL-DICE-SET",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-resin-skull",
       "name": "Bionic Cyborg Tyrannosaurus Skull Desk Centerpiece",
-      "stock": 9,
+      "stock": 59,
       "notify_on": 5,
       "price_minor": 32999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Statues",
       "barcode": "IGNIS-COL-RESIN-SKULL",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-neon-sign",
       "name": "Ignis Syndicate Genuine Glass Tube Red Neon Wall Sign",
-      "stock": 11,
+      "stock": 17,
       "notify_on": 5,
       "price_minor": 24999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Displays",
       "barcode": "IGNIS-COL-NEON-SIGN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-prop-gun",
       "name": "Plasma Magnum Heavy Hand Cannon Authentic Prop",
-      "stock": 13,
+      "stock": 34,
       "notify_on": 5,
       "price_minor": 26999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Replicas",
       "barcode": "IGNIS-COL-PROP-GUN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-diorama-alley",
       "name": "Rain-Slicked Neo Tokyo Alleyway Book Nook Diorama",
-      "stock": 5,
+      "stock": 18,
       "notify_on": 5,
       "price_minor": 18999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Displays",
       "barcode": "IGNIS-COL-DIORAMA-ALLEY",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-challenge-coin",
       "name": "Heavy Antique Bronze Operative Achievement Coin",
-      "stock": 7,
+      "stock": 12,
       "notify_on": 5,
       "price_minor": 3499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Relics",
       "barcode": "IGNIS-COL-CHALLENGE-COIN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-mini-figures",
       "name": "Syndicate Cyberpunk Mercenary 6-Piece Painted Mini Set",
-      "stock": 14,
+      "stock": 65,
       "notify_on": 5,
       "price_minor": 9999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Statues",
       "barcode": "IGNIS-COL-MINI-FIGURES",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-cyber-deck",
       "name": "Retro-Futurist 1980s Terminal Cyberdeck Display Replica",
-      "stock": 16,
+      "stock": 25,
       "notify_on": 5,
       "price_minor": 34999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Replicas",
       "barcode": "IGNIS-COL-CYBER-DECK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-resin-keycaps",
       "name": "Handcrafted Artisan Resin & Gold Foil Cherry MX Keycap",
-      "stock": 8,
+      "stock": 59,
       "notify_on": 5,
       "price_minor": 6499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Relics",
       "barcode": "IGNIS-COL-RESIN-KEYCAPS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-desk-mat",
       "name": "Extended Stitched Edge Topographic Cyberpunk Desk Mat",
-      "stock": 10,
+      "stock": 65,
       "notify_on": 5,
       "price_minor": 4499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Displays",
       "barcode": "IGNIS-COL-DESK-MAT",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-tarot-deck",
       "name": "78-Card Gold Gilded Cyberpunk Major Arcana Tarot Deck",
-      "stock": 12,
+      "stock": 51,
       "notify_on": 5,
       "price_minor": 5999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Relics",
       "barcode": "IGNIS-COL-TAROT-DECK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "col-crystal-laser",
       "name": "Sub-Surface 3D Laser Engraved Crystal Dreadnought Cube",
-      "stock": 19,
+      "stock": 30,
       "notify_on": 5,
       "price_minor": 8999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Displays",
       "barcode": "IGNIS-COL-CRYSTAL-LASER",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "col-mecha-bust",
+      "name": "Iron Horizon 1:2 Scale Motorized Mecha Head Bust",
+      "stock": 46,
+      "notify_on": 5,
+      "price_minor": 79999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Statues",
+      "barcode": "IGNIS-COL-MECHA-BUST",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "col-plasma-katana-stand",
+      "name": "Kurogane Illuminated Neopixel Plasma Wakizashi Replica",
+      "stock": 12,
+      "notify_on": 5,
+      "price_minor": 34999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Replicas",
+      "barcode": "IGNIS-COL-PLASMA-KATANA-STAND",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "col-chronos-pocket-watch",
+      "name": "Chrono Vanguard Mechanical Tourbillon Relic Compass Watch",
+      "stock": 26,
+      "notify_on": 5,
+      "price_minor": 22999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Replicas",
+      "barcode": "IGNIS-COL-CHRONOS-POCKET-WATCH",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "col-valkyrie-wings-statue",
+      "name": "Archangel Seraphim 26-Inch Winged Resin Diorama",
+      "stock": 18,
+      "notify_on": 5,
+      "price_minor": 58999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Statues",
+      "barcode": "IGNIS-COL-VALKYRIE-WINGS-STATUE",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "col-syndicate-chess-set",
+      "name": "Syndicate vs. Citadel Weighted Solid Metal Chess Set",
+      "stock": 31,
+      "notify_on": 5,
+      "price_minor": 29999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Displays",
+      "barcode": "IGNIS-COL-SYNDICATE-CHESS-SET",
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-rust-node",
       "name": "Dedicated 128-Slot Ultra Game Node",
-      "stock": 112,
+      "stock": 67,
       "notify_on": 10,
       "price_minor": 4999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-RUST-NODE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-vip-pass",
       "name": "Syndicate Prime VIP Omni-Access Pass",
-      "stock": 66,
+      "stock": 127,
       "notify_on": 10,
       "price_minor": 1999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Memberships",
       "barcode": "IGNIS-SRV-VIP-PASS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-cs2-128tick",
       "name": "CS2 Competitive 128-Tick Tournament Server",
-      "stock": 100,
+      "stock": 129,
       "notify_on": 10,
       "price_minor": 3499,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-CS2-128TICK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-minecraft-extreme",
       "name": "Minecraft Unlimited RAM PaperMC Modded Cloud Instance",
-      "stock": 54,
+      "stock": 52,
       "notify_on": 10,
       "price_minor": 2499,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-MINECRAFT-EXTREME",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-palworld-guild",
       "name": "Palworld 32-Player Persistent Guild World Dedicated Node",
-      "stock": 88,
+      "stock": 109,
       "notify_on": 10,
       "price_minor": 3999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-PALWORLD-GUILD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-ark-cluster",
       "name": "ARK: Survival Ascended 4-Map Cross-Travel Cluster",
-      "stock": 122,
+      "stock": 149,
       "notify_on": 10,
       "price_minor": 8999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-ARK-CLUSTER",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-rtx4090-cloud-pc",
       "name": "Ultra Cloud Gaming RTX 4090 Virtual Rig (100h / Month)",
-      "stock": 76,
+      "stock": 53,
       "notify_on": 10,
       "price_minor": 7999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Cloud PC",
       "barcode": "IGNIS-SRV-RTX4090-CLOUD-PC",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-gamer-vpn",
       "name": "Low-Latency Routing & Ping Accelerator VPN (1 Year)",
-      "stock": 110,
+      "stock": 131,
       "notify_on": 10,
       "price_minor": 5999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Network",
       "barcode": "IGNIS-SRV-GAMER-VPN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-ddos-shield",
       "name": "5.0 Tbps Enterprise Anti-DDoS Gaming Protection Proxy",
-      "stock": 64,
+      "stock": 110,
       "notify_on": 10,
       "price_minor": 6999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Security",
       "barcode": "IGNIS-SRV-DDOS-SHIELD",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-teamspeak-pro",
       "name": "512-Slot Enterprise Ultra-Low Latency Voice Comm Node",
-      "stock": 98,
+      "stock": 67,
       "notify_on": 10,
       "price_minor": 1499,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Voice & Comms",
       "barcode": "IGNIS-SRV-TEAMSPEAK-PRO",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-cloud-backup",
       "name": "Unlimited Cloud Save & Modpack Automatic Snapshot Vault",
-      "stock": 52,
+      "stock": 146,
       "notify_on": 10,
       "price_minor": 999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Storage",
       "barcode": "IGNIS-SRV-CLOUD-BACKUP",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-pro-coaching",
       "name": "1-on-1 Master Class Tactical Esports Coaching Session (2h)",
-      "stock": 86,
+      "stock": 148,
       "notify_on": 10,
       "price_minor": 8999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Coaching",
       "barcode": "IGNIS-SRV-PRO-COACHING",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-bot-hosting",
       "name": "24/7 Node.js / Python Discord Bot High-Availability Cloud",
-      "stock": 120,
+      "stock": 68,
       "notify_on": 10,
       "price_minor": 1299,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Hosting",
       "barcode": "IGNIS-SRV-BOT-HOSTING",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-custom-domain",
       "name": "Syndicate Gaming Clan Custom Domain & SSL Suite (2 Years)",
-      "stock": 74,
+      "stock": 132,
       "notify_on": 10,
       "price_minor": 2999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Web Services",
       "barcode": "IGNIS-SRV-CUSTOM-DOMAIN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-valheim-viking",
       "name": "Valheim Dedicated 10-Player Persistent Viking World",
-      "stock": 108,
+      "stock": 139,
       "notify_on": 10,
       "price_minor": 1899,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-VALHEIM-VIKING",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-dayz-hardcore",
       "name": "DayZ Standalone 60-Player Survival Hardcore Server",
-      "stock": 62,
+      "stock": 79,
       "notify_on": 10,
       "price_minor": 4499,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Game Servers",
       "barcode": "IGNIS-SRV-DAYZ-HARDCORE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-vr-streaming",
       "name": "Low-Latency Cloud VR Wireless PCVR Streaming Hub",
-      "stock": 96,
+      "stock": 65,
       "notify_on": 10,
       "price_minor": 3999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Cloud Streaming",
       "barcode": "IGNIS-SRV-VR-STREAMING",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-streamer-toolkit",
       "name": "Live Streamer Overlay Cloud Automation & Alert Suite",
-      "stock": 50,
+      "stock": 130,
       "notify_on": 10,
       "price_minor": 1699,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Streaming",
       "barcode": "IGNIS-SRV-STREAMER-TOOLKIT",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-performance-tune",
       "name": "Remote System Kernel & GPU Overclock Optimization Audit",
-      "stock": 84,
+      "stock": 67,
       "notify_on": 10,
       "price_minor": 7499,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Optimization",
       "barcode": "IGNIS-SRV-PERFORMANCE-TUNE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "srv-lifetime-pass",
       "name": "Founder Syndicate Lifetime Master Protocol Access",
-      "stock": 118,
+      "stock": 57,
       "notify_on": 10,
       "price_minor": 49999,
       "currency": "USD",
-      "unit": "slots",
+      "unit": "pcs",
       "category": "Memberships",
       "barcode": "IGNIS-SRV-LIFETIME-PASS",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "srv-ai-anti-cheat-node",
+      "name": "Sentinel-AI Server-Side Behavioral Anti-Cheat Shield",
+      "stock": 58,
+      "notify_on": 10,
+      "price_minor": 2999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Security",
+      "barcode": "IGNIS-SRV-AI-ANTI-CHEAT-NODE",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "srv-global-cdn-accelerator",
+      "name": "FastPak Global Mod & Custom Map FastDL Edge CDN",
+      "stock": 139,
+      "notify_on": 10,
+      "price_minor": 1899,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Game Servers",
+      "barcode": "IGNIS-SRV-GLOBAL-CDN-ACCELERATOR",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "srv-tournament-bracket-engine",
+      "name": "ArenaOS Automated Esports Tournament & Matchmaking Suite",
+      "stock": 123,
+      "notify_on": 10,
+      "price_minor": 3999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Coaching",
+      "barcode": "IGNIS-SRV-TOURNAMENT-BRACKET-ENGINE",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "srv-voice-comms-matrix",
+      "name": "ValkyrieComms 500-Slot Spatial 3D Proximity Voice Server",
+      "stock": 134,
+      "notify_on": 10,
+      "price_minor": 1699,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Game Servers",
+      "barcode": "IGNIS-SRV-VOICE-COMMS-MATRIX",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "srv-quantum-backup-vault",
+      "name": "ChronoVault 10TB Hourly World-Save & Database Snapshot Cloud",
+      "stock": 75,
+      "notify_on": 10,
+      "price_minor": 2299,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Security",
+      "barcode": "IGNIS-SRV-QUANTUM-BACKUP-VAULT",
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-overdrive-sour-glitch",
       "name": "Overdrive Energy Tub (Sour Glitch Raspberry)",
-      "stock": 62,
-      "notify_on": 10,
+      "stock": 50,
+      "notify_on": 5,
       "price_minor": 3599,
       "currency": "USD",
       "unit": "pcs",
       "category": "Energy Tubs",
       "barcode": "IGNIS-FUEL-OVERDRIVE-SOUR-GLITCH",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-collector-box-phantom",
       "name": "Phantom Samurai Collector Box (Limited Edition)",
-      "stock": 96,
-      "notify_on": 10,
+      "stock": 15,
+      "notify_on": 5,
       "price_minor": 4999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Collector Boxes",
       "barcode": "IGNIS-FUEL-COLLECTOR-BOX-PHANTOM",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-cans-sour-citron-12pk",
       "name": "Overdrive RTD Cans (12-Pack: Electric Sour Citron)",
-      "stock": 50,
-      "notify_on": 10,
+      "stock": 65,
+      "notify_on": 5,
       "price_minor": 3199,
       "currency": "USD",
       "unit": "pcs",
       "category": "Ready-To-Drink",
       "barcode": "IGNIS-FUEL-CANS-SOUR-CITRON-12PK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-shaker-mag-glow",
       "name": "CyberGlow LED RGB Magnetic Shaker Bottle (28oz)",
-      "stock": 84,
-      "notify_on": 10,
+      "stock": 41,
+      "notify_on": 5,
       "price_minor": 2999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Shakers & Gear",
       "barcode": "IGNIS-FUEL-SHAKER-MAG-GLOW",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-nootropic-neuro-synapse",
       "name": "Neuro-Synapse Alpha-GPC & Lion's Mane Capsules (60ct)",
-      "stock": 118,
-      "notify_on": 10,
+      "stock": 22,
+      "notify_on": 5,
       "price_minor": 3499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Nootropics & Focus",
       "barcode": "IGNIS-FUEL-NOOTROPIC-NEURO-SYNAPSE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-subzero-blue-cryo",
       "name": "Sub-Zero Cryo-Freeze 40-Servings Tub (Blue Slush)",
-      "stock": 72,
-      "notify_on": 10,
+      "stock": 14,
+      "notify_on": 5,
       "price_minor": 3599,
       "currency": "USD",
       "unit": "pcs",
       "category": "Energy Tubs",
       "barcode": "IGNIS-FUEL-SUBZERO-BLUE-CRYO",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-collector-box-mecha",
       "name": "Mecha Unit-01 Collector's Vault (Dual Tubs + Shaker)",
-      "stock": 106,
-      "notify_on": 10,
+      "stock": 42,
+      "notify_on": 5,
       "price_minor": 6499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Collector Boxes",
       "barcode": "IGNIS-FUEL-COLLECTOR-BOX-MECHA",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-quantum-plasma-mango",
       "name": "Quantum Plasma 40-Servings Tub (Electric Mango Peach)",
-      "stock": 60,
-      "notify_on": 10,
+      "stock": 58,
+      "notify_on": 5,
       "price_minor": 3599,
       "currency": "USD",
       "unit": "pcs",
       "category": "Energy Tubs",
       "barcode": "IGNIS-FUEL-QUANTUM-PLASMA-MANGO",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-shaker-forged-carbon",
       "name": "Forged Carbon Fiber & Steel Insulated Shaker (26oz)",
-      "stock": 94,
-      "notify_on": 10,
+      "stock": 66,
+      "notify_on": 5,
       "price_minor": 3999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Shakers & Gear",
       "barcode": "IGNIS-FUEL-SHAKER-FORGED-CARBON",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-cyber-dragonfruit-burst",
       "name": "Cyber Dragonfruit Overclock 40-Servings Tub",
-      "stock": 48,
-      "notify_on": 10,
+      "stock": 52,
+      "notify_on": 5,
       "price_minor": 3699,
       "currency": "USD",
       "unit": "pcs",
       "category": "Energy Tubs",
       "barcode": "IGNIS-FUEL-CYBER-DRAGONFRUIT-BURST",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-reflex-boost-tyrosine",
       "name": "Reflex-Boost L-Tyrosine + L-Theanine Capsules (60ct)",
-      "stock": 82,
-      "notify_on": 10,
+      "stock": 21,
+      "notify_on": 5,
       "price_minor": 2799,
       "currency": "USD",
       "unit": "pcs",
       "category": "Nootropics & Focus",
       "barcode": "IGNIS-FUEL-REFLEX-BOOST-TYROSINE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-cans-cryo-berry-12pk",
       "name": "Sub-Zero RTD Energy Cans (12-Pack: Cryo Wildberry)",
-      "stock": 116,
-      "notify_on": 10,
+      "stock": 63,
+      "notify_on": 5,
       "price_minor": 3199,
       "currency": "USD",
       "unit": "pcs",
       "category": "Ready-To-Drink",
       "barcode": "IGNIS-FUEL-CANS-CRYO-BERRY-12PK",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-shaker-matte-obsidian",
       "name": "Matte Obsidian Double-Wall Steel Shaker (24oz)",
-      "stock": 70,
-      "notify_on": 10,
+      "stock": 66,
+      "notify_on": 5,
       "price_minor": 2899,
       "currency": "USD",
       "unit": "pcs",
       "category": "Shakers & Gear",
       "barcode": "IGNIS-FUEL-SHAKER-MATTE-OBSIDIAN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-optic-shield-lutein",
       "name": "Optic Shield Eye Strain & Blue Light Defense (60 Softgels)",
-      "stock": 104,
-      "notify_on": 10,
+      "stock": 15,
+      "notify_on": 5,
       "price_minor": 2499,
       "currency": "USD",
       "unit": "pcs",
       "category": "Nootropics & Focus",
       "barcode": "IGNIS-FUEL-OPTIC-SHIELD-LUTEIN",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-toxic-waste-sour-apple",
       "name": "Toxic Protocol 40-Servings Tub (Ultra Sour Green Apple)",
-      "stock": 58,
-      "notify_on": 10,
+      "stock": 14,
+      "notify_on": 5,
       "price_minor": 3699,
       "currency": "USD",
       "unit": "pcs",
       "category": "Energy Tubs",
       "barcode": "IGNIS-FUEL-TOXIC-WASTE-SOUR-APPLE",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-starter-kit-prism",
       "name": "Prism Starter Kit (16 Single-Serve Packets + Clear Shaker)",
-      "stock": 92,
-      "notify_on": 10,
+      "stock": 33,
+      "notify_on": 5,
       "price_minor": 1999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Collector Boxes",
       "barcode": "IGNIS-FUEL-STARTER-KIT-PRISM",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-ghostfire-cherry-lime",
       "name": "Ghostfire Cherry Limeade Zero-Sugar Formula (40 Servings)",
-      "stock": 46,
-      "notify_on": 10,
+      "stock": 15,
+      "notify_on": 5,
       "price_minor": 3599,
       "currency": "USD",
       "unit": "pcs",
       "category": "Energy Tubs",
       "barcode": "IGNIS-FUEL-GHOSTFIRE-CHERRY-LIME",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-deep-sleep-rem-recovery",
       "name": "Night Ops Deep REM Recovery Drink Mix (30 Servings)",
-      "stock": 80,
-      "notify_on": 10,
+      "stock": 29,
+      "notify_on": 5,
       "price_minor": 3299,
       "currency": "USD",
       "unit": "pcs",
       "category": "Hydration & Sleep",
       "barcode": "IGNIS-FUEL-DEEP-SLEEP-REM-RECOVERY",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-hydration-zero-electrolytes",
       "name": "Cryo-Hydrate Zero Caffeine Electrolytes Tub (50 Servings)",
-      "stock": 114,
-      "notify_on": 10,
+      "stock": 17,
+      "notify_on": 5,
       "price_minor": 2999,
       "currency": "USD",
       "unit": "pcs",
       "category": "Hydration & Sleep",
       "barcode": "IGNIS-FUEL-HYDRATION-ZERO-ELECTROLYTES",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
     },
     {
       "sku": "fuel-cyber-focus-gummies",
       "name": "Tactical Focus Caffeine Energy Gummies (Pack of 12 Bags)",
-      "stock": 68,
-      "notify_on": 10,
+      "stock": 41,
+      "notify_on": 5,
       "price_minor": 2299,
       "currency": "USD",
       "unit": "pcs",
       "category": "Tactical Snacks",
       "barcode": "IGNIS-FUEL-CYBER-FOCUS-GUMMIES",
-      "updated_at": "2026-10-30T21:37:49.263Z"
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "fuel-supernova-mango-tub",
+      "name": "Supernova Blood-Orange Mango 40-Serving Energy Tub",
+      "stock": 34,
+      "notify_on": 5,
+      "price_minor": 3599,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Energy Tubs",
+      "barcode": "IGNIS-FUEL-SUPERNOVA-MANGO-TUB",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "fuel-neural-focus-shots",
+      "name": "Synapse-X Liquid Nootropic 2oz Focus Shots (12-Pack)",
+      "stock": 48,
+      "notify_on": 5,
+      "price_minor": 3499,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Ready-To-Drink",
+      "barcode": "IGNIS-FUEL-NEURAL-FOCUS-SHOTS",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "fuel-titanium-ice-shaker",
+      "name": "Sub-Zero Titanium Vacuum-Insulated LED Smart Shaker (26oz)",
+      "stock": 47,
+      "notify_on": 5,
+      "price_minor": 3999,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Shakers & Gear",
+      "barcode": "IGNIS-FUEL-TITANIUM-ICE-SHAKER",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "fuel-zero-gravity-berry-cans",
+      "name": "Zero-G Sparkling White Peach & Lychee RTD Cans (12-Pack)",
+      "stock": 30,
+      "notify_on": 5,
+      "price_minor": 3299,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Ready-To-Drink",
+      "barcode": "IGNIS-FUEL-ZERO-GRAVITY-BERRY-CANS",
+      "updated_at": "2026-10-30T23:30:08.364Z"
+    },
+    {
+      "sku": "fuel-omega-electrolyte-sticks",
+      "name": "HydroCore Rapid Cellular Rehydration Stick Pack Box (30 Sticks)",
+      "stock": 66,
+      "notify_on": 5,
+      "price_minor": 2699,
+      "currency": "USD",
+      "unit": "pcs",
+      "category": "Hydration & Sleep",
+      "barcode": "IGNIS-FUEL-OMEGA-ELECTROLYTE-STICKS",
+      "updated_at": "2026-10-30T23:30:08.364Z"
     }
   ]
 }
