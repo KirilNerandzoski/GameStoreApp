@@ -34,14 +34,26 @@ export default function CheckoutModal() {
 
   // Form Fields
   const [formData, setFormData] = useState({
-    email: 'operative.valkyrie@ignis-syndicate.net',
-    gamertag: userProfile.gamertag,
+    email: userProfile.email || 'operative.valkyrie@ignis-syndicate.net',
+    gamertag: userProfile.gamertag || 'Kirogamer',
     cardNumber: '4829 •••• •••• 9942',
-    cardName: 'VALKYRIE ARCHER',
+    cardName: (userProfile.gamertag || 'Kirogamer').toUpperCase(),
     expiry: '11/29',
     cvv: '884',
     country: 'United States'
   });
+
+  // Keep form data synced with logged in operative profile (e.g., Kirogamer)
+  React.useEffect(() => {
+    if (userProfile?.gamertag) {
+      setFormData(prev => ({
+        ...prev,
+        gamertag: userProfile.gamertag,
+        email: userProfile.email || prev.email,
+        cardName: userProfile.gamertag.toUpperCase()
+      }));
+    }
+  }, [userProfile?.gamertag, userProfile?.email]);
 
   const [shippingData, setShippingData] = useState({
     fullName: 'Alex Mercer',
@@ -83,7 +95,7 @@ export default function CheckoutModal() {
       if (paymentMethod === 'crypto') methodLabel = 'BTC Lightning Network';
       if (paymentMethod === 'steam') methodLabel = 'Steam Digital Wallet';
 
-      completeOrder(methodLabel, shippingData);
+      completeOrder(methodLabel, shippingData, formData);
       setIsProcessing(false);
     }, 1400);
   };

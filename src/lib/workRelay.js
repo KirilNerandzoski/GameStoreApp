@@ -50,8 +50,18 @@ export async function dispatchOrderToWorkRelay(order, userProfile = null) {
 
   try {
     const safeOrderId = String(order.orderId || order.id || Date.now()).replace(/[^a-zA-Z0-9_-]/g, '_');
-    const customerName = userProfile?.operativeId || userProfile?.name || order.customer_name || 'Operative';
-    const customerEmail = userProfile?.email || order.customer_email || 'operative@ignis.cyber';
+    const customerName = 
+      order.customer_name || 
+      order.customer?.name || 
+      userProfile?.gamertag || 
+      userProfile?.name || 
+      userProfile?.operativeId || 
+      'Operative';
+    const customerEmail = 
+      order.customer_email || 
+      order.customer?.email || 
+      userProfile?.email || 
+      'operative@ignis.cyber';
 
     const subtotalMinor = Math.round(Number(order.subtotal || order.total || order.total_amount || 0) * 100);
     const totalMinor = Math.round(Number(order.total || order.total_amount || 0) * 100);

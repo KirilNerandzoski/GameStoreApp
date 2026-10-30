@@ -549,8 +549,21 @@ export function StoreProvider({ children }) {
   };
 
   // Complete Order (Simulated Checkout)
-  const completeOrder = (paymentMethodName = 'IGNIS Cyber Card (•••• 8092)', shippingDetails = null) => {
+  const completeOrder = (paymentMethodName = 'IGNIS Cyber Card (•••• 8092)', shippingDetails = null, customerData = null) => {
     if (cart.length === 0) return null;
+
+    const resolvedCustomerName = 
+      customerData?.gamertag || 
+      customerData?.cardName || 
+      customerData?.fullName || 
+      userProfile?.gamertag || 
+      userProfile?.name || 
+      'Operative';
+
+    const resolvedCustomerEmail = 
+      customerData?.email || 
+      userProfile?.email || 
+      'operative@ignis.cyber';
 
     const newKeys = cart.map(item => {
       const isDigital = item.department === 'gaming' || item.itemType === 'digital';
@@ -575,6 +588,12 @@ export function StoreProvider({ children }) {
     const newOrder = {
       orderId,
       date: new Date().toLocaleString(),
+      customer_name: resolvedCustomerName,
+      customer_email: resolvedCustomerEmail,
+      customer: {
+        name: resolvedCustomerName,
+        email: resolvedCustomerEmail
+      },
       items: cart.map((item, idx) => ({
         id: item.id,
         title: item.title,
@@ -602,8 +621,8 @@ export function StoreProvider({ children }) {
     // Persist order to Supabase orders table
     supabase.from('orders').insert([{
       id: orderId,
-      customer_name: userProfile?.operativeId || 'Operative',
-      customer_email: userProfile?.email || 'operative@ignis.cyber',
+      customer_name: resolvedCustomerName,
+      customer_email: resolvedCustomerEmail,
       total_amount: cartTotal,
       items: newOrder.items,
       shipping_address: shippingDetails,
