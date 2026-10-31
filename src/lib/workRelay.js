@@ -107,23 +107,47 @@ async function postToWorkRelayWithRetry(endpoint, payload, { includeStoreId = tr
     return { ok: false, status: 0, error: 'missing_api_key' };
   }
 
-  // 1. Try server-to-server Supabase pg_net relay RPC if present
-  try {
-    const { data: rpcData, error: rpcError } = await supabase.rpc('workrelay_relay', {
-      endpoint_path: endpoint,
-      payload_body: payload
-    });
-    if (!rpcError && rpcData) {
-      if (payload.event_id) removeOutboxEvent(payload.event_id);
-      return {
-        ok: true,
-        status: 200,
-        ignored: false,
-        data: typeof rpcData === 'object' ? rpcData : { status: 'processed', request_id: rpcData }
-      };
+  // 1. Try server-to-server Supabase pg_net relay RPC across both Supabase instances
+  const relayTargets = [
+    {
+      url: 'https://svcixkmutoygzzcsepuf.supabase.co',
+      anonKey: 'sb_publishable_i4Z0UTE9y3wZ3uvj1EoCEA_NVM9y7y1'
+    },
+    {
+      url: 'https://qjxwnnrnxyznjymkfseb.supabase.co',
+      anonKey: 'sb_publishable_S415xwwZoyj7bet3paR2pQ_mFPEBlsL'
     }
-  } catch (e) {
-    // RPC not installed yet, continue to direct/feed sync
+  ];
+
+  for (const target of relayTargets) {
+    try {
+      const rpcRes = await fetch(`${target.url}/rest/v1/rpc/workrelay_relay`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': target.anonKey,
+          'Authorization': `Bearer ${target.anonKey}`
+        },
+        body: JSON.stringify({
+          endpoint_path: endpoint,
+          payload_body: payload,
+          store_id: WORKRELAY_CONFIG.storeId,
+          api_key: WORKRELAY_CONFIG.apiKey
+        })
+      });
+      if (rpcRes.ok) {
+        const rpcData = await rpcRes.json().catch(() => ({}));
+        if (payload.event_id) removeOutboxEvent(payload.event_id);
+        return {
+          ok: true,
+          status: 200,
+          ignored: false,
+          data: typeof rpcData === 'object' ? rpcData : { status: 'processed', request_id: rpcData }
+        };
+      }
+    } catch (e) {
+      // Continue to next relay target
+    }
   }
 
   const headers = {
