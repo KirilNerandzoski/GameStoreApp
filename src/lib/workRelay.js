@@ -107,15 +107,11 @@ async function postToWorkRelayWithRetry(endpoint, payload, { includeStoreId = tr
     return { ok: false, status: 0, error: 'missing_api_key' };
   }
 
-  // 1. Try server-to-server Supabase pg_net relay RPC across both Supabase instances
+  // 1. Try server-to-server Supabase pg_net relay RPC on IGNIS's dedicated Supabase project
   const relayTargets = [
     {
       url: 'https://svcixkmutoygzzcsepuf.supabase.co',
       anonKey: 'sb_publishable_i4Z0UTE9y3wZ3uvj1EoCEA_NVM9y7y1'
-    },
-    {
-      url: 'https://qjxwnnrnxyznjymkfseb.supabase.co',
-      anonKey: 'sb_publishable_S415xwwZoyj7bet3paR2pQ_mFPEBlsL'
     }
   ];
 
